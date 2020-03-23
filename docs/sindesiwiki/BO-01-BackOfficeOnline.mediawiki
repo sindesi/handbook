@@ -1,0 +1,221 @@
+A partir de qualquer computador aceder por navegador de internet a dados de Ponto de Venda
+
+O pacote compactado ocupa 38MB
+
+Depois de instalado irá ocupar de 134 Mb em disco.
+
+
+Este programa é composto por duas partes:
+* A base web com acesso ao motor de base de dados:
+** '''lighttpd''' - programa leve para disponibilizar páginas WEB;
+** '''PHP''' com acesso a postgresql;
+* o site '''BackOffice Online''' propriamente dito.
+
+==Base Web==
+
+Para melhor manuseamento define-se tudo como uma única aplicação em /opt/lighthttpd e as dependências e módulos se organizam em subdirectorios.
+
+* '''/opt/lighthttpd'''
+** '''bin/''' - programa lighttpd e respectivas ''libs''
+** '''config/''' - configurações do comportamento do lighttpd
+*** '''config/lightttpd.conf''' - configuraçao geral do lighttpd config/conf.d/
+*** '''config/conf.d/*''' - configuração do comportamento das extensões
+** '''cgi-bin/'''- módulos para lighttpd - contém link simbólico para o interpretador php
+** '''sockets/''' - manuseamento de sockets php pelo lighttpd
+** '''php/''' - código fonte do PHP, compilado com suporte a postgresql
+** '''site/''' - o backOffice
+** '''log/''' - mensagens do comportamento do lighttpd e do backoffice
+
+
+=lighttpd=
+
+==Instalação==
+
+*Descarregar o pacote '''lighthttpd'''
+
+ cd /root
+ wget http://dl.dropbox.com/u/5468359/lighttpd_2012-04-19.tar.gz
+ wget http://dl.dropbox.com/u/5468359/lighttpd_2012-04-19.md5
+ md5sum -c lighttpd_2012-04-19.md5
+ tar zxfp lighttpd_2012-04-19.tar.gz -C /opt/
+
+*Instalacao '''libxml'''
+
+ apt-get install zlib1g-dev make gcc
+
+ cd /opt/lighttpd/php/libxml2-2.7.8/
+ make install
+
+*Arranque do lightttpd
+
+ apt-get install libpcre3
+
+ useradd user
+ groupadd user
+ chown -R user:user /opt/lighttpd/
+ cd /opt/lighttpd/sbin
+
+invocação no Koncepto 
+ echo "/opt/lighttpd/sbin/lighttpd -f /opt/lighttpd/config/lighttpd.conf" >> /opt/koncepto/bin/startKoncepto 
+ ./lighttpd -f ../config/lighttpd.conf
+
+==Validacao==
+
+*Testar a porta
+
+Para testar o bom funcionamento, executar:
+ netstat -anp | grep 1100
+
+Se devolver algo, então está a funcionar
+
+
+*Testar a acesso ao Postgresql
+ 
+Verificação de ligação do php ao postgresql
+
+ wget -O -  127.0.0.1:1100 | grep -i postgresql
+
+Se estiver a funcionar deverá devolver 
+
+'''<tr class="h"><th>PostgreSQL Support</th><th>enabled</th></tr>'''
+
+'''<tr><td class="e">PostgreSQL(libpq) Version </td><td class="v">7.4.7 </td></tr>'''
+
+==Erros Conhecidos==
+
+'''O php não carrega a lib de postgresql'''
+
+Isto sucede quando a ''libpq3'' não é suficientemente actual.
+terá de ser '''libpq3 - 7.4.7-6sarge6''' ou superior.
+
+
+=Actualizações=
+
+
+
+==BackOfficeOnline '''v0.3.2''' de 2012-13-10==
+ cd /root 
+ wget http://backoffice.sindesi.pt/installs/v0.3.3/backofficeonline_v033.tar.gz.md5
+ wget http://backoffice.sindesi.pt/installs/v0.3.3/backofficeonline_v033.tar.gz
+ wget http://backoffice.sindesi.pt/installs/v0.3.3/install_v033.sh
+ md5sum -c backofficeonline_v033.tar.gz.md5
+
+Se a soma do md5 coincidir, então é só executar o install_v033.sh, e para isso:
+
+ chmod +x install_v033.sh
+ ./install_v033.sh
+
+E pronto, está instalado o BackOffice com as mais recentes actualizações ao SQL e com as permissões correctas. (o instalador faz isso)
+
+=Para clientes com o SIFF habilitado=
+
+Para clientes que tiverem o módulo do SIFF activado serão necessárias configurações extra no ficheiro init.php localizado em /opt/lighttpd/site.
+
+Como o módulo do SIFF (AKA Relatório de desperdícios) faz referência ao tipo de cartão de desperdícios e ao cliente que lhe é associado temos de descobrir quais sãos estes IDs na base de dados para posteriomente actualizar o ficheiro init.php. 
+
+Para determinar o '''ID do cartão de desperdício''' e o '''ID do Cliente associado''':
+
+ SELECT
+    cardtypeid AS WASTE_CARDTYPE_ID, 
+    clientid  AS WASTE_CLIENT_ID
+ FROM
+    clientcard
+ WHERE
+    cardtypeid = 
+    (
+        SELECT
+            id 
+        FROM 
+            cardtype 
+        WHERE
+            LOWER(name) LIKE 'desperd%' 
+        ORDER BY 
+            ID DESC 
+        LIMIT 1
+    ) 
+ ORDER BY 
+    ID DESC 
+ LIMIT 1;
+
+Suponhamos que a anterior query retornava os seguintes valores:
+
+  waste_cardtype_id | waste_client_id
+ -------------------+-----------------
+                  2 |             574
+ (1 registro)
+
+Depois é só editar o ficheiro '''init.php''' e acrescentar o valores retornados pela query anterior nas linhas:
+
+ // constansts unique to each client/server
+ define("WASTE_CARDTYPE_ID", 2);
+ define("WASTE_CLIENT_ID", 574);
+
+=Cliente BackOffice Online=
+
+'''Como adicionar um novo login ao BackOffice Online'''
+
+Para adicionar um novo login ao BackOffice Online basta inserir os registos nas tabelas criadas para o efeito. O nome da base de dados é backoffice_online está localizada no tocatta (192.168.20.5) e pode-se aceder através de sindesi.servehttp.com/phpmyadmin ou através do MySQL workbench!
+As tabelas que são onde precisamos de acrescentar registos é a tabela backoffice_online.users e backoffice_online.user_costcenters.
+
+
+* Tabela backoffice_online.users
+  -> id           - campo inteiro auto-incrementado com o ID do utilizador;
+  -> login        - campo varchar(32) com o login do utilizador;
+  -> password     - campo varchar(128) com a password do utilizador;
+  -> company_name - campo varchar(128) com o nome da empresa que o utilizador representa;
+  -> active       - campo lógico para indicar se o utilizador está activo (Def: 1/TRUE);
+  -> create_date  - campo auto incrementado com a data da criação do registo. (Def: CURRENT_TIMESTAMP);
+
+
+* Tabela backoffice_online.user_costcenters
+  -> user_id         - campo inteiro que faz referência (FK) ao ID de utilizador;
+  -> costcenter_url  - campo varchar(64) com o url do centro de custo (Ex: http://cacou.sindesi.pt, não esquecer o http://);
+  -> costcenter_name - campo varchar(64) com o nome do centro de custo (Ex: Cacou Café);
+  -> costcenter_description - campo varchar(256) com a descrição mais detalhada do centro de custo;
+  -> costcenter_port - campo inteiro com a porta de comunicação do backoffice (Def: 1100);
+  -> active       - campo lógico para indicar se o centro de custo está activo (Def: 1/TRUE);
+  -> create_date  - campo auto incrementado com a data da criação do registo (Def: CURRENT_TIMESTAMP);
+
+
+'''Como adicionar um novo login ao BackOffice Online (script)'''
+
+Tomando por exemplo que queremos inserir um novo login para a empresa Cacou - Sociedade de Gestão Hoteleira, LDA. Para o login cacouCafe, com password cafe#100preço, no URL cacou.sindesi.pt com a porta 1100, nome e descrição do centro de custo Cacou Café, procedia-se sa seguinte forma:
+
+ INSERT INTO `backoffice_online`.`users`(login, password, company_name) 
+ VALUES(
+ 'cacouCafe',
+ 'cafe#100preço',
+ 'Cacou - Sociedade de Gestão Hoteleira, LDA.'
+ );
+
+Apontar o ID de utilizador resultante da comando anterior para o próximo comando e...
+
+ INSERT INTO  `backoffice_online`.`users`(user_id, costcenter_url, costcenter_name, costcenter_description, costcenter_port)
+ VALUES(
+ [ID de utilizador criado no comando anterior], 
+ 'http://cacou.sindesi.pt(', 
+ 'Cacou Café',
+ 'Cacou Café',
+ 1100
+ );
+
+exemplo:
+
+ INSERT INTO  `backoffice_online`.`user_costcenters`(user_id, costcenter_url, costcenter_name, costcenter_description, costcenter_port)
+ VALUES(
+  9, 
+  'http://62.28.16.182', 
+  'Nicola Coimbra', 
+  'VIIM', 
+  1100
+ )
+
+Finalmente temos de preencher o perfil de utilizador de modo a habilitar as funções do backoffice. Ou seja temos de ir à tabela user_modules e dar permissões aos módulos a que os utilizadores têm permissão. Usando novamente o ID resultante da primeira operação escrevemos a seguinte query: (vamos supor, a título de exemplo que o ID de utilizador é '''22''')
+
+  INSERT INTO user_modules (user_id, module_id, active)
+ SELECT
+   22,
+   id,
+   CASE WHEN id IN (9, 12, 14) THEN 0 ELSE 1 END
+ FROM
+   modules;

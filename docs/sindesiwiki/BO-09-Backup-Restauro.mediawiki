@@ -1,0 +1,22 @@
+==Backup da base de Dados==
+
+Copiar para uma destino seguro as seguintes pastas:
+ 
+*'''C:\WINDOWS\system32\UnueSetup'''
+*'''C:\Programas\Microsoft SQL Server'''
+*'''C:\Programas\UNUE'''
+
+==Instalação Windows==
+
+Instalação normal do Windows.... se este for o caso :)
+
+==Instalação net.framework==
+
+Instalação do Net.frameworks versão vulgamente utilizada 1.1
+
+Pode ser obtido 
+[http://www.microsoft.com/Downloads/details.aspx?FamilyId=262D25E3-F589-4842-8157-034D1E7CF3A3&displaylang=en daqui]
+
+==Instalação Microsoft SQL Server==
+
+==Attach Data Base==

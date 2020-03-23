@@ -1,0 +1,651 @@
+=Sobre Este Manual=
+
+==Notas==
+As especificações apresentadas neste documento são relativas ao modelo ou
+versão e linguagem indicada, numa das várias parametrizações possíveis.
+Algumas funcionalidades indicadas poderão não estar disponíveis, estarem
+disponíveis com denominação ou aparência distinta daquela que é indicada, ou ter
+um comportamento diferente noutras parametrizações, ou em versões distintas do
+produto.
+As informações contidas neste manual estão sujeitas a alteração sem qualquer aviso
+prévio. A Unue não assume quaisquer responsabilidades sobre os seus conteúdos,
+sua actualização e divulgação.
+Este texto é apresentado sem qualquer tipo de garantia. Os utilizadores deverão
+assumir total responsabilidade sobre quaisquer operações realizadas sobre a
+aplicação ou outros produtos, com base em indicações fornecidas neste manual.
+Não é autorizada a alteração, reprodução, ou divulgação deste documento sem a
+autorização da Unue.
+
+==Objectivos==
+Este texto tem como objectivo servir de apoio na utilização do produto em causa.
+Servirá como referência base na iniciação e conhecimento do produto. Pretende-se
+que ele sirva de guia de referência rápida para o apoio na execução das principais
+tarefas que o produto disponibiliza.
+
+==Público-Alvo==
+Este documento é destinado essencialmente para:
+* Utilizadores do produto especificado
+
+Para utilização desta aplicação são considerados os seguintes requisitos mínimos:
+* Conhecimentos básicos sobre o sistema operativo Windows 98 ou superior.
+* Experiência de trabalho em aplicações Windows.
+* Noções de gestão hoteleira.
+* Conhecimentos básicos da aplicação de frontoffice Koncepto.
+
+
+=Glossário=
+Activação - Chave de software que protege o acesso a aplicações.
+
+Documento externo - Todo o documento criado por uma entidade externa à empresa. Exemplo: Factura de um fornecedor.
+
+Documento interno - Todo o documento criado pela empresa. O destinatário pode ser interno ou externo. Exemplo: Venda a dinheiro emitida a um cliente, 
+requisição de compras, etc.
+
+Koncepto - Software específico para pontos de venda, desenvolvido pela Unue para a área de restauração, hotelaria e retalho.
+
+Regi - Aplicação de backoffice desenvolvida pela Unue para a área de restauração, hotelaria, e retalho. Algumas das suas principais características 
+são o controle do software de frontoffice Koncepto nos pontos de venda, emissão de documentos, relatórios e análises de suporte à gestão e a 
+integração com outros softwares.
+
+Regi Manager - Módulo de servidor do sistema informático Regi. Sob a forma de um Windows Service, este componente é responsável pelo controle de um 
+conjunto de funcionalidades disponíveis na aplicação cliente Regi.
+
+Regi Client - Módulo Regi desenhado para interagir com o utilizador. Para o seu funcionamento é necessária a existência de um servidor devidamente 
+configurado.
+
+Entidade - Pessoa ou empresa que estabelece qualquer tipo de relação (funcionário, cliente, fornecedor, etc.) com a empresa em gestão. Uma entidade 
+pode ter um ou mais tipos de relações com a empresa.
+
+Unidade- Elemento standard de medida de algo. De forma a facilitar o processo de gestão, a aplicação permite a definição de novas unidades de medida.
+
+Unidade Base - Unidade definida por defeito para a medida de determinado produto.
+
+Unidade Pai - Conceito usado para definir uma hierarquia de unidades. Representa a unidade colocada um nível acima da actual.
+
+Ficha Técnica - Conceito que define um conjunto de matérias-primas e respectiva quantidade, necessárias para produzir um artigo. Necessária para a realização da gestão de stock.
+Ficha Financeira - Conceito que define um conjunto de matérias-primas, necessárias para a produção de um conjunto de artigos. Conceito baseado nas fichas técnicas que permite de forma abstracta o controlo financeiro das compras e vendas, simulando uma gestão de stocks minimalista.
+
+=Funcionalidades Comuns=
+==Menu Principal==
+Tal como a grande maioria das aplicações para a plataforma Windows o Regi
+apresenta na parte superior da sua janela principal um menu que permite o acesso à
+grande maioria das suas funcionalidades de forma ordenada.
+
+==Barra de Ferramentas - Toolbar==
+
+O Regi disponibiliza através da sua janela principal uma barra de ferramentas a
+partir da qual é possível aceder a um conjunto de tarefas comum, que se descrimina
+de seguida:
+* Novo documento externo
+Realiza a entrada de um documento emitido por uma entidade externa à empresa, tal como a factura ou venda a dinheiro de um fornecedor, uma encomenda de um cliente, etc.
+* Novo documento interno
+Cria um novo documento da empresa, tal como uma factura ou um recibo para um cliente, uma nota de encomenda a enviar para um fornecedor, etc.
+*  Abrir documentos 
+Abre a listagem de documentos inseridos no sistema
+* Salvar
+Salva os dados introduzidos (quando aplicável).
+* Exportar
+Exporta a listagem da janela activa para um ficheiro ou aplicação externa ao Regi.
+* Imprimir
+Dá ordem de impressão dos dados da janela activa (quando aplicável). A impressão não é directa, passando sempre por uma pré-visualização.
+* Nova reserva
+Abre a janela que permite criar novas reservas (quando aplicável).
+* Actualizar stocks
+Recalcula os dados relativos a compras e vendas de modo a actualizar osvalores de stock existentes.
+* Assistente de comunicações
+Abre o assistente de comunicações que permite a realização de sincronismo com o Koncepto ou de interfaces com outras aplicações.
+
+Adicionalmente, são disponibilizadas barras de ferramentas específicas a cada
+janela de trabalho. Estas apresentam sempre que possível um grafismo e
+apresentação comum, e serão apresentadas mais à frente neste manual.
+
+
+
+==Caixa de Ferramentas – Toolbox==
+
+A Toolbox é uma zona chave de toda a aplicação, pois a maioria das janelas realiza
+tarefas com base nas opções aqui indicadas. Este componente apresenta duas
+zonas:
+
+===Árvore de centros de custo===
+Representação hierárquica da estrutura da empresa ou empresas definidas no sistema. As operações realizadas na aplicação serão aplicadas para os centros de custo seleccionados nesta área.
+===Selector de tempo===
+Identifica o intervalo de tempo a considerar nas operações a realizar pela aplicação. Por exemplo, ao abrir um relatório de vendas, serão apresentadas as vendas realizadas no período de tempo aqui identificado. Este intervalo pode ser identificado de duas formas, através da identificação simples pela indicação do nome do período (por exemplo o dia corrente, ou semana actual), ou através da indicação exacta do mesmo, fornecendo dois pontos temporais.
+
+
+
+==Grelhas de dados==
+As janelas de trabalho encontram-se uniformizadas para que a sua utilização seja
+mais simples para o utilizador. Apresenta-se de seguida a sua constituição, bem
+como uma ligeira explicação das funcionalidades implementadas.
+===Barra de Ferramentas===
+       Na parte superior da janela encontra uma barra de ferramentas exclusiva
+       desta janela, na qual são disponibilizadas as seguintes operações:
+====Ver====
+Mostra a janela de detalha da linha de dados seleccionada na grelha, na qual é disponibilizada toda a informação disponível sobre a mesma.
+
+====Actualizar====
+Actualiza a grelha de dados com base na informação disponível no sistema no momento.
+====Inserir====
+Abre uma janela que permite criar um novo objecto do tipo em causa.
+====Modificar====
+Abre a janela com os detalhes da linha seleccionada na grelha em modo de edição, permitindo que sejam alteradas quaisquer propriedades.
+====Apagar====
+Apaga os dados relativos à linha seleccionada na grelha de dados.
+Em certos casos, a operação de eliminar pode ser substituída por uma desactivação do objecto em causa, mantendo os dados no sistema mas sem que os mesmos sejam utilizados.
+====Procurar====
+Activa ou inibe a zona de pesquisas que altera os dados da grelha.
+====Ajuda====
+Disponibiliza a ajuda disponível para esta janela.
+
+===Grelha===
+
+Na parte central da janela encontra-se uma grelha de dados que apresenta a
+informação requisitada. Esta grelha pode ser ordenada por ordem crescente
+ou decrescente através de um click com o botão direito do rato no nome da
+coluna pretendida.
+
+
+===Procura===
+Na secção inferior esquerda encontra a janela de pesquisas na grelha.
+
+A pesquisa é realizada na tabela sobre a coluna a identificar na ''combobox'' “Coluna”. É aplicado um filtro do tipo identificado na “Relação” com o valor indicado na caixa de texto “Texto a procurar”. As relações são do tipo:
+* “~” Semelhante a
+* “=” Igual a
+* “>” Maior que
+* “<” Menor que
+
+
+===Barra de Estado===
+No fundo da janela é apresentada uma barra de estado que apresenta o número de linhas apresentado na grelha.
+
+
+
+===Atalhos – Shortcuts===
+A aplicação disponibiliza um conjunto de atalhos que permite a execução de algumas tarefas de forma rápida. Segue uma listagem com os atalhos
+implementados e a tarefa realizada.
+
+{|-
+|Atalho 
+|Função
+|-       
+|CTRL+N
+|Novo
+|-
+|CTRL+U
+|Modificar
+|-
+|CTRL+D
+|Apagar
+|-
+|CTRL+O
+|Abrir / Visualizar
+|-
+|CTRL+S
+|Salvar
+|-
+|F5
+|Actualizar
+|-
+|F1   
+|Ajuda
+|-
+|ESC
+|Fechar janela
+|-
+|ALT+F4
+|Fecha a aplicação
+|}
+
+
+Chama-se a atenção para o facto de algumas destas funcionalidades não estarem disponíveis sempre que a tarefa a realizar não se adeqúe à situação em causa.
+
+Adicionalmente existem também disponíveis em certos botões e menus atalhos identificados e acessíveis através da tecla “''Alt''”.
+
+===Impressão===
+Sempre que uma listagem está aberta, é possível imprimi-la clicando no ícone da
+impressora presente na toolbar. As opções aqui apresentadas são as normais de
+uma aplicação de ambiente semelhante ao do Windows, como as definições de
+impressora e a configuração de página. Além disto, ainda é possível editar Estilos
+próprios de impressão.
+
+===Designer de relatórios===
+Ao dar ordem de impressão de uma grelha, esta é impressa com base num estilo
+definido por defeito, que contém informação relativa aos cabeçalhos do documento e
+colunas de dados a imprimir. 
+Estas definições podem ser alteradas, permitindo modificar os cabeçalhos e rodapés do documento e páginas individuais, bem como
+as colunas de dados a imprimir e respectivo design. Para tal, deverá utilizar o ''Editor de Estilos'', que se encontra acessível através da seta ao lado do ícone da impressora. Pode também criar novos estilos, ou definir o estilo a usar por defeito para determinado relatório através da selecção da opção “''Estilo por defeito''”.
+
+=Utilização da Aplicação=
+
+
+==Como aceder à aplicação Regi 2005==
+Para abrir a aplicação deverá fazer double-click no ícone do “Regi 2005”,
+representado por um R vermelho que deverá encontrar no seu ambiente de trabalho.
+Alternativamente, poderá também aceder através do Menu Iniciar, Programas, Unue
+Regi 2005. Para entrar no programa terá que utilizar um Login e uma palavra passe
+previamente atribuídas.
+==Password==
+As passwords são “case sensitive”. Isto significa que consegue diferenciar as letras
+maiúsculas e minúsculas. Deste modo, ao introduzir uma password deverá ter este
+facto em consideração e verificar se tem o “Caps Lock” activo.
+Para proceder à alteração da sua palavra passe terá de aceder no menu
+Ferramentas à opção “Alterar Palavra Passe”.
+==Cliente – Servidor==
+O Regi é uma aplicação Cliente-Servidor. A aplicação “Regi 2005” é o cliente de um
+sistema que integra vários componentes que podem, ou não, estar instalados em
+máquinas distintas. Isto significa que no caso de uma configuração em que haja
+utilização de recursos de mais do que uma máquina, todas elas deverão estar
+disponíveis de modo a que possa utilizar esta aplicação.
+==Ocupação do disco==
+Cada aplicação, ao ser instalada, irá ocupar um determinado espaço em
+disco. Para ser instalada, a aplicação cliente Regi necessita de cerca de
+130MB, o Regi Manager 10MB, e o Regi Visual Manager 1MB. Esta situação
+pode ser verificada ao fazer a instalação das aplicações ao seguir o
+assistente de instalação na opção “Disk Cost”.
+==Licenciamento==
+O esquema de licenciamento actualmente definido prevê a existência de um número
+de licenças a serem utilizadas pelas várias aplicações cliente instaladas. Deste
+modo, sempre que abre a aplicação cliente “Regi 2005” utiliza uma licença,
+diminuindo o número de licenças disponíveis. A abertura da aplicação está
+condicionada à existência de licenças não utilizadas.
+
+O esquema de licenciamento poderá ser alterado com o tempo.
+
+
+=Manutenção=
+
+Considera-se como manutenção as operações de definição de dados de suporte à aplicação. Nesta secção pode encontrar, criar, modificar ou apagar dados a armazenar este tipo de informação. Referimo-nos a dados de artigos, clientes, fornecedores, empregados, centros de custo, etc. Também se encontra nesta secção a parametrização do FrontOffice Koncepto.
+
+
+
+==Como criar um Utilizador?==
+Aceder ao menu Manutenção, submenu Utilizadores. Este irá abrir uma janela com a
+listagem de utilizadores definidos na aplicação. Para poder inserir um novo utilizador
+deverá clicar no botão Inserir da toolbar da janela. Para criar um novo utilizador terá
+que indicar a entidade, o tipo de utilizador, o idioma (ao fazer login, a aplicação será
+apresentada no idioma aqui definido), e o nome do utilizador. Para guardar o registo
+terá de fazer '''Salvar'''.
+
+Por defeito encontra definidos os seguintes tipos de utilizador:
+*Operador Reporting que realiza relatórios de compras e relatórios de vendas.
+*Operador de Lançamento de Compras que realiza o lançamento de documentos de compras e relatórios de compras.
+*Utilizadores Normais que realizam o lançamento de documentos de compras, de documentos de vendas, de relatórios de compras e relatórios de vendas.
+*Administrador que tem acesso a todos os menus de aplicação, excepto a funcionalidades técnicas.
+*Técnico que vai ter permissões para técnicos apenas.
+
+Caso tenha permissões para criar novas contas de utilizador, apenas conseguirá gerar contas com um nível de acesso igual ou inferior à da conta em uso.
+
+
+==Como criar um Artigo?==
+Aceder ao menu ''Manutenção'', ''Produtos'', e clicar na opção ''Artigos''. Este irá abrir uma janela com a listagem com todos os artigos.
+Para criar um novo artigo clicar no botão ''Inserir'' existente na toolbar da janela.
+No '''REGI''' existem dois tipos de artigos: '''Artigo de Gestão''' e '''Artigo de FrontOffice'''.
+
+Um '''artigo de gestão''' é definido por uma família, uma unidade, uma taxa de imposto e pelo tipo de produto.
+Estas definições, mais o preço, a família de FrontOffice, a ficha técnica e a atribuição de um ou mais departamentos, permitirão a criação de um '''artigo de FrontOffice''', que estará sempre ligado a um artigo de gestão (a um artigo de gestão poderão estar ligados vários artigos de
+FrontOffice).
+Irá surgir a janela de lista de artigos, aí deve-se clicar no botão ''Novo''. Irá aparecer uma janela para preencher os dados do novo produto
+(nome, família, FB, Unidade, IVA, o tipo de artigo). Deve-se escolher o departamento a que vai pertencer.
+Na parte inferior da janela vai-se preencher os dados referentes ao FrontOffice tais como preços, nome e respectiva família de FO.
+
+No separador ''Menus'' referir se tem '''tara''', '''quantidade mínima''' ou '''desconto máximo''' entre outras opções e escolher a página a que pertence o produto.
+
+No separador ''Páginas e Impressoras'' escolher a impressora e seleccionar a página a que pertence. Neste separador também se poderá definir as propriedades gráficas do botão que irá aparecer com o artigo no FrontOffice, para isso poderá clicar no botão referente ao texto ou cor de fundo e mudar para outra cor que pretenda. 
+
+No separador'' Ficha Técnica'' indicamos o nome desta, a data, a matéria-prima, a unidade e quantidade que a compõem.
+
+No fim clica-se no botão ''Salvar'' para guardar o novo produto.
+
+Para que o novo produto apareça no FrontOffice será necessário fazer comunicações através do ''Assistente de Comunicações''.
+
+==Como alterar o preço de um Artigo?==
+Aceder ao Menu ''Manutenção'', opção ''Produtos'', e aceder à opção ''Artigos''.
+Este irá abrir uma listagem com todos os Artigos. Para proceder à mudança de preço terá de seleccionar o artigo pretendido, e pressionar o botão Modificar. No separador ''Preços e Impostos'' colocar o novo preço. Após esta operação deverá pressionar o botão
+''Salvar'' para guardar as novas alterações.
+
+==Como criar Consumos por Comparticipação de Cliente?==
+Aceder ao menu ''Manutenção'', ''Produtos'', opção ''Artigos'' e ao inserir um novo artigo
+na janela artigos, no separador Preços por Tipo de Cartão irá escolher o tipo de
+cartão e definir para cada tipo o valor do preço, a percentagem, a quantidade
+máxima de consumos por sessão e por dia, e a data de início e fim.
+
+Também poderá aceder a um ''Relatório de Consumo por Comparticipação de Cliente''
+através do menu ''Relatórios'', opção ''Relatórios de Vendas'', Relatório de ''Consumo por
+Comparticipação de Cliente'', onde verifica a quantidade de consumos, o nome do artigo, o preço unitário com comparticipação e o total com comparticipação.
+
+==Como criar Restrições de Quantidades de Consumos?==
+Aceder ao menu ''Manutenção'', ''Produtos'', clicar na opção ''Restrições de Quantidades''.
+Esta irá abrir uma janela com uma listagem de restrições de quantidade. Para inserir
+uma nova restrição terá de clicar no botão Inserir existente na toolbar da janela,
+onde poderá restringir consumos por artigo ou por família de artigo, nesta form terá
+que indicar o tipo de cartão de cantina e a quantidade máxima de consumo por dia
+ou por sessão. No fim terá de fazer Salvar para guardar o novo registo.
+
+==Como criar uma Matéria-Prima?==
+Aceder ao menu ''Manutenção'', ''Produtos'', e clicar na opção ''Matéria-prima''. Este irá
+abrir uma listagem com todas as matérias-primas, para inserir uma nova matéria-prima deverá clicar no botão ''Inserir'' presente na toolbar da janela.
+Uma matéria-prima é definida por uma família de matéria-prima, uma classe de imposto, uma unidade e um ou mais departamentos.
+
+Para a sua criação, dever-se-á aceder à opção ''Matéria-Prima'', que se encontra no
+submenu ''Produtos'' do menu ''Manutenção''. Após pressionar o botão ''Inserir'' deverá preencher os dados acima referidos. Além destes, podem ser definidos stock mínimos e máximos, assim como, pontos de encomenda.
+
+Deverá terminar pressionando no botão ''Salvar'' para guardar a nova matéria-prima. No mesmo submenu, na opção ''Família de Matéria-Prima'', pode criar estas entidades clicando no botão ''Novo'' e preenchendo o campo do nome. É possível criar uma hierarquia de famílias.
+
+Após este processo pressionar no botão ''Salvar'' para guardar a nova matéria-prima.
+
+
+
+
+==Como criar um Cliente?==
+Aceder ao menu Manutenção, Clientes e clicar na opção Clientes. Este irá abrir uma
+listagem com todos os clientes, para criar um novo clicar no botão Inserir presente
+na toolbar da janela.
+
+Para se criar um cliente, será necessário criar (caso não estejam previamente
+definidos) todo um conjunto de dados que estarão interligados. E esses dados
+serão: o '''Tipo de Cartão''' – onde é definido o tipo de venda e lhe poderá ser atribuído
+um '''Tipo de Cantina'''; o '''Tipo de Cantina''' – onde se define o tipo de validação dos
+cartões. Estes podem ser de três tipos:
+*'''Normais''' – Não necessitam de validação para serem utilizados;
+*'''Administrador''' – que pode validar outros cartões;
+*'''Convidado''' – Necessita de validação.
+
+Na criação do cliente propriamente dito, além de todos os dados identificativos
+deste, este deverá estar ligado a um ou mais departamentos. Pode-se criar uma
+hierarquia de clientes, isto é, um cliente pode ter um cliente pai.
+
+A um cliente deverá estar, também, ligado um Cartão de Cliente, que é definido por
+um '''Tipo de Cartão''' e pelas datas de emissão e expiração.
+
+ O '''Cartão de Cliente''' permite que sejam atribuídas vendas ou consumos ao cliente utilizando o
+FrontOffice.
+
+Para finalizar, clica-se no botão '''Salvar'''.
+
+
+
+==Como criar um Fornecedor?==
+Aceder ao menu '''Manutenção''', clicar na opção '''Fornecedor'''. Este irá abrir uma nova
+janela com a listagem de todos os fornecedores, para criar um novo terá de clicar no
+botão '''Inserir''' presente na toolbar da janela.
+Além de todos os dados identificativos do fornecedor, deverá ser definido o seguinte:
+as condições de pagamento, a zona financeira e o(s) departamento(s) a que será(ão) agregado(s), porque os fornecedores serão controlados departamento a
+departamento.
+Introduz-se todos os dados e salva-se para finalizar.
+
+==Como criar um Funcionário?==
+Aceder ao menu '''Manutenção''', clicar na opção '''Funcionário'''. Irá aparecer uma janela
+com a listagem de todos os funcionários. Nesta para criar um novo funcionário terá
+de clicar no botão '''Inserir''' presente na toolbar da janela.
+
+Um funcionário deverá estar sempre ligado a um ou mais departamentos e poderá
+ser definido pelos dados do contrato (profissão, salário e período do contrato) e
+pelos dados normais de identificação deste. Para além disto, também poderá definir
+as permissões de trabalho que cada empregado terá no Koncepto, atribuir um
+código FO, uma palavra passe e até um código de barras para o acesso ao sistema
+através de um cartão de funcionário.
+
+No fim deverá salvar.
+
+==Como criar um Imposto?==
+Aceder ao menu '''Manutenção''', '''Impostos''', clicar na opção '''Impostos'''. Este irá abrir
+uma listagem com todos os impostos criados. Para criar um novo imposto deverá
+clicar no botão '''Inserir''' presente na toolbar da janela.
+
+Define-se um imposto através de uma classe e de uma zona de imposto e de
+valores percentuais e/ou nominais.
+
+Depois de atribuídas estas definições, clica-se em '''Salvar''' para finalizar.
+
+Uma classe de imposto é definida por um nome de imposto, e uma zona de imposto
+é definida por um país e uma zona territorial e/ou divisão fiscal. O método de criação
+é semelhante ao anteriormente explicado.
+
+==Como criar um Centro de Custo (Empresa/Loja/Escritório/Armazém)?==
+Aceder ao Menu '''Manutenção''', '''Empresas''' e clicar na opção
+'''Centros de Custos'''.
+
+No rectângulo branco que é apresentado à esquerda da
+janela, clicar com o botão direito do rato e escolher '''Inserir'''.
+
+Escolher, na barra superior, o tipo de centro de custo, e
+atribuir-lhe todos os dados necessários para a sua
+identificação. Nos centros de custo do tipo '''Escritório''', '''Loja'''
+e '''Armazém''' deve-se definir a série dos documentos internos e o método de valorização por defeito dos inventários. Para isto, basta navegar através dos separadores apresentados em cada um dos centros de
+custo. No último separador '''Parametrização de FO''' poderá
+seleccionar a opção “'''Apagar documentos'''”, de modo a
+optimizar o funcionamento do Koncepto, através da eliminação de informação de documentos do ponto de
+venda, anteriores à data indicada, quando forem feitas comunicações com o FrontOffice.
+
+É aqui que se cria a estrutura hierárquica da empresa ou grupo de empresa, que é apresentada na toolbox.
+
+Para finalizar, clica-se no botão '''Salvar'''.
+
+
+==Como configurar o Koncepto?==
+Através do menu Manutenção, submenu Koncepto config tem acesso a um conjunto
+de opções que permitem configurar o ponto de venda Koncepto. Entre as opções
+disponíveis poderá encontrar a configuração de: '''Índices''', '''Páginas''', '''Tipos de
+Impressora''', '''Famílias de Artigos de FrontOffice''', '''Tipos de Sessões''', e '''Tipos de
+Sessões por Loja''' e '''Mesas'''. Em alternativa, todas estas opções podem também ser
+definidas no ponto de venda (Koncepto).
+
+Para uma melhor percepção destes conceitos e respectiva parametrização, deverá
+ser consultado o manual do Koncepto.
+
+
+==Como atribuir Consumos a partir de um Cartão Genérico?==
+
+Através do menu Ferramentas, opção '''Atribuir Consumo''', acederá a uma listagem de
+documentos que indica o departamento, o número de cartão de cliente, o nome de
+cliente, o n.o de documento, o total do consumo e a data do consumo. Para poder
+atribuir este consumo a um cliente terá de clicar no botão Atribuir, abrindo assim
+uma janela com os dados referentes ao consumo e com a opção que lhe permite
+atribuir o consumo a um cliente válido.
+
+=Documentos=
+Este capítulo é referente a documentos, quer internos – gerados pela empresa, quer
+externos – gerados por outras entidades e remetidos à empresa em causa.
+
+==Como criar um Documento Externo?==
+Um documento externo é todo aquele documento que é enviado por entidades
+externas à empresa em gestão no REGI, quer sejam clientes ou fornecedores.
+No menu Documentos Externos pode-se aceder a vários tipos de documentos:
+*Facturas
+* Vendas a dinheiro
+* Notas de crédito
+* Pedidos de notas de crédito
+* Notas de débito
+* Guia de transporte
+* Guia de devolução
+* Encomendas
+
+Pode criar/introduzir um novo documento através de duas formas, no botão '''Inserir Novo Documento Externo''' na toolbar principal, ou com a janela de documentos aberta, no botão '''Inserir'''. Em qualquer dos casos, '''por defeito é aberto um documento
+do tipo factura'''. Se desejar inserir outro tipo de documento, poderá aceder à listagem através da seta adjacente ao botão utilizado. Após a abertura da janela do documento indicado, inicia todo o processo do seu lançamento.
+
+Em alguns tipos de documentos, e caso o sistema esteja configurado para tal, é
+apresentada uma janela que permite a introdução dos valores totais do documento,
+de modo a validar posteriormente o correcto preenchimento dos detalhes. Nos vários
+separadores apresentados poderá ter acesso a mais informação, relativa à entidade
+que este representa. No separador Documentos Relacionados, quando disponível,
+poderá consultar ou definir os documentos na lista dos documentos que queira
+relacionar com o documento actual, como por exemplo, os consumos a crédito a
+importar para uma factura. Após o preenchimento de todos os campos obrigatórios,
+deverá carregar no botão '''Salvar''' para gravar o documento introduzido.
+
+
+==Como criar um Documento Interno?==
+Um documento interno é todo aquele documento que é criado ou advém do
+processo normal de trabalho diário da empresa. Este pode ser um documento
+destinado a um cliente, a um fornecedor, ou uma nota interna à própria empresa.
+Todos os documentos de venda criados no Koncepto são documentos internos.
+
+Através do menu Documentos Internos menu pode aceder a todos os documentos
+criados, tais como:
+* Facturas
+* Vendas a dinheiro
+* Consumos a crédito
+* Notas de crédito
+* Pedidos de notas de crédito
+* Notas de débito
+* Guia de transporte
+* Guia de devolução
+* Guia de pagamentos
+* Requisição de matérias-primas
+* Cancelamento de requisição de matérias-primas
+* Transferências       
+Este documento refere-se a uma ordem de transferência de um produto de um departamento para outro. Para criar uma  nova transferência deverá pressionar o botão '''inserir''' presente na toolbar da janela lista de transferências.
+Este irá abrir uma janela onde o número de documento, com a informação relativa à ordem de transferência: programação, envio e recepção. No separador ordem de transferência deverá indicar o método de afectação, o tipo de transferência e o departamento de origem e destino.
+Após alterar ou criar uma nova transferência, deverá  terminar carregando em Salvar. Caso exista  alguma incongruência nos dados
+definidos, será apresentado um novo separador no topo da janela, com a indicação das situações encontradas.
+* Inventários
+* Painel de controlo de vendas
+* Notas de encomenda
+* Recibos
+
+O método de lançamento destes documentos é em tudo semelhante ao explicado no
+ponto anterior.
+
+
+
+==Como criar Relatórios?==
+Acedendo ao menu Relatórios é possível criar os seguintes Relatórios:
+* Compras e Vendas
+* Quantidade de Documentos
+* Sessões
+* Reservas
+* Cartão de Cliente por Departamento
+* Funcionários por Departamento
+* Controlo de Ponto
+* Artigos de Gestão
+* Artigos das Lojas
+* Fichas Técnicas
+Para retirar um relatório é, sempre necessário, a selecção de departamentos e de
+um período de tempo (toolbox).
+
+==Que informações pode obter a partir dos Relatórios de Compras?==
+Através destes relatórios verificar:
+* Mapas de IVA
+* Resumos de Compras
+* Documentos por Departamento
+* Listagens de Compras de Matérias–Primas, por Fornecedor, ou por Família.
+* Listagem de Documentos ou de Detalhes por Tipo de documento (Grelha de Documentos).
+
+
+==Que informações pode obter a partir dos Relatórios de Vendas?==
+Nos relatórios de vendas pode apreciar:
+* Mapas de IVA
+* Resumos de '''Vendas por Cliente e Cartão''', por '''Família de Artigos''', por '''Tipo de Cartão e Família''' e por '''Comparticipação de Cliente'''
+* ''Refeições a Crédito por Tipo de Sessão'', os '''Consumos Agrupados''' e '''por Hora''', '''Consumos por F&B (Food and Bebarage)''', '''Artigos por Família''', '''Consumo por Zonas''' (relatório com informação de vendas por zona e mesa/linha), as ''Quantidades de Artigos Consumidos e Transaccionados'' e, os ''Cancelamentos efectuados'' no FrontOffice Koncepto.
+* Tal como nos Relatórios de Compras, também aqui pode aceder a uma '''Grelha de documentos''' com informação relativa a todos os tipos de documentos e respectivos detalhes.
+
+==Como efectuar Análises?==
+Acedendo ao menu '''Análises''', pode realizar as seguintes análises: '''Cantinas on-line''',
+'''Análise de stock''', '''Análise ABC de compras''', '''Análise ABC de vendas''', '''Painel de controlo de documentos externos''', '''Diferencial de inventários''' e '''Consumos'''
+
+Homólogos (permite comparar tipos de informação entre dois intervalos de tempo).
+
+Assim como nos relatórios, para se elaborar uma análise, é necessária a correcta
+selecção de departamentos e período de tempo na toolbox.
+
+==Como funciona uma Análise ABC de Vendas?==
+Uma análise ABC consiste na separação do Stock em três grupos de acordo com o
+consumo realizado.
+
+Assim surgem três grupos de classes:
+* Classe A: Itens que possuem alto valor de consumo periódico.
+* Classe B: Itens que possuem um valor de consumo periódico intermédio.
+* Classe C: Itens que possuem um valor de consumo periódico baixo.
+Em várias empresas, uma análise ABC é preparada frequentemente para determinar
+o método mais económico para controlar o stock, pois, através dela torna-se
+possível reconhecer que nem todos os itens merecem a mesma atenção por parte
+da administração ou precisam manter a mesma disponibilidade para satisfazer os
+clientes. Assim, conduzir uma análise ABC é com frequência um passo muito útil no
+projecto de um programa de acção para melhorar a performance do stock, reduzindo
+tanto o capital investido em stock como os custos operacionais.
+
+==O que permite a Análise de Stock?==
+A '''Análise de Stock''' permite comparar Stock teórico com Stock real, tanto em
+quantidade como em valor. Mostrando os diferenciais linha a linha e sobre a
+totalidade das matérias-primas.
+
+=Ferramentas=
+
+==Como alterar a minha password?==
+Para alterar a sua password, deverá aceder ao menu '''Ferramentas''', '''Alterar Palavra Passe''' e preencher os dados requisitados na janela apresentada.
+
+==Como exportar dados para Excel?==
+A funcionalidade de exportação de dados para ''Excel'' encontra-se activa no '''Regi''' nas
+janelas que apresentam grelhas de dados. Para exportar, deverá activar uma janela
+com uma grelha, e seleccionar a opção “'''Exportar para...'''” na toolbar ou no menu
+Ferramentas. Na janela apresentada deverá escolher se pretende abrir o Excel com
+os dados da grelha, ou em alternativa salvar um ficheiro ''.xls'' com essa informação.
+Neste último caso, ser-lhe-á pedido a indicação do caminho para este ficheiro.
+
+==Como calcular/recalcular os Stocks?==
+Para efectuar o cálculo de ''stock'' deverá aceder ao menu '''Ferramentas''', '''Stock''',
+'''Actualização de stocks'''. Esta operação poderá levar alguns momentos a ser
+executada. O tempo desta operação depende essencialmente do ''hardware'' instalado
+no servidor de base de dados, da quantidade de documentos por actualizar e da
+carga do servidor.
+
+==Como aceder ao registo de operações realizadas?==
+Através do Menu '''Ferramentas''', opção Configuração Técnica, Registo, acede ao
+relatório de acções efectuadas pelos operadores das aplicações Regi ou Koncepto.
+Deverá definir o período de tempo que pretende analisar, e definir as opções de
+filtragem disponibilizadas de modo a obter a informação que pretende.
+
+=Sincronismos=
+==Como configurar o sincronismo entre aplicações?==
+De modo a conseguir realizar comunicações entre aplicações, deverão ser definidos
+previamente um conjunto de parâmetros, que permitem identificar o ''software'' e os
+servidores em causa, bem como fazer a devida autenticação. 
+Muitos dos parâmetros
+necessários são específicos ao tipo e software e ao tipo de negócio em causa, pelo
+que deverão ser configurados apenas por um técnico especializado. Como excepção fica o sincronismo com o Koncepto.
+
+==Como configurar o sincronismo com o Koncepto?==
+Deverá iniciar por configurar o servidor de Koncepto: Aceder ao menu '''Ferramentas''',
+'''Configuração Técnica''', opção '''Configuração de Servidores'''. Clicar no botão '''Inserir'''
+presente na toolbar da janela e preencher os dados referentes ao servidor - '''nome''',
+'''departamento''' e o '''software''' com que vai fazer comunicações, também deverá indicar
+o '''IP da máquina do Koncepto''', a '''porta de comunicações''' (por defeito será 1120), e o '''protocolo''' (TCP/IP). No fim Salvar a
+informação introduzida.
+De seguida, deverá configurar os objectos a sincronizar: Aceder novamente ao
+menu '''Ferramentas''', '''Configuração Técnica''', opção '''Softwares Externos''' e inserir na
+tabela apresentada os objectos a sincronizar na realização de comunicações.
+
+
+==Como estabelecer Comunicações?==
+Para iniciar as comunicações, deverá começar por seleccionar na toolbox o
+departamento com o qual pretende realizar comunicações.
+D
+e seguida, deve aceder ao Assistente de comunicações através do ícone
+'''Assistente de Comunicações''' existente na toolbar, ou em alternativa, através do
+menu de '''Ferramentas'''. A janela do assistente de comunicações é aberta, e deverá
+seguir os passos aí indicados:
+# Seleccionar o software com o qual pretende realizar comunicações. Por defeito, são apresentados os vários softwares configurados para o departamento seleccionado na toolbox. Desejando fazer comunicações com o '''Koncepto''', deverá seleccionar essa opção. Clicar em seguinte, para passar ao próximo quadro.
+# Neste passo, deverá seleccionar as opções de importação e exportação de entidades a sincronizar, bem como outras questões que lhe podem ser apresentadas. Nas comunicações com o Koncepto, deverá seleccionar importar todos e exportar todos, para realizar o sincronismo total com o POS. Clicar em seguinte.
+# Aqui, é aparentado o resumo das definições indicadas. Clicar em '''Iniciar''' para realizar o sincronismo. O sincronismo começa por verificar o acesso ao servidor em causa (''ping''), seguindo pela recepção e depois o envio de informação.
+
+==Como aumentar o desempenho do Koncepto?==
+Para além das configurações de ''hardware'' e ''software'' realizadas por um técnico especializado, o aumento de performance do ponto de venda pode ser incrementado através da remoção de informação antiga da sua base de dados. Deste modo, é possível configurar o Regi de modo a que elimine do ponto de venda informação que tenha sido já absorvida para o ''Backoffice''.
+
+Para configurar esta funcionalidade deverá aceder ao menu '''Manutenção''', '''Empresas''', obtendo uma janela com a hierarquia de todos os centros de custo. Depois, clicar com o botão direito do rato na árvore, em cima do centro de custo desejado e escolher a opção '''Modificar'''. Do lado direito da janela, no separador '''Parametrização do FO''' seleccionar a opção “'''Apagar documentos ao executar comunicações'''” e
+indicar na caixa de texto em baixo o '''número de dias de dados a deixar''' no POS.
+
+Deste modo, todos os dados anteriores a esse período serão eliminados do Koncepto. No fim fazer '''Salvar''' para guardar as alterações.
+Esta funcionalidade só terá efeito caso o Koncepto esteja configurado para tal (no Koncepto deverá verificar a opção “'''Permitir apagar documentos'''” - nível de '''Gerente''', botão '''Definições Globais''', e no separador '''Cancelamentos'''). No fim fazer '''OK''' para salvar as alterações.
+'''Nota:''' Como mecanismo de segurança, existem rotinas de ''backup'' que serão executadas no POS sempre que realiza o primeiro sincronismo diário. Deste modo, caso tenha esta opção activa, deverá realizar o sincronismo num período em que o ponto de venda não esteja a ser utilizado, uma vez que o Koncepto poderá ficar indisponível durante alguns momentos. Este período de tempo é dependente do tipo de hardware instalado e do tamanho da base de dados existente.
+
+=Incompatibilidades/Recomendações=
+* A janela de controlo de comunicações no sistema operativo Windows 2000, por vezes não actualiza as barras de progresso, ou não detecta o fim do
+sincronismo. '''Este é um problema identificado pela Microsoft, relativo a uma incompatibilidade do sistema operativo em causa'''. Recomenda-se que se
+mantenha o Sistema Operativo actualizado, de modo a ter acesso a uma resolução para esta situação, assim que disponível.
+
+*Recomendamos que o processo de sincronismo seja realizado departamento a departamento. Não execute comunicações com mais do que um departamento
+de cada vez.
+
+* A importação de ficheiros para o Regi não deve ser executada em simultâneo para grandes grupos de ficheiros. Recomendamos que não importe mais do que
+10 ficheiros em simultâneo.

@@ -1,0 +1,875 @@
+=Contas=
+
+=ovh= 
+
+==Administração== 
+
+ https://www.ovh.pt/managerv3
+
+ Identificador cliente : ln38208-ovh
+ A sua password: 4onc3pto01
+
+
+==PARÂMETROS DE ACESSO==
+ 
+ O endereço IPv4 da VPS é: 176.31.187.157
+ O endereço IPv6 da VPS é: 2001:41d0:0052:0100:0000:0000:0000:0b95  
+ 
+ O nome da VPS é: vps24744.ovh.net
+ 
+ A seguinte conta de administrador foi configurada na VPS:
+ Nome do utilizador: root
+ Password:      0SU2lcq7
+ 
+ Pode igualmente administrar certas funções da sua VPS graças à API restful
+ proposta pela OVH. Ela está disponível no seguinte endereço (com os seus
+ identificadores OVH habituais)
+ 
+ https://api.ovh.com/
+ 
+ Como indicado aquando da sua encomenda, o novo manager VPS está em curso
+ de ser terminado para lhe oferecer mais conforto, mais serviços e uma
+ maior ergonomia. Iremos enviar-lhe o link assim que o mesmo estiver online.
+ Pode, enquanto aguarda, seguir a faturação dos seus serviços VPS
+ a partir do Manager V3.
+
+ Nome de Máquina: Toccata
+ utilizador: root
+ password:   4onc3pto
+
+=Godaddy=
+
+ Your Customer Number is: 24945093
+ password:                por1co2
+
+=DNS.PT=
+ nick:   SSES-374693-FCCN
+ pass:  Sindesi4onc3pto
+
+=My Vodafone=
+
+ Conta Nº/ADSL ID         307744640
+ Passw:                   36903016
+
+
+=SINDESI - Conta Bancária=
+
+ Sindesi 
+ Conta          0005 3349 1756 
+ NIB            0007 0000 00533491756 23 
+ IBAN           PT50 0007 0000 0053 3491 7562 3 
+ SWIFT/BIC  BESCPTPL
+
+=Niposom - Eurosys=
+
+ Sr. Jorge
+ 
+ Aveiro
+ Telefone:234 383 883
+ Telemóvel:965 919 768 
+ Horário: 2ª a 6ª Feira: 9H00~13H00, 15H00~19H00
+ 
+ 
+ Lisboa
+ ngomes.com@niposom.com
+ 
+  
+ Site: 
+ UTILIZADOR: a40413
+ PASSWORD: sindesi01
+
+=Mobilscan - Sistemas Informáticos, Lda=
+ 
+ Rua Alda Nogueira, 14 Monte-Abraão
+ 2745 - 423 Queluz
+ 
+ Tel: 00351 21 430 46 10 
+ Fax: 00351 21 430 45 84
+ 
+ MobilScan: geral@mobilscan.pt
+ Departamento Comercial:  comercial@mobilscan.pt
+ Departamento Técnico: suporte@mobilscan.pt
+ 
+ Sr. Marco Vaz
+ Telemóvel: 91 578 71 94
+ marco.vaz@mobilscan.pt/
+
+ http://www.mobilscan.pt/
+ http://www.datalogic.com | http://www.m3mobile.co.kr/en | http://www.datamax-oneil.com | http://www.woosim.com | http://www.tscprinters.com
+
+=K-POS=
+
+ Jorge Mascote 
+ Telm: 926084994
+
+ Valter
+
+ Tel./Fax.: 21 230 25 57 
+ 
+ Email Comercial: comercial@k-pos.pt
+ Email Suporte Técnico: suporte@k-pos.pt
+
+
+=Site Apronet-DI=
+ 
+ http://www.pronet.pt/
+   
+ Nome de utilizador: 00643
+ Senha:  x7HUxeqa
+   
+ OLD 
+ 
+ Nome de utilizador:  00643
+ Senha:  C5wuNa2w
+ 
+ Nome de utilizador - 00643 
+ Senha - 4onc3pto
+ 
+
+=CPCDI=
+
+ NCLIENTE:    28522
+ UTILIZADOR:  sisi-in
+ PASSWORD:    si1313
+
+
+=Portal Grenke=
+
+ http://grenkerenting.pt/mediakit/
+ 
+ http://gfs.grenke.net
+ 
+ Número de Parceiro: 124-01335
+ 
+ E-mail: 
+ 
+ Password: Sind2012
+ 
+ Grenke Leiria  --  Joana ou Inês
+ 
+ tel: 244 845 920
+ 
+ email: servico.leiria@grenke.pt
+ 
+ envio de contratos/morada: apartado 29 Marrazes 2400-995 Leiria
+
+
+=PhotoBucket=
+
+ username: comercialsindesi
+ PSW: sindesi01
+ 
+ email: comercial@sindesi.com
+
+
+=OLX - anúncios=
+
+ comercial@sindesi.com
+ 
+ sindesi01
+
+
+ 
+
+mail.aveiro.sindesi.com
+
+ Login: geral@aveiro.sindesi.com
+ 
+ PSW:   4onc3pto
+ 
+
+
+DropBox da Sindesi (estão lá as máquinas virtuais)
+
+ Login: sindesi01@gmail.com
+ 
+ pass: sindesi4onc3pto
+ 
+
+
+
+Google Drive
+
+ https://drive.google.com/
+ 
+ sindesi01@gmail.com
+ 
+ sindesi4onc3pto
+
+=Serviços Google=
+
+{| border="1"
+|+ Acessos a computador
+! Endereço !! Login !! Password 
+|-
+| https://drive.google.com/
+| sindesi01@gmail.com
+| sindesi4onc3pto
+|}
+
+=Telefones=
+
+
+Telefones inicialmente atribuídos:
+ '''234 28 95 00'''
+ '''234 28 95 01'''
+ '''234 28 95 02'''
+
+Cliente Cabovisão: '''173362213'''
+Apoio ao Cliete: '''16800'''
+
+=Rede=
+== Router ADSL  ==
+<!-- [[Imagem:vigor2600.jpg|thumb|right]] -->
+=== Acesso ===
+====Acesso LAN====
+'''Endereço:''' 192.168.20.254
+
+'''login:''' admin
+
+'''pass: ''' smcadmin
+
+
+===Wireless===
+
+ ESSID: sindesi
+ PASS: 51nd3s101
+
+
+=== Port Forwarding ===
+ 
+====Port Redirection Table====
+
+{| border="1"
+|+ 
+! Serviço !! Protocolo !! Porta entrada !! Endereço !! Porta Saída !! Destino
+|-
+| ftp_BOT   
+| TCP   
+| 21    
+| 192.168.20.155    
+| 21
+| BOT
+|-
+|cvs/ssh
+|TCP
+|22
+|192.168.20.223 
+|22
+|laptop
+|-
+|http_BOTSERVER
+|TCP
+|5910
+|192.168.20.23  
+|5910
+|Tecnico
+|-
+|bug_system
+|TCP
+|7670
+|192.168.20.82
+|7670
+|Pinto
+|-
+|webservice
+|TCP
+|1120
+|192.168.20.223
+|1120
+|laptop 
+|-
+|sql_BOT
+|TCP
+|1433
+|192.168.20.155
+|1433
+|BOT
+|-
+|vncMarcia
+|TCP
+|2332
+|192.168.20.180
+|2332
+|Marcia
+|-
+|RD_Bot
+|TCP
+|3389
+|192.168.20.155
+|3389
+|BOT
+|-
+|Forum
+|TCP
+|80
+|192.168.20.10
+|80
+|Moonlight
+|-
+|ssh_10
+|TCP
+|23
+|192.168.20.10
+|23
+|Moonlight
+|}
+
+
+====Open Ports Setup====
+
+# test          , 192.168.20.191     v
+# cameras       , 192.168.20.129     v
+# test2         , 192.168.20.19          v
+# vnc Tecnico   , 192.168.20.23          v
+# vnc portatil  , 192.168.20.5           v
+# vnc marcia    , 192.168.20.82          v
+# vnc marcia2   , 192.168.20.180     v
+# soap port OR  , 192.168.20.100     x
+
+== Router Wireless USRobotics ==
+
+{| border="1"
+|+ Acessos a computador
+! IP !! Sistema Operativo !! Login !! Password 
+|-
+| 192.168.2.1
+| ?
+| admin
+| admin
+|-
+| 192.168.20.??
+| Wireless
+| -
+| sindesi0 (sindesiZERO)
+|}
+
+=Servidores=
+
+==DNS==
+ ns1.sindesi.pt
+
+
+
+== Toccata ==
+
+{| border="1"
+|+ Acessos a computador
+! IP !! Sistema Operativo !! Login !! Password 
+|-
+| 192.168.20.5
+| Linux Debian Etch amd64 (Xen)
+| root
+| 4onc3pto
+|}
+
+
+{| border="1"
+|+ Máquinas Virtuais
+! IP !! Sistema Operativo !! Login !! Password 
+|-
+| 10.1.1.2
+| Windows XP
+| -
+| -
+|-
+| 10.1.1.101
+| Linux Debian Etch
+| root
+| qwerty
+|-
+| 10.1.1.1
+| Linux Debian Etch
+| root
+| 4onc3pto
+|-
+| 10.1.1.200
+| Linux Debian Etch
+| root
+| 4onc3pto
+|}
+
+== BOT Server ==
+
+
+
+== Front Devel ==
+
+{| border="1"
+|+ Acessos a computador
+! IP !! Sistema Operativo !! Login !! Password 
+|-
+| 192.168.20.191
+| Linux Fedora Core 3
+| root
+| -
+|}
+
+
+==Pica==
+
+{| border="1"
+|+ Acessos a computador
+! IP !! Sistema Operativo !! Login !! Password 
+|-
+| 192.168.20.19
+| Linux Debian 
+| root
+| -
+|}
+
+== Xerox ==
+
+{| border="1"
+|+ Acessos a computador
+! IP !! Sistema Operativo !! Login !! Password 
+|-
+| 192.168.20.196
+| Linux Fedora Core 3
+| root
+| -
+|}
+
+
+== Armazém ==
+
+{| border="1"
+|+ Acessos a computador
+! IP !! Sistema Operativo !! Login !! Password 
+|-
+| 192.168.20.197
+| Linux Fedora Core 3
+| root
+| -
+|}
+
+== Moonlight ==
+
+{| border="1"
+|+ Acessos a computador
+! IP !! Sistema Operativo !! Login !! Password 
+|-
+| 192.168.20.10
+| Linux Debian Etch
+| root
+| 4onc3pto
+|}
+
+
+===HTTP===
+====Repositorio====
+
+====Claves====
+
+{| border="1"
+|+ Utilizadores
+! Tipo de utilizador !! Nome !! Login !! Password 
+|-
+! Administrador
+| admin
+| ????
+|-
+! Normal
+| Nuno Leitão
+| nleitao
+| nleitao123
+|-
+! Normal
+| Sérgio Nogueira
+| ???
+| ???
+|}
+
+====Wiki====
+
+{| border="1"
+|+ Utilizadores
+! Tipo de utilizador !! Nome !! Login !! Password 
+|-
+! Administrador
+| admin
+| ????
+|-
+! Normal
+| Nuno Leitão
+| nleitao
+| nleitao123
+|-
+! Normal
+| Sérgio Nogueira
+| ???
+| ???
+|}
+
+====Dotproject====
+
+== PHC ==
+
+ IP:192.168.20.9
+
+ WinXP
+ login: "Administrator"
+ pass: "naomexer"
+ VNC 5900
+ pass:unue123
+
+== Cacou ==
+== Márcia ==
+== Gandalf ==
+
+=Computadores=
+
+==Secretariado==
+
+
+
+{| border="1"
+|+ Acessos a computador
+! IP !! Sistema Operativo !! Login !! Password 
+|-
+| 192.168.20.27
+| Windows XP
+| Ann
+| geneve
+|-
+| 192.168.20.27
+| Windows XP
+| Adminstrator
+| gestao
+|}
+
+==Técnico==
+
+ 192.168.20.50  -->>  Koncepto           -->> Debian
+ 192.168.20.51  -->>  Suporte            -->> Debian
+ 192.168.20.52  -->>  Backup de Discos   -->> Debian
+
+
+{| border="1"
+|+ Acessos a computador
+! IP !! Sistema Operativo !! Login !! Password 
+|-
+| 192.168.20.23
+| Windows XP
+| Tecnico
+| unue123
+|}
+
+==Pinto==
+
+{| border="1"
+|+ Acessos a computador
+! IP !! Sistema Operativo !! Login !! Password 
+|-
+| 192.168.20.82
+| Windows XP
+| Marciaf
+| marcia
+|}
+
+==Marcia==
+
+{| border="1"
+|+ Acessos a computador
+! IP !! Sistema Operativo !! Login !! Password 
+|-
+| 192.168.20.182
+| Windows XP
+| Marcia
+| chelmique
+|}
+
+==Dockstation==
+
+{| border="1"
+|+ Acessos a computador
+! IP !! Sistema Operativo !! Login !! Password 
+|-
+| 192.168.20.11
+| Linux Ubuntu
+| nuno
+| unue123
+|}
+
+=Portáteis=
+==IBM 1161-267==
+[[Imagem:ibmLaptop1161.jpg|thumb|right|100 px]]
+
+
+{| border="1"
+|+ Acessos a computador
+! IP !! Sistema Operativo !! Login !! Password 
+|-
+| 192.168.20.223
+| Linux Fedora Core 2
+| root
+| 5951223
+|-
+| 192.168.20.223
+| Windows XP
+| ??
+| ??
+|}
+
+
+==Vodafone==
+
+{| border="1"
+|+ Cartões Vodafone
+! Numero !! ICCID !! PIN origina !! PUK
+|-
+| 913822000
+| 811234063359
+| 0572
+| 16746023
+|-
+| 91382005
+| 811234063342
+| 5616
+| 11075022
+|-
+| 91382009
+| -
+| -
+| -
+|-
+| 914110588
+| 811247354944
+| 1325
+| 251585590
+|}
+
+==IBM R51==
+[[Imagem:ibmLaptopR51.jpg|thumb|right| 100 px]]
+
+{| border="1"
+|+ Acessos a computador
+! IP !! Sistema Operativo !! Login !! Password 
+|-
+| 192.168.20.??
+| Windows XP
+| tecnico
+| unue123
+|}
+
+=Impressoras=
+
+
+
+=Passwords máquinas UNUE=
+
+{| border="1"
++
+| Location ||   Machine || Machine IP || Application || Login || Password || Group || Obs.
+|-
+| Escritório 
+| router 
+| 192.168.20.253    
+| http:81 
+| admin 
+| - 
+| Rede
+| -
+|-
+| Escritório 
+| Access Point 
+| - 
+| - 
+| - 
+| F1F2F3F4F5 
+| Rede 
+| Desligado
+|-
+| Escritório 
+| ISABEL 
+| ?? 
+| PHC 
+| sa    
+| 28032002 
+| - 
+| - 
+|-
+| Escritório 
+| ISABEL    
+| ??
+| Artsoft 
+| Admin 
+| ARTSOFT       
+| -
+| -
+|-
+| Escritório 
+|ISABEL 
+| ??
+|   Artsoft 
+| Isabel 
+|   edumar
+| -
+| -
+|-
+| Escritório 
+| BOT 
+| 192.168.20.155 
+| Win 2003 Server   
+| administrator 
+| usrvbot3      
+| -
+| -
+|-
+| Escritório 
+| BOT 
+|   192.168.20.155  
+| SQLServer2003 
+| sa 
+|   not2touch
+| -
+| -
+|-
+| Escritório 
+|   BOT 
+|   192.168.20.155  
+| Source Safe 
+|   admin
+| admin     
+| -
+| -
+|-
+| Escritório
+| PHC 
+| 192.168.20.9 
+| Win 
+| administrator 
+| naomexer
+| -
+| - 
+|-
+| Escritório 
+| DRUID 
+| 192.168.20.82 
+| Win XP Pro 
+| Antero 
+| t3ste 
+| -
+| -
+|-
+| Escritório
+|   COMERCIAL 
+|   192.168.20.134
+|   Win 2000 Pro 
+|   andreia
+|   a06d2   
+| -
+| -
+|-
+| Escritório 
+|   MARCIAFERREIRA 
+|   192.168.20.180 
+|   Win XP Pro 
+|   marcia
+|   chelmique
+| -
+| -
+|-  
+| Escritório 
+|   ANA
+|   192.168.20.181 
+|   Win XP Pro 
+|   anocas
+|   amarques
+| -
+| -
+|-
+| Escritório
+|   GESTAO
+|   192.168.20.27
+|   Win 2000 Pro 
+|   lurdes 
+|   l.matos 
+| -
+| -
+|-
+| Escritório 
+|   GESTAO
+|   192.168.20.27 
+|   Win 2000 Pro 
+|   susana 
+|   saninha1
+| -
+| -
+|- 
+| Escritório 
+|   DEPTECNICO 
+|   192.168.20.23
+|   WinXP PRO 
+|   tecnico unue123 
+| -
+| -
+| -
+|-
+| Escritório 
+|   maqxpto
+| 192.168.20.127 
+|   Linux FC2/RH9/DEB
+|   root 
+|   5951223
+| -
+| -
+|-  
+| Escritório 
+|   testes
+| 192.168.20.128     
+| Linux RH9  
+|   root 
+|   5951223  
+|   Maquina pizzarte (testes front office)
+| -
+|-
+| Escritório 
+|   PINTO   
+| 192.168.20.182     
+| Win XP Pro 
+|   nuno 
+|   pwork       
+| -
+| -
+|-
+| Escritório 
+| Gerencia 
+| ??
+| Win 2000 Pro 
+| OSCAR
+| -
+| -
+| -
+|}                          
+                            
+ portateis                          
+    técnico 192.168.20.70   win XP  jsilva  unue123     IBM
+            linux   root    5951223     
+                zo  unue123     
+    comercial   192.168.20.60                   In Systems
+    backoffice  192.168.20.50                   IBM
+                            
+ Brinkster      unue.net    www server  unue    iwonder     
+ Brinkster      neosat.net  www server  nelfel  monica      
+ NetworkSolutions           DNS oscar.ribeiro@unue.net  iwonder     
+                            
+ Outras pwds tradicionais                           
+ Location   Machine IP  Application Login   Password    Group   Obs.
+ ...    ... ... Linux   root    5950773     
+ ...    ... ... Koncepto V3 tecnico 5950773     
+ ...    ... ... Koncepto V4 tecnico 5951223     
+ ...    ... ... Regi 2005   technic 8683        
+ ...    ... ... ... ... naomexer        
+ ...    ... ... ... ... podemexer       
+ ...    ... ... ... ... not2touch       
+ ...    ... ... ... ... 88668833        
+ ...    ... ... ... ... 1234        
+ ...    ... ... ... ... 12345       
+ ...    ... ... ... ... sa      
+ ...    ... ... ... ... admin       
+                            
+                            
+  Acesso Internet   
+  EW0EDF    
+  ef10Xhar

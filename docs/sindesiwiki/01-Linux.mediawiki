@@ -1,0 +1,120 @@
+== O que é LINUX? ==
+[[Linux]] é o kernel, o core do SO (não é possível ter um SO sem um kernel). Estetem sido desenvolvido como um projecto freeware.
+Uma DISTRIBUIÇÃO é o conjunto criado entre um kernel (LINUX) e um grupo de aplicações.
+
+As distribuições mais conhecidas são: REDHAT (orientado para o mercado de servidores, deixando o mercado dos PC’s para FEDORA), SUSE (companhia alemã que desenvolveu uma versão especial para POS em parceria com a IBM), DEBIAN, SLACKWARE, MANDRIVA, etc....
+
+
+
+=== O Sistema ===
+Um '''kernel, não é o sistema operativo'''.
+
+O kernel é o centro de todo o sistema, porém, este por si não basta para que um computador funcione, é necessário todo um leque de ferramentas para lidar com este. Pode-se entender o kernel como o que lida com o hardware, e é este que permite que determinados programas consigam manipular directamente dispositivos como placas de rede ou dispositivos de CD-ROM.
+
+=== Conceito de Runlevels ===
+Um sistema baseado em Unix, desde o momento em que o computador arranca até que é desligado, podem-se definir os vários estados de evolução. Estes estados definem-se como runlevels e tomam valores de 0 a 6.
+
+A forma como estes são usados podem diferir, mas alguns são obrigatoriamente usados:
+*'''Runlevel 0''' – computador em arranque
+*'''Runlevel 1''' – Single User – usado para manutençao do sistema. Pode também ser invocado pelo parâmetro single ou emergency na chamada do kernel no arranque
+*'''Runlevel 2''' – Não usado pelo RedHat / Fedora
+*'''Runlevel 3''' – Multi-utilizador, somente a shell está disponível
+*'''Runlevel 4''' – Não usado pelo RedHat / Fedora
+*'''Runlevel 5''' – Login Gráfico, ambiente gráfico
+*'''Runlevel 6''' – Shutting Down
+
+=== Conceito de Serviços/Daemons ===
+Um Serviço, ou daemon é um programa que se encontra adormecido e que pode ser chamado em qualquer altura, quer no arranque do computador, quer manualmente. Normalmente correm em background e são de grande importância em qualquer máquina. 
+
+São exemplos de serviços, os programas que manipulam a placa de rede, a firewall ou as HASPs. Há vários serviços que são carregados desde o momento em que se liga o computador até ao momento em que este se encontra pronto a usar.
+
+----
+
+
+= Instalação de Linux =
+
+Ter em atenção em criar semper uma partição '''/home''' à parte aquando a instalação.
+ 10-20 G para /
+ o resto do disco pata /home
+
+
+[[Imagem:debian.jpg]]
+
+== Instalação de Debian Sarge ==
+[[Instalação de Debian Sarge]]
+
+==Instalação de Debian Etch ==
+
+[[Instalação de Debian Etch]]
+
+
+
+==Instalação de Debian Lenny com uma PEN USB ==
+[[Instalação de Debian Lenny com uma PEN USB]]
+
+== Instalação de Debian Squeeze ==
+[[Instalação de Debian Squeeze]]
+
+
+==Outras Distribuições ==
+[[Instalação de RedHat 9]]
+
+
+= Koncepto =
+==koncepto 4.3 ==
+
+As funções em linguagens procedurais no PostgreSQL, como a Pl/pgSQL são correspondentes ao que se chama comumente de ''Stored Procedures''.
+
+
+Por default o PostgreSQL só traz suporte às funções na linguagem SQL. Para dar suporte à funções em outras linguagens temos que efetuar procedimentos como a seguir.
+
+
+Para que o banco postgres tenha suporte à linguagem de procedimento Pl/PgSQL executamos na linha de comando como super usuário do PostgreSQL:
+
+
+ '''createlang plpgsql –U nomeuser nomebanco''' no prompt
+
+ou
+
+ '''create language plpgsql'''
+
+
+===licenciamento===
+
+ Koncepto Magnific Licence Writer v1.0
+ Sindesi - Sistemas e Soluções Informáticas, LDA.
+ 
+ ########################################################################
+ # NOTA: É expressamente proibido o uso indevido e não autorizado desta
+ # ferramenta por parte de outrem que não técnicos certificados da
+ # Sindesi - Sistemas e Soluções Informáticas, LDA.
+ ########################################################################
+ 
+ Caso as condições acima não se verificarem, e ainda
+ assim continuar o uso indevido desta ferramenta,
+ prepare-se pois o programador é maluco e vai lhe dar com um pau de marmeleiro plas costas abaixo!
+ 
+ Introduza a password de acesso: [1827]
+ ACESSO AUTORIZADO!
+ Bem vindo mestre...
+ 
+ A ler o hardware da máquina, por favor aguarde!
+ Leitura efectuada com sucesso!
+ 
+ Ficheiro de entrada: ../config/data.xml
+ Ficheiro de saída: ./data.bin
+ Deseja continuar? [Y/n] Y 
+ 
+ 
+ AVISO: A gravar licença...
+ INFO: Licença criada e codificada com sucesso. (data.bin) 
+ #
+
+
+ ln -s libreadline.so.5 libreadline.so.6
+
+libncurses5-dev
+
+libqt3-mt
+
+lshw

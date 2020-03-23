@@ -1,0 +1,355 @@
+=Análise de LOGs=
+
+==client.log==
+
+ ./client: error while loading shared libraries: libpq.so.3: cannot open shared object file: No such file or directory
+
+
+isto acontece porque a biblioteca libpq.so.3 que o programa está à procura, não existe. 
+É necessário colocar a respectiva ligação para esta ou para uma biblioteca equivalente
+
+ cd /usr/lib
+ ln -s libpq.so.5 libpq.so.3
+
+
+==server.log==
+
+ Koncepto database 0(koncepto@192.168.20.200) open ERROR (QPSQL: Unable to connect)
+
+
+O ip do server.ini não coincide com o IP a que o postgresql deu privilégios de acesso à base de dados.
+é necessário corrigir o ficheiro
+
+ vim /etc/postgresql/8.4/main/pg_hba.conf 
+
+reiniciar o postgresql
+
+ /etc/init.d/postgresql  restart
+
+
+
+
+
+
+
+=Porque tenho erro de "Falha de ligação ao printserver"?=
+Razões:
+*Impressora desligada
+*IP de base de dados não corresponde ao IP da máquina
+*Cabo de impressora defeituoso: alterar parametros de comunicação
+
+=Licença não reconhecida=
+No caso de Hasps paralelas, o módulo '''aksparlnx''' tem de ser compilado e instalado de acordo com o kernel a correr.
+
+= Bad locale!!! =
+
+<pre>
+koncepto=# select * from profiles;
+ id |      name      | type | lang_id | currency_id |      locale      | reserv_index_id
+----+----------------+------+---------+-------------+------------------+-----------------
+  3 | Empregado      |    2 |       2 |           1 |                  |               0
+  4 | Gerente        |    2 |       2 |           1 |                  |      1087136864
+  5 | Técnico        |    2 |       2 |           1 |                  |      1439364192
+  1 | Global Profile |    0 |       2 |           1 | en_US.ISO-8859-1 |               0
+(4 registros)
+
+koncepto=# update profiles set locale='pt_PT.UTF-8' WHERE id=1;
+</pre>
+
+= GPG error =
+A ler a lista de pacotes:
+<pre>
+W: GPG error: http://ftp.pt.debian.org etch Release: 
+As seguintes assinaturas não puderam ser verificadas porque a chave pública não está disponível: 
+NO_PUBKEY 9AA38DCD55BE302B
+W: GPG error: http://security.debian.org etch/updates Release: 
+As seguintes assinaturas não puderam ser verificadas porque a chave pública não está disponível: 
+NO_PUBKEY 9AA38DCD55BE302B
+</pre>
+
+Comando para importar a chave pública em falta:
+<pre>
+gpg --keyserver wwwkeys.eu.pgp.net --no-default-keyring --primary-keyring /etc/apt/trusted.gpg --recv 9AA38DCD55BE302B
+</pre>
+
+= Recuperar o GRUB =
+
+Entrar no live CD de um Ubuntu, e de seguida abrir uma consola:
+
+<pre>
+sudo mkdir /mnt/root
+sudo mount -t ext3 /dev/sda6 /mnt/root
+sudo mount -t proc none /mnt/root/proc
+sudo mount -o bind /dev /mnt/root/dev
+sudo chroot /mnt/root /bin/bash
+grub-install
+</pre>
+
+= Dns Dinâmico = 
+
+==Preparação de Cliente==
+
+[[image:download.png|thumb|[[media:dns_client.tgz]]]]
+
+
+
+ 
+Verificar a versão do S.O. Linux
+ cat /etc/debian_version
+
+ cat /etc/redhat-release
+
+ lsb_release -a
+
+
+
+Actualizar as listas 
+ apt-get update
+
+
+
+Em Sarge & Etch
+  apt-get -y --force-yes install bind9 dnsutils
+
+
+Em Lenny & squeeze
+  apt-get -y --force-yes install bind9utils dnsutils
+
+
+Substituir 'nome' pelo nome que se quer atribuir ao DNS. EX: 'nome'.sindesi.pt
+ HOSTNAME=nome
+
+
+
+<pre>
+ dnssec-keygen -a hmac-md5 -b 128 -n host $HOSTNAME.sindesi.pt
+ mkdir nsupdate
+ mv K* nsupdate
+ secret=`cat nsupdate/K*.private | grep Key | awk -F": " '{ print $2 }'`
+ echo "Chave a colocar no servidor de DNS:"
+ echo -e "key $HOSTNAME.sindesi.pt. {\n        algorithm HMAC-MD5;\n        secret \"$secret\";\n};" 
+</pre>
+
+
+
+Criar o ficheiro /root/updateDNS:
+
+ cd /root/
+ wget http://dl.dropbox.com/u/5468359/updateDNS.tgz
+ wget http://dl.dropbox.com/u/5468359/updateDNS.md5
+ md5sum -c updateDNS.md5 
+ tar zxf updateDNS.tgz
+
+Permissões e executar
+
+ chmod +x updateDNS
+ ./updateDNS
+
+
+Esperar até aparecer a prompt "#"
+ 
+ 
+Um exemplo de um output com exito:
+ root@sdomingos:~# ./updateDNS 
+ Trying www.sindesi.com/ip
+ Creating key...
+ Outgoing update query:
+ ;; ->>HEADER<<- opcode: UPDATE, status: NOERROR, id:      0
+ ;; flags:; ZONE: 0, PREREQ: 0, UPDATE: 0, ADDITIONAL: 0
+ ;; ZONE SECTION:
+ ;sindesi.pt.           IN  SOA
+ 
+ ;; UPDATE SECTION:
+ sdomingos.sindesi.pt.  0   ANY A   
+ sdomingos.sindesi.pt.  300 IN  A   89.180.122.51
+ 
+ Sending update to 62.28.16.181#53
+ Outgoing update query:
+ ;; ->>HEADER<<- opcode: UPDATE, status: NOERROR, id:  19507
+ ;; flags:; ZONE: 1, PREREQ: 0, UPDATE: 2, ADDITIONAL: 1
+ ; ZONE SECTION:
+ ;sindesi.pt.           IN  SOA
+ 
+ ;; UPDATE SECTION:
+ sdomingos.sindesi.pt.  0   ANY A   
+ domingos.sindesi.pt.   300 IN  A   89.180.122.51
+ 
+ ;; TSIG PSEUDOSECTION:
+ sdomingos.sindesi.pt.  0   ANY TSIG    hmac-md5.sig-alg.reg.int. 1350910428 300 16     F3eVJhIxbmuRiDIWY1hqWQ== 19507 NOERROR 0 
+  
+ ; TSIG error with server: tsig indicates error
+  
+ Reply from update query:
+ ;; ->>HEADER<<- opcode: UPDATE, status: NOTAUTH, id:  19507
+ ;; flags: qr; ZONE: 0, PREREQ: 0, UPDATE: 0, ADDITIONAL: 1
+ ;; TSIG PSEUDOSECTION:
+ sdomingos.sindesi.pt.  0   ANY TSIG    hmac-md5.sig-alg.reg.int. 1350910423 300 0  19507   BADSIG 0 
+  
+ root@sdomingos:~# 
+
+
+Um exemplo de um output sem êxito:
+ ; Communication with server failed: operation canceled
+ root@sdomingos:~# 
+
+A hora tem de estar certa. Para isso:
+
+ apt-get install ntpdate
+
+ ntpdate pool.ntp.org
+
+ hwclock --systohc
+
+Editar o Crontab com o comando
+ crontab -e
+
+Adicionar as respectivas entrada no crontab
+ # m h  dom mon dow   command
+ 5 *    *   *   *   ntpdate pool.ntp.org
+ */15 *    *   *   *   /root/updateDNS >/root/updateDNS.log
+
+Reiniciar o crontab
+ /etc/init.d/cron restart
+
+Para ler a chave que tem de estar presente no servidor:
+
+ cat nsupdate/K*.private
+
+==Adicionar a chave no servidor de DNS principal==
+
+É necessário adicionar a chave no servidor de DNS principal.
+ ssh ns1.sindesi.pt
+
+
+Editar o etc/bind/keys.conf
+ vi /etc/bind/keys.conf
+
+
+NO INÍCIO DO FICHEIRO acrescentar uma nova entrada, 
+
+*substituir [hostname] pelo nome desejado e criado anteriormente, 
+
+*substituir [XXXx#X#+x#XxXX/xXX#X#X==] pela key obtida anteriormente.
+
+ key [hostname].sindesi.pt. {
+         algorithm HMAC-MD5;
+         secret "[XXXx#X#+x#XxXX/xXX#X#X==]";
+ };
+
+
+Reiniciar o bind9:
+ /etc/init.d/bind9 restart
+
+==De volta ao cliente para finalizar==
+
+ ./updateDNS
+
+
+*Esperar até aparecer a prompt "#"
+
+*Verificar se o resultado apresenta algo deste género:
+ root@sdomingos:~# ./updateDNS 
+ Trying www.sindesi.com/ip 
+ Creating key...
+ Outgoing update query:
+ ;; ->>HEADER<<- opcode: UPDATE, status: NOERROR, id:      0
+ ;; flags:; ZONE: 0, PREREQ: 0, UPDATE: 0, ADDITIONAL: 0
+ ;; ZONE SECTION:
+ ;sindesi.pt.           IN  SOA
+  
+ ;; UPDATE SECTION:
+ sdomingos.sindesi.pt.  0   ANY A   
+ sdomingos.sindesi.pt.  300 IN  A   89.180.122.51
+  
+ Sending update to 62.28.16.181#53
+ Outgoing update query:
+ ;; ->>HEADER<<- opcode: UPDATE, status: NOERROR, id:  23314
+ ;; flags:; ZONE: 1, PREREQ: 0, UPDATE: 2, ADDITIONAL: 1
+ ;; ZONE SECTION:
+ ;sindesi.pt.           IN  SOA
+ 
+ ;; UPDATE SECTION:
+ sdomingos.sindesi.pt.  0   ANY A   
+ sdomingos.sindesi.pt.  300 IN  A   89.180.122.51
+ 
+ ;; TSIG PSEUDOSECTION:
+ sdomingos.sindesi.pt.  0   ANY TSIG    hmac-md5.sig-alg.reg.int. 1350920982 300 16     a2AJTlTvqYjy5bALiwE6CQ== 23314 NOERROR 0 
+   
+   
+ Reply from update query:
+ ;; ->>HEADER<<- opcode: UPDATE, status: NOERROR, id:  23314
+ ;; flags: qr ra; ZONE: 0, PREREQ: 0, UPDATE: 0, ADDITIONAL: 1
+ ;; TSIG PSEUDOSECTION:
+ sdomingos.sindesi.pt.  0   ANY TSIG    hmac-md5.sig-alg.reg.int. 1350920976 300 16     r9zk3PZXnDCFnoZJ9yulJA== 23314 NOERROR 0 
+ 
+ root@sdomingos:~# 
+ 
+
+*Testar o novo DNS criado
+
+=Instalação de google chrome =
+
+ echo "deb http://dl.google.com/linux/deb/ stable main" >> /etc/apt/sources.list
+ apt-get update
+ apt-get install google-chrome-unstable libdbus-glib-1-2 
+
+ google-chrome https://chrome.google.com/webstore/detail/mpphfcjpaldmedbbomcdhgonmhjngfig?hl=es
+
+= Recuperação de base de Dados PostgreSQL = 
+
+No caso de um sistema de ficheiros ficar danificado a ponto de não ser possível mais arrancar o disco
+poderá ser possível proceder à recuperação da base de dados do sistema.
+Para tal é necessário saber a versão '''exacta''' do Postgresql que estava a correr.
+
+Passo 1: ligar o disco a uma máquina Linux - quer por USB quer por barramento interno
+
+Passo 2: identificar e montar a partição
+
+ root@debian:/media/usb0# ls
+ lost+found
+ root@debian:/media/usb0# cd lost+found/
+ root@debian:/media/usb0/lost+found# ls
+ #130341  #241958  #417    #693536  #693607  #693921  #693991  #694061  #694131  #758054  #758125
+ #130342  #241960  #418    #693537  #693608  #693922  #693992  #694062  #694132  #758055  #758126
+ (...) 
+ #130343  #241961  #419    #693538  #693609  #693923  #693993  #694063  #694133  #758056  #758127
+ #130346  #241967  #532262  #693541  #693612  #693926  #693996  #694066 #694136  #758059  
+
+Neste momento não é possível reconhecer a árvore de directórios. 
+
+
+Passo 3: localizar o directório de dados do sistema. Neste caso sei que se trata da distribuição Debian Sarge, então tenho de encontrar '''/var/lib/pgsql'''
+
+ root@debian:/media/usb0/lost+found# grep -Ri pgsql *
+ #161281/lib/apt/lists/archive.debian.org_debian_dists_sarge_main_binary-i386_Packages:Depends: php4 | php3 | php4-cli | php3-cgi,  php4-gd | php3-gd | php3-cgi-gd, apache | httpd, wwwconfig-common (>= 0.0.7), libphp-phplot (>= 4.4.6-3), libphp-adodb (>= 4.50-1),  debconf, acidlab-pgsql | acidlab-mysql
+ #161281/lib/apt/lists/archive.debian.org_debian_dists_sarge_main_binary-i386_Packages:Suggests: snort-mysql | snort-pgsql
+ (...)
+ <Ctrl-C>
+
+Passo 4: "'''#161281/lib/apt'''" corresponde certamente a '''/var/lib/apt'''
+
+
+ root@debian:/media/usb0/lost+found# cd \#161281/
+ root@debian:/media/usb0/lost+found/#161281# ls
+ backups  cache lib  local  lock  log  mail  opt  run  spool  tmp  www
+ 
+confere! 
+ root@debian:/media/usb0/lost+found/#161281# cd lib/pgsql/
+ root@debian:/media/usb0/lost+found/#161281/lib/pgsql# du -h
+ 4,6M   ./data/base/1
+ 4,4M   ./data/base/17141
+ 4,0K   ./data/base/27150/pgsql_tmp
+ 167M   ./data/base/27150
+ 4,6M   ./data/base/961290
+ 180M   ./data/base
+ 152K   ./data/global
+ 33M    ./data/pg_xlog
+ 96K    ./data/pg_clog
+ 213M   ./data
+ 213M   .
+ root@debian:/media/usb0/lost+found/#161281/lib/pgsql# 
+
+É isto mesmo! Agora é proceder ao backup. usar os parâmetros '''zcvfp''' com o programa tar
+
+ root@debian:/media/usb0/lost+found/#161281/lib/pgsql# cd
+ root@debian:~# tar zcvfp pgsql_hpa.tar.gz /media/usb0/lost+found/#161281/lib/pgsql

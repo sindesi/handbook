@@ -1,0 +1,109 @@
+=Sindesi=
+==Documentação==
+===Classificação e Download===
+
+Documentos Oficiais [OFC] 
+
+ Contrato de assistência / prestação de serviços [C-OFC-001-V4]
+ https://docs.google.com/open?id=0B0iSh0O2oqwbV3U1VDZGT3R1T2M (ODT)
+ https://docs.google.com/open?id=0B0iSh0O2oqwbS19zT2xxWkZVTEE (PDF)
+ 
+ Aditamento ao contrato de assistência / prestação de serviços [C-OFC-002-V1]
+ https://docs.google.com/open?id=0B0iSh0O2oqwbNncwQ19jdTROdXc
+ 
+ Contrato de comercial [C-OFC-003-V1]
+  
+ Contrato de agente [C-OFC-004-V1]
+ 
+ Folha de orçamento (casa) [C-OFC-005-V1]
+ https://docs.google.com/open?id=0B0iSh0O2oqwbNHF2ZE42dllkMUU
+ 
+ Folha de orçamento (comercial) [C-OFC-007-V1]
+ 
+ Contrato promessa de compra e venda [C-OFC-006-V1]
+ https://docs.google.com/open?id=0B0iSh0O2oqwbWUtzYkFISmpna2s (ODT)
+ https://docs.google.com/open?id=0B0iSh0O2oqwbc2xjVW5zQlpFVDg (PDF)
+ 
+Documentos de Gestão [GES] 
+
+ Calculadora tabela preços interna [C-GES-001-V2]
+ https://docs.google.com/open?id=0B0iSh0O2oqwba0ZCUXdGaXBTaVE
+ 
+ Calculadora tabela preços comercial  [C-GES-002-V1]
+ 
+ Tabela de preços geral [C-GES-003-V2]
+ https://docs.google.com/open?id=0B0iSh0O2oqwbWGt5Qms0eE5vUTQ (ODS)
+ https://docs.google.com/open?id=0B0iSh0O2oqwbMngtRE1RTGJKbG8 (PDF)
+ 
+ Tabela de comissões comerciais [C-GES-004-V1]
+ 
+ Tabela de comissões parceiros
+ 
+ Tabela de prémios e objectivos de vendedores
+
+Documentos Marketing [MKT]
+ Capa/pasta Sindesi A3+ 
+ https://docs.google.com/open?id=0B0iSh0O2oqwbMDBBZUEyWC0zaDQ (PNG)
+
+ Catálogo genérico [C-MKT-001-V1] 
+ https://docs.google.com/open?id=0B0iSh0O2oqwbbWFrSWZPeUdDaWs (PDF)
+ 
+ Catálogo koncepto [C-MKT-002-V1]
+ https://docs.google.com/open?id=0B0iSh0O2oqwbWUZUUTdIbmJuVXM (PDF)
+  
+ Catálogo backOffice online [C-MKT-003-V1]
+ https://docs.google.com/open?id=0B0iSh0O2oqwbWExtOVZYdU9EOVk (PDF)
+ 
+ Catálogo planos de assistência [C-MKT-004-V1]
+ https://docs.google.com/open?id=0B0iSh0O2oqwbdXlGUnJ1OWhreWc (PDF)
+ 
+ Catálogo troca de software [C-MKT-005-V1]
+ https://docs.google.com/open?id=0B0iSh0O2oqwbNTRKMnA5dWlQUlE (PDF)
+
+Documentos Informativos[INF] 
+
+ Ficha cliente [C-INF-001-V1]
+ https://docs.google.com/open?id=0B0iSh0O2oqwbVzlsTHRXTEdtc0E (ODT)
+ https://docs.google.com/open?id=0B0iSh0O2oqwbUmFVSzBCMW1lMUk (PDF)
+  
+ Lista prospecção/visitas[C-INF-002-V1]
+ https://docs.google.com/open?id=0B0iSh0O2oqwbcldGUjlVaEgwYmc (ODT)
+ https://docs.google.com/open?id=0B0iSh0O2oqwbT0RGMVlwMXVjMUU (PDF)
+ 
+ Ficha de inscrição para colaboradores [C-INF-003-V1]
+ https://docs.google.com/open?id=0B0iSh0O2oqwbb2xTRXZUWlJyWlk (ODT)
+ https://docs.google.com/open?id=0B0iSh0O2oqwbTU9zRlpZNjhYd2M (PDF)
+ 
+ Ficha de dados parceiros [C-INF-004-V1]
+ https://docs.google.com/open?id=0B0iSh0O2oqwbR1VUMHlIWG5mZzQ (ODT)
+ https://docs.google.com/open?id=0B0iSh0O2oqwbX3JmZVpBVXcwZTA (PDF)
+ 
+ 
+ Lista da composição do kit vendedor 
+     
+ Argumentário de vendas
+ 
+ Boas práticas do comissionista
+
+Documentos Técnicos [TEC] 
+
+ Ficha técnica 
+ 
+ Ficha técnica 
+ 
+ Ficha técnica
+
+==Numeração dos contratos de venda==
+
+ A0001... A000n - Sindesi
+ B0001... B000n - Diogo Pinto
+
+ Basicamente é só depois alterar o ficheiro em causa e editar para cada um dos vendedores!
+
+==Dados dos colaboradores/comissionistas==
+===No Activo===
+===EX Colaboradores===
+
+==Dados dos parceiros==
+===No Activo===
+===EX parceiros===

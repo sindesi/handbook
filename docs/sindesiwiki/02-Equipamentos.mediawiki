@@ -1,0 +1,685 @@
+Lista de Hardware Validado:
+*material IBM;
+*impressoras Epson;
+*gavetas genéricas;
+*touchscreens elo;
+*touchscreens groovytouch.
+
+=POS=
+
+==IBM==
+
+===POS===
+{| border="1" 
+! Linux          ||Kernel || IBM type 1 || IBM type 2 || IBM type 3            || IBM type 4    || IBM type 5
+|-
+| Red Hat 9      ||2.4.20 || OK         ||  OK        || requer upgrade à BIOS || nao suportado || ??
+|-
+|Fedora Core 2   ||2.6.5  || OK         ||  OK        || requer upgrade à BIOS || nao suportado || ??
+|-
+|Debian Sarge    ||2.4.27 || OK         ||  OK        || requer upgrade à BIOS || OK            || ??
+|-
+|Debian Etch     ||2.6.18 || OK         ||  OK        || OK                    || nao suportado ||nao suportado
+|-
+| Debian Lenny   || 2.6.26 || ??        ||  ??        || ??                    || ??            || ??
+|-
+| Debian Squeeze || -      || ??        ||  ??        ||??                     || ??            || ??
+|}
+
+
+[[IBM Type III - 4840-xx3|Instalação IBM type 3]]
+
+[[IBM Type I/II - 4840-xx1/2|Instalação IBM type 1 e 2 ]]
+
+
+'''Nota:''' O kernel do Debian dá suporte a apenas 4 portas série
+
+==Linha Branca==
+
+===Touchscreen AQSonic===
+
+
+'''NOTA:''' o modelo PS2 requer um kernel customizado
+
+{| border="1"
+! Linux                   ||Kernel ||  Modelo PS2 || Modelo USB
+|-
+|Fedora Core 2            ||2.6.5  || Não Suportado || '''Bem Suportado'''
+|-
+|Debian Sarge             ||2.4.27 ||Não Suportado || '''Bem Suportado'''
+|-
+|Debian Etch              ||2.6.18 || '''Bem Suportado'''  || '''Bem Suportado'''
+|-
+|Debian Etch and half     ||2.6.26 || Não Suportado || '''Bem Suportado'''
+|-
+| Debian Lenny            || 2.6.26 || Não Suportado
+|-
+| Debian Squeeze          || -      || Não Suportado
+|}
+
+
+
+===Touchscreen LG===
+
+[[Imagem:LG_flatron.jpg|200px]]
+
+Clientes que têm este equipamento:
+* Nails4Us - Barreiro
+* Nails4Us - Glozilife Peninsula
+* Nails4Us - Torres Vedras
+
+
+{| border="1"
+! Linux                   ||Kernel || L1730SF
+|-
+| Red Hat 9               ||2.4.20 || ?? 
+|-
+|Fedora Core 2            ||2.6.5  || ?? 
+|-
+|Debian Sarge             ||2.4.27 || ??
+|-
+|Debian Etch              ||2.6.18 || '''Bem Suportado'''
+|-
+|Debian Etch and half     ||2.6.26 || Não Suportado
+|-
+| Debian Lenny            || 2.6.26 || Não Suportado
+|-
+| Debian Squeeze          || -      || Não Suportado
+|}
+
+==GrupoSistemas==
+
+===POS===
+
+==== FEC RichPOS 3000B====
+
+Clientes que têm este equipamento:
+* praia da Luz
+* Nails4us - Beloura
+* Nails4us - Cascais
+
+
+====FEC RichPOS 3500====
+
+Clientes que têm este equipamento:
+* praia da Luz
+
+
+
+{| border="1"
+! Linux                   ||Kernel ||RichPOS 3500
+|-
+| Red Hat 9               ||2.4.20 || ?? 
+|-
+|Fedora Core 2            ||2.6.5  || ?? 
+|-
+|Debian Sarge             ||2.4.27 || ??
+|-
+|Debian Etch              ||2.6.18 || nao reconhece portas série
+|-
+|Debian Etch and half     ||2.6.26 || '''Bem Suportado'''
+|-
+| Debian Lenny            || 2.6.26 || Não trabalha com o touchscreen
+|-
+| Debian Squeeze          || -      || Comportamento muito lento
+|}
+
+
+====FEC  MegaPOS  MP-3435====
+
+[[Imagem:FECMegaPOSLite.jpg]]
+
+
+
+
+'''Clientes com este equipamento:'''
+*POS cedido pelo fornecedor para efectuar testes
+
+
+
+'''OBS - Drivers em Falta - Debian Squeeze'''
+ 
+*instalar driver de rede rt18168-2-2  (módulo r8169)
+ 
+*instalar driver touch elo (módulo elok_s)
+ 
+*habilitar mais portas série por causa do display (/dev/ttyS5  serve o display)
+
+
+
+
+'''Características Técnicas:'''
+FEC - MegaPOS - MP-3435
+
+
+MegaPOS MP-3435. Com visor de cliente e segundo monitor TFT 15" incorporado
+
+
+Processador
+Intel Atom DC D525 1.8GHz Fanless
+
+
+Memória
+Standard: 1GB exp. 4Gb (1 x 204-pinos DDR3 SDRAM)
+Monitor Táctil LCD
+Tamanho / Resolução
+15” TFT LCD / 1024 x 768
+Brilho
+250 cd/m2
+
+
+Ecrã Táctil
+Resistivo Fujitsu
+IP54
+
+
+Índice de Protecção: 
+5 – Protecção ao pó
+4 – Protecção contra salpicos de líquidos
+
+
+Conectividade E/S
+Portas Série
+3 x Externa: COM1, COM2 (D-Sub) & COM5 (RJ45)
+3 x Interna: COM3 para Ecrã Táctil, COM4 para Display LCM encastrado & COM6 reservada para outros interfaces
+Porta Paralela
+1 x Porta Paralela Bi-direccional
+Porta USB standard
+8 x USB 2.0 (5 x externas: 1 dianteira; 4 traseiras; 3 x internas)
+Porta de Gaveta
+1 x RJ11 12V
+Porta de Teclado
+1 x Teclado PS/2
+Porta de Rede
+1 x RJ45 10/100 Base-T
+Porta VGA
+1 x VGA (D-Sub 15-pin) (Módulo p/ 2º monitor)
+Porta Audio
+1 x Line-out
+
+
+Unidade Disco Rígido
+Disco rígido 2.5” 160Gb SATA ou supoerior
+Compact Flash
+Cartão CF opcional – 1GB, 2GB ou 4GB
+
+
+Visor de Cliente LCM(Módulo de Cristal Líquido)
+
+
+Visor de Cliente encastrado azul c/ retro-iluminação branca(2 Linhas x 20cm)
+
+
+Fonte de Energia
+Fonte de Energia Externa 90W
+
+
+Construção
+ABS + SECC
+Cor da Carcaça
+Cinzento + Silver
+
+
+S/O Suportados
+Windows XP, Windows Embeded POS Ready 2009, Vista, Fedora, SuSE, Linux
+
+
+Dimensões (L x A xC)
+38.2 x 35.6 x 28.5cm (s/ cobertura para cabos)
+38.2 x 35.6 x 38.8cm (c/ cobertura para cabos)
+
+
+Peso
+10Kg
+
+
+Segurança /EMI
+CE, FCC
+
+
+Temperatura Operativa
+0oC ~ 40oC
+
+
+Periféricos Opcionais
+Leitor de Banda Magnética
+Leitor de Banda Magnética pista 1/2
+
+
+Wireless
+Módulo Wireless 11/54MHz com antena integrada
+2º Monitor LCD
+7” ou 15” integrados
+
+===Impressoras===
+
+====Impressora BIRCH====
+
+Compatível com EPSON
+
+===Monitores===
+
+====Monitor BIRCH====
+
+[[Imagem:Birch_touchscreen.jpg| 200px ]]
+
+Clientes que têm este equipamento:
+* FisioGaspar
+* Nails4Us Vigo
+
+''novo'' touchkit
+
+
+{| border="1"
+! Linux                   ||Kernel || Touch Birch
+|-
+|Debian Etch              ||2.6.18 || Novo controlador não funciona bem 
+|-
+|Debian Etch and half     ||2.6.26 || '''Bem Suportado'''
+|-
+| Debian Lenny            || 2.6.26 || '''Bem Suportado'''
+|}
+
+====Monitor Sinocan====
+
+[[Imagem:sinocan_touchscreen.jpg| 200px ]] [[Imagem:sinocan15_touchscreen.jpg| 200px ]]
+
+Clientes que têm este equipamento:
+* Nails4Us - Espinho
+* Nails4Us - Leiria
+* Nails4Us - Albufeira
+* Nails4Us - Tivoli
+* Nails4Us - Viseu
+* Nails4Us - Sintra
+* Restaurante Chef
+
+
+dois interfaces: 
+* série (driver elo)
+* USB (egalax + evtouch)
+
+{| border="1"
+! Linux                   ||Kernel || RS232 + ELO || USB + egalax
+|-
+|Debian Etch              ||2.6.18 || '''Bem Suportado''' || Não suportado
+|-
+|Debian Etch and half     ||2.6.26 || '''Bem Suportado''' || '''Bem Suportado'''
+|-
+| Debian Lenny            ||2.6.26 ||  Não suportado || '''Bem Suportado'''
+|-
+| Debian Squeeze          ||2.6.32 || '''Bem Suportado''' || Não Testado
+|}
+
+==K-POS==
+
+===POS SLIM PC===
+
+[[Imagem:POS_slim450.jpg| 200px ]]
+
+Vem equipado com monitor [[#Monitor_Sinocan|Sinocan]] ou outro
+
+
+
+K-POS Slim K-450, intel ATOM 1.8Ghz, 2Gb RAM
+
+ http://k-pos.pt/POS-K-450.php
+ http://k-pos.pt/documents/POSSLIMPCK-450v2_0.pdf
+ 
+ 00:00.0 Host bridge: Intel Corporation Cedarview DRAM Controller (rev 03)
+ 00:02.0 VGA compatible controller: Intel Corporation Cedarview Integrated Graphics Controller (rev  09)
+00:1b.0 Audio device: Intel Corporation N10/ICH 7 Family High Definition Audio Controller (rev 02)
+ 00:1c.0 PCI bridge: Intel Corporation N10/ICH 7 Family PCI Express Port 1 (rev 02)
+ 00:1d.0 USB Controller: Intel Corporation N10/ICH 7 Family USB UHCI Controller #1 (rev 02)
+ 00:1d.1 USB Controller: Intel Corporation N10/ICH 7 Family USB UHCI Controller #2 (rev 02)
+ 00:1d.2 USB Controller: Intel Corporation N10/ICH 7 Family USB UHCI Controller #3 (rev 02)
+ 00:1d.3 USB Controller: Intel Corporation N10/ICH 7 Family USB UHCI Controller #4 (rev 02)
+ 00:1d.7 USB Controller: Intel Corporation N10/ICH 7 Family USB2 EHCI Controller (rev 02)
+ 00:1e.0 PCI bridge: Intel Corporation 82801 Mobile PCI Bridge (rev e2)
+ 00:1f.0 ISA bridge: Intel Corporation NM10 Family LPC Controller (rev 02)
+ 00:1f.2 SATA controller: Intel Corporation N10/ICH7 Family SATA AHCI Controller (rev 02)
+ 00:1f.3 SMBus: Intel Corporation N10/ICH 7 Family SMBus Controller (rev 02)
+ 01:00.0 Ethernet controller: Intel Corporation 82574L Gigabit Network Connection
+
+==Equi-libra==
+
+===POS===
+
+====Slim 4000====
+
+[[Imagem:pos-slim-4000+b79.jpg]]
+
+Clientes que têm este equipamento:
+* Nails4us - Campo Pequeno
+
+od.POS SLIM 4000 + B79
+
+
+Dimensões: 24.0 cm x 33.5 x 7.2 cm
+
+CARACTERISTICAS:
+* CPU: P4 Celeron 2.5 GHz + Cpu Cooler
+* Memoria: 256 MB DDR DRAM
+* Disco: 3,5" HDD 40GB
+* Compact Flash Socket
+* Portas: 
+** 4 - Serie
+** 4 - USB
+** 1 - Paralela
+** 2 - PS2
+** 1 - RJ 11
+** 1 - CF-Card
+** 1 - 1 Rede 10/100 RJ 45
+** 2 - Slot Expansão PCI
+** CD-ROM Slim 24X
+
+{| border="1"
+! Linux                   ||Kernel ||Slim 4000
+|-
+|Debian Etch              ||2.6.18 || OK
+|-
+|Debian Etch and half     ||2.6.26 || ??
+|-
+| Debian Lenny            || 2.6.26 || OK 
+|}
+
+====MiniPOS====
+[[imagem:pos36x.jpg|200px]]
+
+Clientes que têm este equipamento:
+* Luamel - Posto de Coluna
+
+CARACTERISTICAS:
+
+* Monitor TFT 12" ou 15" Touch Screen
+* Resolução: 800 X 600 ou 1024x768
+* CPU: Intel ULV Celeron M 1 Ghz ( Fanless)
+* Memoria: Ram 512 MB
+* CF 512 MB
+* ou HD 2.5 Slim - 80 GB
+* Portas: 6 - RS-232
+** 2 - USB
+** 2 - Gaveta
+** 1 - Paralela
+** 1 - RJ 45
+* DRIVES: Windows / Linux
+* OPÇÕES: 
+** Display VFD - DISPLAY de Cliente VFD 20 Caracteres externo
+** IC Card - Leitor de Cartões magnéticos
+** W/Lan - Placa de rede s/ Fios
+
+'''NOTA:''' O touchscreen é proprietário e somente disponibiliza binários para algumas distribuições.
+
+{| border="1"
+! Linux                   ||Kernel || MiniPOS
+|-
+|Fedora Core 2            ||2.6.5 || OK
+|}
+
+==JPSáCouto==
+
+===Tsunami T101 Jumper===
+
+[[Imagem:tsunami-t101.jpg|200px]]
+
+{| border="1"
+! Linux                   ||Kernel || Tsunami T101 Jumper
+|-
+| Debian Etch              ||2.6.18 || OK
+|-
+| Debian Lenny            || 2.6.26 || OK 
+|}
+
+
+[[Tsunami T101 Jumper|Instalação Tsunami T101 Jumper]]
+
+==Mobilscan==
+
+===Flytech 345===
+
+[[Imagem:Flypos_345.jpg]]
+
+Clientes que têm este equipamento:
+<nenhum>
+
+
+
+{| border="1"
+! Linux                   ||Kernel || Flytech 345
+|-
+| Debian Etch              ||2.6.18 || OK
+|-
+| Debian Lenny            || 2.6.26 || ?
+|}
+
+
+ Model Name     POS 345
+ Motherboard    C36B
+ Processor  Intel® Atom™ Processor N270 (1.6GHz L2 512K FSB 533MHz)
+ Chipset    Intel® 945GSE  Express chipset + ICH7M
+ System Memory  1 x DDR2 SO-DIMM up to 2GB
+ Graphic Memory     Share System Memory up to 224MB
+ LCD / Touch Panel
+ LCD Size   15" TFT LCD
+ Brightness     250 cd/m²
+ Resolution     1024x768
+ Touch Screen   Resistive
+ Tilt Adjustment    0° ~ 70°
+
+===Flytech 375===
+
+[[Imagem:Flypos_370.jpg]]
+
+Clientes que têm este equipamento:
+* OGMA - linha 5
+* Restaurante S. Macário - S. Pedro do Sul
+* V2M - Sintra
+
+
+{| border="1"
+! Linux                   ||Kernel || Flytech 375
+|-
+| Debian Etch              ||2.6.18 || OK
+|-
+| Debian Lenny            || 2.6.26 || ?
+|}
+
+System:
+*Motherboard Platform- Intel 852GM chipset:
+*Fanless Model: Intel ULV Celeron M 1.0GHz CPU
+*Fan Model: Intel Celeron M 1.5G/ Pentium M 1.8G CPU
+*Storage:SATA HDD or optional Compact Flash Card
+*RAM: Up to 1GB DDR RAM
+*Display: 15” TFT-LCD Display
+*Touch: Resistive type
+*GB LAN
+
+
+Rich I/O Ports
+*Front I/O Ports:
+*USB x 2, Power Button
+*Rear I/O Ports:
+*GB LAN, USB x 4, COM x 4 (COM3/ COM4 with 5V/12V power)
+*Cash Drawer x1, Parallel Printer x1, 2nd VGA ( male with power )
+*Audio: MIC-in, Line out.
+* Wide variety of optional Peripherals:
+**Magnetic Card Reader, 3 Tracks
+**VFD customer display
+**2nd 10”/ 12.1”/ 15” TFT-LCD display
+**Smart IC card / i-Button / Finger print reader
+
+
+
+
+
+Passar como parametro no kernel o 
+
+CONFIG_SERIAL_8250_RUNTIME_UARTS, which is set to 4 on the FC5 kernel.
+
+
+Configurações:
+
+ setserial  /dev/ttyS0  uart 16550A port 0x3f8 irq 0
+ setserial  /dev/ttyS1  uart 16550A port 0x2f8 irq 0
+ setserial  /dev/ttyS2  uart 16550A port 0x3e8 irq 0
+ 
+ stty -F /dev/ttyS0 9600 raw -echo
+ stty -F /dev/ttyS1 9600 raw -echo
+ stty -F /dev/ttyS3 9600 raw -echo
+  
+ # MSR: 
+ # O MSR utiliza uma PS2 (teclado) e o sensor esta na zona exterior
+  
+ # Serial port for 2x20 Display
+ stty -F /dev/ttyS3 raw
+  
+ # Serial port for touch
+ stty -F /dev/ttyS4 raw
+  
+ # Serial port C
+ #stty -F /dev/ttyS5 raw
+
+===Flytech 485===
+[[Imagem:Flytech485.jpg|200px]] [[Imagem:Flytech485_conectores.jpg|150px]]
+
+Clientes que têm este equipamento:
+* 2Duques
+* Cacou
+* 5 Bicas
+* Bombordo
+* V2M - Montijo
+
+
+
+Editar Grub
+
+ vim /etc/default/grub 
+
+A linha tem que ficar da seguinte forma
+
+ GRUB_CMDLINE_LINUX="8250.nr_uarts=8"
+
+
+Editar xorg.conf
+Copiar ficheiro xorg.conf para directoria /etc/X11
+
+
+
+xorg.conf:
+
+<pre>
+# xorg.conf (X.Org X Window System server configuration file)
+#
+# This file was generated by dexconf, the Debian X Configuration tool, using
+# values from the debconf database.
+#
+# Edit this file with caution, and see the xorg.conf manual page.
+# (Type "man xorg.conf" at the shell prompt.)
+#
+# This file is automatically updated on xserver-xorg package upgrades *only*
+# if it has not been modified since the last upgrade of the xserver-xorg
+# package.
+#
+# If you have edited this file but would like it to be automatically updated
+# again, run the following command:
+#   sudo dpkg-reconfigure -phigh xserver-xorg
+
+Section "InputDevice"
+        Identifier      "Generic Keyboard"
+        Driver          "kbd"
+        Option          "XkbRules"      "xorg"
+        Option          "XkbModel"      "pc104"
+        Option          "XkbLayout"     "pt"
+EndSection
+
+Section "InputDevice"
+        Identifier      "Configured Mouse"
+        Driver          "mouse"
+EndSection
+Section "InputDevice"
+        Identifier    "Touchscreen0"
+        Driver        "xfdrvtouch"
+        Option        "Device"         "/dev/ttyS4"
+        Option        "ScreenNo"       "0"
+        Option        "Rotation"       "0"
+        Option        "SwapY"          "0"
+        Option        "DebugLevel"     "0"
+        Option        "AlwaysCore"
+        Option        "UpSound"        "1"
+        Option        "DownSound"      "1"
+        Option        "RightButtonON"  "1"
+EndSection
+
+Section "Device"
+        Identifier      "Configured Video Device"
+#       Driver          "intel"
+        Option          "UseFBDev"              "true"
+EndSection
+
+Section "Monitor"
+        Identifier      "Configured Monitor"
+EndSection
+
+Section "Screen"
+        Identifier      "Default Screen"
+        Monitor         "Configured Monitor"
+EndSection
+
+Section "ServerLayout"
+        Identifier    "Default Layout"
+        Screen        "Default Screen"
+        InputDevice   "Generic Keyboard"
+        InputDevice   "Touchscreen0" "SendCoreEvents"
+EndSection
+
+
+</pre>
+
+====Touchscreen====
+
+ tar zxvf xfdrvtouch.tar.gz 
+ cd Linux/OSE/v1.0.0.6/v1.0.0.6/Xorg/1.6.x-1.9.x/xdrv/src
+ cp xfdrvtouch_drv.so  /usr/lib/xorg/modules/input/.
+
+
+
+====habilitar portas série extra====
+
+Editar o ficheiro /etc/default/grub
+
+===Impressora Orient===
+
+====Representação de simbolo de Euro====
+
+[[Impressoras#Impressoras_Orient]]
+
+'''Driver:''' EPSON TM-T88III 
+
+No driver da EPSON TM-T88III o simbolo de euro não aparece.
+
+
+Wikipédia Code page[http://en.wikipedia.org/wiki/Code_page]
+
+==Toshiba==
+
+===Toshiba ST-A10===
+
+[[Imagem:Toshiba_ST-A10.jpg| 200px ]]
+
+Compatível com Disco IBM type 4
+
+
+{| border="1"
+! Porta Série      ||  endereço || IRQ   || Ligação 
+|-
+| COM 1            || 0x3F8 || 4  || Impressora
+|-
+| COM 2            || 0x2F8  || 3  ||
+|-
+| COM 3            || 0x3E8  || 10  ||
+|-
+| COM 4            || 0x2E8  || 11 ||
+|- 
+| COM 5            || 0x3A0  || 7 ||
+|-
+| COM 6            || 0x2F0  || 5 || Touchscreen
+|}

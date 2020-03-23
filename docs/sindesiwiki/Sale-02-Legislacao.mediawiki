@@ -1,0 +1,127 @@
+[[Imagem:AT.jpg]]  [[Imagem:Financas.jpg|175px]]
+ 
+
+=2012=
+
+==Lista de softwares(programas) de facturação certificados==
+ http://www.portaldasfinancas.gov.pt/pt/consultaProgCertificadosM24.action
+
+==Processo de certificação de software==
+ http://www.softwarecertificado.com/Default.aspx?action=ArticleViewer&target=423
+
+==ARTIGO 115.º - Emissão de recibos e facturas==
+
+ http://www.igf.min-financas.pt/inflegal/codigos_tratados_pela_igf/irs/CIRS_ARTIGO_115.htm
+
+==Código do imposto sobre valor acrescentado==
+ http://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/civa_rep/index_iva.htm
+
+==Decreto-Lei n.º 197/2012 de 24 Agosto== 
+ https://docs.google.com/open?id=0B0iSh0O2oqwbbjR2Z2Zfc1I0WUU
+
+
+==Decreto Lei 198/2012 de 24 de agosto==
+
+ https://docs.google.com/open?id=0B0iSh0O2oqwbeFdOU0ROZTFTREE
+
+==Resumo do Decreto Lei 198/2012 de 24 Agosto==
+
+A 24/08/2012 foi publicado o Decreto-Lei 198/2012, que obriga, a partir de 01/01/2013 todas as entidades sujeitas a IVA à comunicação electrónica de  
+documentos às Finanças.
+
+Todas as pessoas singulares e colectivas que pratiquem operações sujeitas a IVA, são 
+obrigadas a comunicar à Autoridade Tributária, por via electrónica os elementos das 
+facturas, por uma das seguintes vias:
+* Transmissão electrónica de dados em tempo real, integrada em programa de facturação;
+* Transmissão electrónica de dados, mediante ficheiro estruturado com base no SAFT;
+* Inserção directa no Portal das Finanças;
+* Outra via electrónica, a definir por Portaria
+
+Esta comunicação é feita '''até ao 8º dia do mês seguinte à facturação''', não sendo 
+possível a alteração da forma da comunicação electrónica.
+Todas as entidades que estejam obrigadas à produção do ficheiro SAFT só podem 
+fazer esta comunicação pelas 2 primeiras vias.
+Dos elementos de cada factura deve constar:
+* NIF do emitente
+* Número da Factura
+* Data de emissão
+* Tipo de documento
+* NIF do adquirente (no caso de pessoas singulares, apenas quando na emissão da factura solicitem o preenchimento com o NIF)
+* valor tributável da prestação de serviços ou da transmissão de bens
+* taxas aplicáveis
+* motivo justificativo, se aplicável, da não aplicação de IVA
+* montante do IVA liquidado
+
+Foi criado um Beneficio Fiscal no IRS, para as pessoas singulares, no montante de 5% 
+do IVA, com o limite de 250€, das facturas que sejam de prestação de serviços das 
+seguintes actividades:
+* Manutenção e reparação de veículos automóveis
+* Manutenção e reparação de motociclos, de suas peças e acessórios
+* Alojamento, restauração e similares
+* Actividades de salões de cabeleireiros e institutos de beleza
+
+Este Decreto-Lei altera também o regime de bens em circulação objecto de 
+transacções entre sujeitos passivos de IVA, aprovado pelo Decreto-Lei nº 147/2003 
+de 11 de Julho.
+
+A principal alteração a este regime é a obrigatoriedade de comunicação à Autoridade 
+Tributária antes do início do transporte. A única excepção é para sujeitos passivos que 
+no ano anterior tenham um Volume de Negócios inferior a 100.000,00€.
+
+Nos casos em que os documentos são emitidos por programas informáticos, esta 
+comunicação é feita por transmissão electrónica de dados. De seguida a Autoridade 
+Tributária atribui um código de identificação ao documento. Com esse código, o 
+transportador fica dispensado da impressão do documento de transporte.
+
+Sendo guias emitidas por uma tipografia, a comunicação é feita por telefone
+
+==Resumo do Decreto Lei 197/2012 e 198/2012 de 24 Agosto==
+
+No que se refere a Institutos Beleza e Cabeleireiros, Alojamento e Restauração e Manutenção e Reparação de veículos, despesas em que os contribuintes Particulares passam a usufruir de 5% do valor do IVA com limite de 250€, as medidas mais importantes que vão entrar em vigor em 1 de Janeiro de 2013 são:
+ 
+Obrigação por parte da entidade que presta o serviço a enviar á AT (Autoridade Tributária) até ao dia 8 do mês seguinte um ficheiro electrónico normalizado com base no ficheiro SAF-T(PT) contendo os elementos das facturas. (a)
+ 
+Caso o sujeito passivo não esteja obrigado a possuir SAF –T (PT) a comunicação para a AT pode ser feita da seguinte forma:
+ 
+Por inserção directa no Portal das Finanças
+Transmissão electrónica de dados em tempo real integrado em programa de facturação electrónica
+Outra Via electrónica a definir por portaria do MF .
+ 
+Aspectos e Situações a Considerar:
+ 
+A identificação e domicilio do adquirente particular que não seja sujeito passivo de IVA não é obrigatória nas facturas de valor inferior a 1000€, excepto se aquele o solicitar.
+A indicação do NIF do adquirente não sujeito passivo (particular) nunca é obrigatória excepto se aquele o solicitar.
+Os particulares que não se identifiquem com os elementos mencionados devem ser identificados no ficheiro como “Consumidor final”, sendo-lhes atribuídos  nº de contribuinte 999999999. Assim, admito que possa ser enviada informação neste sentido, nos campo em causa, no reporte a efectuar até ao dia 8 do mês seguinte, uma vez que essa será a informação que será extraída do ficheiro SAF-T.
+ 
+Assim e em resultado do entendimento devem os particulares que não pretendam ser identificados quando da emissão da factura, ser identificados como “ Consumidor Final “ e NIF 999999999 e deve serem esses elementos os constantes do ficheiro SAF-T(PT) a transmitir á AT até ao dia 8 do mês seguinte. O Ficheiro SAF-T (PT) pode assim evidenciar particulares que estejam devidamente identificados quando indiquem o seu Nome e NIF e outros que não se identificando constam do ficheiro SAF-T (PT) com a indicação de Consumidor Final e NIF 999999999.
+Se a empresa não é obrigada a possuir SAF-T (PT) a inserção é feita directamente no Portal das Finanças (AT) ou por outra via a definir por portaria do MF , mas apenas inserindo os documentos em que o contribuinte se tenha identificado com o seu Nome e NIF.
+ 
+A identificação por parte do adquirente , permite a dedução a este em sede de IRS , de parte do IVA suportado em aquisições de determinados serviços (Manutenção e Reparação de Veículos , Alojamento e Restauração e Actividades Cabeleireiros e institutos de beleza) , até 5% do Iva suportado com limite global de 250€.
+ 
+Elementos obrigatórios que devem constar na factura :
+
+*NIF do emitente
+
+*Número da Factura
+
+*Data de Emissão
+
+*Tipo de documento (portaria SAF-T (PT)
+
+*NIF do adquirente quando conste da factura
+
+*Valor Tributável
+
+*Taxas Aplicáveis
+
+*Montante de Iva liquidado
+
+*Motivo justificativo da não aplicação de imposto (caso seja aplicável).
+
+
+==Comunicação das Faturas à AT para cumprimento do disposto no Decreto-Lei n.o 198/2012 de 24 de agosto==
+
+ https://docs.google.com/open?id=0B0iSh0O2oqwbRTBrLWlHM0R6NXc
+
+==Portaria n.º 382/2012 de 23 de novembro==
+ http://dre.pt/pdf1sdip/2012/11/22700/0672406740.pdf

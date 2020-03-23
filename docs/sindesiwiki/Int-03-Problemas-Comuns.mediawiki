@@ -1,0 +1,17 @@
+= Windows =
+== Virus "''os icones não aparecem no ecran''" ==
+
+A partir de um ''livecd'' de MS Windows, aceder ao ''Regedit''.
+
+Carregar a árvore que está em ''' ''C:\windows\system32\config\"software"'' '''
+
+Entrar em 
+ '''Localmachine'''
+  '''\-software'''
+   '''\-Microsoft'''
+    '''\-WinNT'''
+     '''\-Winlogon'''
+       (procurar a terceira linha a contar de baixo)
+       modificar essa linha de forma a terminar em "'''userinit.exe'''"
+
+Reiniciar a máquina

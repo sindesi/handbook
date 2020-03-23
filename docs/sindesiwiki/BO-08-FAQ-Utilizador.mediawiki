@@ -1,0 +1,30 @@
+=Porque obtenho a mensagem “Connection with Regi Server fail”?=
+Poderá obter esta mensagem ao abrir a aplicação, caso não seja possível estabelecer uma ligação com o servidor.
+
+=Porque obtenho a mensagem “Connection with Regi Server lost”?=
+Ao obter esta mensagem significa que a ligação entre a aplicação cliente Regi perdeu a ligação com o servidor. 
+
+A partir deste momento, deixará de ter acesso a dados que não estejam residentes em memória e a quaisquer alterações dos mesmos.
+
+=Porque obtenho a mensagem “HASP not present.” ao abrir o Regi?=
+Obtém esta mensagem sempre que a aplicação não detecta a chave de hardware (HASP) correcta no servidor. 
+
+A origem desta situação está na máquina servidor e poderá ser motivada por diversas situações: 
+#A HASP não estar correctamente colocada. 
+#A HASP estar danificada. 
+#O ficheiro de licenciamento ser inválido, ou estar danificado.
+#O ficheiro de licenciamento não esta colocado na pasta correcta.
+
+=Como configurar o servidor de Regi - Regi Manager?=
+Para configurar o Regi Server deverá aceder à janela de serviços do Windows, tipicamente através de “Control Panel – Administrative Tools – Services” e localizar o serviço “Regi Manager”.
+
+Para aceder às propriedades, basta carregar no botão direito do rato. 
+
+Por defeito, deverá encontrar definido o tipo de arranque como automático: “Startup Type: Automatic”, bem como o serviço em funcionamento.
+
+=Como fazer o reset de todas as ligações ao servidor - Regi Manager?=
+De modo a fazer o reset ao servidor deverá parar o serviço e voltar a reinicia-lo. 
+
+A forma mais simples de realizar esta operação é através das operações “start” e “stop” do Regi Visual Manager. 
+
+Em alternativa poderá executa-las através da janela de controlo de serviços do Windows, ou caso o serviço esteja bem configurado, através do reboot do servidor.

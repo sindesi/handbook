@@ -1,0 +1,264 @@
+=Rede=
+
+
+==Dispositivos de Rede Virtuais==
+
+ 2009/09/12
+ Linux Dummy network device
+ Filed under: Linux — Nasser Heidari @ 18:05
+ http://linax.wordpress.com/2009/09/12/linux-dummy-network-device/
+
+A dummy interface is used by TCP/IP to assign an IP address to your machine, which is required for both SLIP and PPP. The reason for a dummy interface is simple: When you connect to an ISP, your IP address is often assigned dynamically, and you never know what the IP address will be in advance. This can cause problems for TCP/IP routines in your kernel that need to know an IP address to function properly. 
+
+TCP/IP is happy when you assign an IP address—the dummy interface IP address—to your machine. The need for an IP address internally is most important when you are not connected to your ISP because many network-aware applications (such as email, newsreaders, and so on) need to have some IP address to connect to, even if it doesn’t lead anywhere. This dummy interface IP address does not conflict with the one assigned by your ISP.
+
+ # modprobe dummy 
+ # ifconfig dummy0 1.2.3.4 netmask 255.0.0.0 
+ # modprobe dummy -o dummy1 
+ # ifconfig dummy1 4.3.2.1 netmask 255.255.0.0
+
+if you need to create 5 dummy interfaces , you can use this command :
+
+ # modprobe dummy numdummies=5
+
+
+==LAN==
+=== Placa de rede RTL8101E ===
+
+r8101-1.aaa.bb.tar.bz2
+
+Download da drive do site oficial:
+
+http://www.realtek.com.tw/Downloads/downloadsView.aspx?Langid=1&PNid=14&PFid=7&Level=5&Conn=4&DownTypeID=3&GetDown=false
+
+Seguir as instruções do readme.
+Desabilitar a driver anterior:
+<pre>
+echo "blacklist r8169" > /etc/modprobe.d/r8169.conf
+depmod -a
+
+update-initramfs -u
+</pre>
+
+Fazer com que o novo módulo carregue automaticamente:
+Adicionar a seguinte linha ao ficheiro ''/etc/modules''
+<pre>
+r8101
+</pre>
+
+Para configurar as opções de carregamento do módulo a 10MB de velocidade:
+<pre>
+echo "options r8101 speed=10 duplex=0 autoneg=0" > /etc/modprobe.d/r8101.conf
+</pre>
+
+
+'''Nota:'''  caso existam backups em  ''/lib/modules/'uname -r`/kernel/drivers/net/'', estes têm de ser retirados antes de executar o ''depmod''
+
+A documentação oficial pode ser encontrada em:
+http://kernel-handbook.alioth.debian.org/ch-modules.html
+
+=== Placa de rede RTL8111/8168B PCI Express Gigabit Ethernet controller (rev 03) ===
+
+Ter os headers e as ferramentas de compilação
+ aptitude install build-essential linux-headers-`uname -r`
+
+
+Descarregar o driver:
+ wget http://download.hetzner.de/drivers/r8168-8.021.00.tar.bz2
+ tar xjf r8168-8.021.00.tar.bz2
+ cd r8168-8.021.00
+
+Compilar e instalar
+ make all
+
+fazer o módulo criado intrinseco com o kernel
+ depmod -a
+
+Colocar o r8169 em Blacklist para que não seja mais invocado
+
+ echo "blacklist r8169" >> /etc/modprobe.d/blacklist
+
+colocar o módulo no initrd
+
+ echo "r8168" >> /etc/initramfs-tools/modules
+
+Recriar o initrd
+
+ update-initramfs -v -u -k `uname -r`
+
+== Rede 3G ==
+
+=== Placa Huawei E220===
+[[Imagem:ModemHuaweiE220.jpg | right | 100 px ]]
+
+Ficheiros necessários: '''umts.tar.gz'''
+
+invocar connect_3g.sh em /etc/rc.serial
+
+*colocar wvdial.conf em /etc/wvdial
+*colocar ficheiro "connect_3g.sh" no path
+**carregar usbserial com parametros
+**carregar huawei driver
+**invoca wvdial
+
+=== Placa Huawei E620===
+[[Imagem:ModemHuaweiE620.jpg | right | 100 px ]]
+
+Ficheiros necessários: '''umts.tar.gz'''
+
+invocar connect_3g.sh em /etc/rc.serial
+
+*colocar wvdial.conf em /etc/wvdial
+*colocar ficheiro "connect_3g.sh" no path
+**carregar usbserial com parametros
+**carregar huawei driver
+**invoca wvdial
+
+
+=== Placa ZTE MF620 ===
+[[Imagem:ModemHuaweiZTE.jpg | right | 100 px ]]
+Depois de alguma pesquisa verifiquei que é difícil colocar a funcionar, em Linux, a placa ZTE MF620 para acesso à Internet Móvel de Banda Larga. Esta placa é comercializada em Portugal pela TMN. Com alguma pesquisa e persistência lá consegui arranjar forma desta placa funcionar.
+Aqui fica o testemunho que penso ser útil para comunidade linux.
+
+Fiz testes com a placa nas seguintes distribuições e em dois computadores distintos (Portátil ACER 5601AWLMI e num desktop com Pentium IV a 3GHz e 1GB de RAM):
+
+    * Ubuntu 7.10
+    * Fedora 8
+    * PC Linux OS 2007
+
+Funcionou em todas estas distribuições com pequenos ajustes. As diferenças estão relacionadas com os caminhos e com a instalação de pacotes (RPM vs DEB). A explicação seguinte aplica-se ao Ubuntu 7.10, no entanto, e como referi, com pequenas alterações a explicação serve para outras distribuições.
+
+Breve explicação sobre a placa ZTE MF620
+
+Quando esta placa é ligada à porta USB, seja em Windows ou em Linux (penso que em Mac OS X também, mas não pude testar), o sistema operativo reconhece um dispositivo de armazenamento onde estão os drivers da placa para Windows. Assim, para instalar esta placa, não é necessário nenhum CD nem outro suporte onde estejam os drivers. Para que esta placa funcione como modem de acesso à Internet é necessário alterar o seu modo de funcionamento, isto é, desactivar a sua função de dispositivo de armazenamento e colocá-la a funcionar como um modem USB. Estamos portanto na presença de uma placa que, do ponto de vista do sistema operativo, pode ser vista como dois dispositivos distintos. Esta alteração, no nosso caso, em Linux, é feita pelo programa USB_ModeSwitch.
+
+E agora, mãos à obra...
+
+Em primeiro lugar é necessário abrir uma consola, acessível através de Aplicações -> Acessórios -> Consola.
+De seguida é necessário abrir uma sessão de superutilizador, o que pode ser feito com o comando:
+
+ $ sudo su -
+
+Instalar o wvdial
+Caso esta aplicação não esteja instalada é necessário fazer o seguinte:
+
+ # apt-get install wvdial
+
+Instalar o gcom
+Caso esta aplicação não esteja instalada é necessário fazer o seguinte:
+
+ # apt-get install gcom
+
+Instalar o USB_ModeSwitch
+Pode ser necessário instalar a libusb. Para isso é necessário executar o comando:
+
+ # apt-get install libusb-dev
+
+Fazer download e compilar o USB_ModeSwitch
+
+ # wget http://www.draisberghof.de/usb_modeswitch/usb_modeswitch-0.9.2.tar.bz2
+ # tar -jxvf usb_modeswitch-0.9.2.tar.bz2
+ # cd usb_modeswitch-0.9.2
+ # ./compile.sh
+
+Copiar ficheiros para a localização destino
+
+ # cp usb_modeswitch /usr/sbin/
+
+==== Configurações ====
+
+É necessário editar o ficheiro /etc/wvdial.conf e colocar neste ficheiro o seguinte conteúdo
+
+ Init2 = ATQ0 V1 E1 S0=0 &C1 &D2 +FCLASS=0
+ Modem Type = Analog Modem
+ ; Phone =
+ ISDN = 0
+ ; Username =
+ Init1 = ATZ
+ ; Password =
+ Modem = /dev/ttyUSB0
+ Baud = 460800
+ [Dialer tmn]
+ Init2 = ATZ
+ Init3 = AT+CGDCONT=1,"ip","internet"
+ Stupid Mode = 1
+ ISDN = 0
+ Phone = *99***1#
+ Ask Password = 0
+ Modem = /dev/ttyUSB0
+ Username = tmn
+ Dial Command = ATD
+ Password = tmn
+ Baud = 460800
+
+É necessário editar o ficheiro /etc/usb_modeswitch.conf e retirar os comentários na zona relativa à placa ZTE. O ficheiro fica com o seguinte conteúdo.
+
+ ########################################################
+ # ZTE MF620 (Experimental)
+ #
+ # Message string taken from a sniffer log. Untested!
+ #
+ # Contributor: Flávio Moringa
+ 
+ DefaultVendor=0x19d2
+ DefaultProduct=0x2000
+ 
+ TargetVendor=0x19d2
+ TargetProduct=0x0001
+ 
+ MessageEndpoint=0x04
+ MessageContent="5553424308a0b7870000000000000600000000000000000000000000000000"
+
+É ainda necessário criar o ficheiro /etc/udev/rules.d/15-zte-mf620.rules e colocar este conteúdo:
+
+ ACTION!="add", GOTO="ZTE_End"
+ 
+ # Is this the ZeroCD device?
+ SUBSYSTEM=="usb", SYSFS{idProduct}=="2000",
+ SYSFS{idVendor}=="19d2", GOTO="ZTE_ZeroCD"
+ 
+ # Is this the actual modem?
+ SUBSYSTEM=="usb", SYSFS{idProduct}=="0001",
+ SYSFS{idVendor}=="19d2", GOTO="ZTE_Modem"
+ 
+ LABEL="ZTE_ZeroCD"
+ # This is the ZeroCD part of the card, remove
+ # the usb_storage kernel module so
+ # it does not get treated like a storage device
+ #RUN+="/sbin/rmmod usb_storage"
+ RUN+="/usr/sbin/usb_modeswitch -d 1 -v 0x19d2 -p 0x2000 -V 0x19d2 -P 0x0001"
+ 
+ LABEL="ZTE_Modem"
+ # This is the Modem part of the card, let's
+ # load usbserial with the correct vendor
+ # and product ID's so we get our usb serial devices
+ RUN+="/sbin/modprobe usbserial vendor=0x19d2 product=0x0001",
+ # Make users belonging to the dialout group
+ # able to use the usb serial devices.
+ #MODE="660", GROUP="dialout"
+ MODE="660", GROUP="tty"
+ 
+ LABEL="ZTE_End"
+ 
+Este ficheiro é necessário para que a detecção e activação da placa seja feita quando esta é ligada à porta USB
+
+===== Estabelecer a ligação =====
+
+Para estabelecer a ligação usam-se os seguintes comandos:
+
+ #/usr/sbin/usb_modeswitch -d 1 -v 0x19d2 -p 0x2000 -V 0x19d2 -P 0x0001
+ #/usr/bin/gcom -d /dev/ttyUSB0
+ #/usr/bin/wvdial tmn
+
+O primeiro comando (dos três anteriores) é desnecessário, uma vez que a detecção é feita pelo udev. De qualquer modo, o próprio comando detecta se a placa já se encontra no modo desejado.
+
+===== Dicas =====
+É importante verificar se foram criados os devices necessários. Depois de ligar a placa à porta USB, esta operação demora cerca de 30 segundos. É necessário aguardar.
+
+ # ls /dev/ttyUSB*
+
+Enquanto se aguarda a activação da placa pode ser útil monitorizar o ficheiro de logs.
+
+ # tail -f /var/log/messages
+
+Inexplicavelmente, quando ligo a placa, algumas vezes ela não é correctamente reconhecida. Isto acontece quer em Linux quer em Windows. A forma que encontrei de resolver o problema consiste em desligar a placa do computador, retirar a bateria, voltar a colocar a bateria, e finalmente, voltar a ligar ao computador.

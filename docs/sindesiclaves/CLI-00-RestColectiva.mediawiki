@@ -1,0 +1,9 @@
+=[[OGMA - Oficinas Gerais de Material Aeronáutico]]=
+
+=Cinca(<span style="color:red">Ex-Cliente</span>)=
+
+=Sunviauto(<span style="color:red">Ex-Cliente</span>)=
+
+=ColepCCL(<span style="color:red">Ex-Cliente</span>)=
+
+=Cotesi(<span style="color:red">Ex-Cliente</span>)=

@@ -1,0 +1,416 @@
+=Absorção de CSVs pelo Regi=
+
+==Requisitos==
+Para que as vendas do Koncepto V3 possam ser assimiladas pelo Regi é necessário ter:
+*CSVs de Vendas '''NYYMMDD.CSV'''
+*CSVs de Empregados '''WORKERS.CSV'''
+*CSV de Produtos '''PRODUCTS.CSV'''
+*CSV de Mesas '''TABLES.CSV'''
+
+O procedimento será então criar a estrutura mínina no Koncepto V4 e a partir desta criar as bases no centro de custo no Regi.
+A partir daqui o Regi poderá então processar as vendas.
+
+==Preparação de Dados em Koncepto V4==
+
+===Importação de artigos===
+Importa-se os ficheiros para o Linux com uma base de dados vazia, e cria-se uma lista de artigos baseada nos ficheiros de vendas
+
+ # cat *.csv  | awk -F, '{ print $8 "," $10}' \
+              | sort  | uniq  \
+              | awk -F, '{ print $1"\n"$1"\n"100"\n"$2"\n#\n3333\n16\nNo\n0\nNo\n0\n12.0\nNo,\nNo\n0\n0\n0\n0\n8\n" }' >> produtos2.csv
+
+
+No Koncepto no ''layer'' '''Técnico''' escolhe-se a opção "'''Importar CSV'''"  e carrega-se o ficheiro gerado.
+
+===Importação de Mesas===
+
+Cria-se as mesas conforma o ficheiro '''MESAS.CSV'''. O sincronismo é baseado no nome pelo que este deve ser escrito exactamente como está no ficheiro.
+
+ # cat MESAS.CSV  | grep  "[a-z][a-z][a-z]" | sort 
+
+===Importação de empregados===
+
+Cria-se os empregados conforma o ficheiro '''WORKERS.CSV''' e mais uns quantos a prevenir o sincronismo na situação de algum já ter sido eliminado.
+
+
+==Absorção pelo Regi==
+
+===Parametrizações no Regi===
+
+Com uma base de dados vazia, prepara-se todo o regi para a povoação da base de dados.
+Para tal, cria-se um centro de custo, e configuram-se as comunicações de forma a aceitar CSVs Kv3 e soapServer do k4.
+
+
+===Preparação de base de dados===
+
+Na base de dados, é necessário verificar a tabela '''InterfaceParameter''' e nesta inserir o caminho completo para a localização dos CSVs das vendas.
+
+ InterfaceParameterValue=c:\caminho\para\a\pasta'''
+ InterfaceParameterTypeRef=49
+ ExternaSoftwareRef=ID_do_software   (Confome está descrito no "external software")
+
+
+
+=Configuração de tuneis de rede=
+
+Isto é utilizado no Regi para utilizar uma base de dados numa porta diferente da habitual 1433.
+
+Para isto faz-se passar todo o tráfego por um ''parser'' que irá direccionar todos os dados para a porta desejada
+
+[[Imagem:Regi_dbtunnel.jpg]]
+
+=Geração de Ficheiro SAFT-PT pelo Regi=
+
+==Modificações a fazer na base de dados==
+
+Alteração a fazer nas tabelas para o saft:
+
+Tabela '''Taxclass''' tem que ter qq coisa como:
+
+[[Imagem:TaxClass.jpg]]
+
+
+Na tabela '''TaxName''' deves ter qq coisa como isto
+
+[[Imagem:TaxName.jpg]]
+
+Na tabela '''TaxZone''' deves ter qq coisa
+
+[[Imagem:TaxZone.jpg]]
+
+=Version.xml=
+
+  <?xml version="1.0" encoding="ISO-8859-1" ?> 
+ - <Versions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Version.xsd">
+ - <RegiVersion Version="0.4.6">
+  <DatabaseVersion>0.4.6</DatabaseVersion> 
+  <KonceptoV4Version>4.1.0</KonceptoV4Version> 
+  <CommClassVersion>0.4.1</CommClassVersion> 
+  </RegiVersion>
+ - <RegiVersion Version="0.7.1">
+  <DatabaseVersion>0.7.1</DatabaseVersion> 
+  <KonceptoV4Version>4.2.0</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  </RegiVersion>
+ - <RegiVersion Version="0.7.4">
+  <DatabaseVersion>0.7.4</DatabaseVersion> 
+  <KonceptoV4Version>4.2.10</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  </RegiVersion>
+ - <RegiVersion Version="0.7.5">
+  <DatabaseVersion>0.7.5</DatabaseVersion> 
+  <KonceptoV4Version>4.2.0</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  <IClientGenericVersion>1.7.1</IClientGenericVersion> 
+  <IConsumptionGenericVersion>1.7.1</IConsumptionGenericVersion> 
+  </RegiVersion>
+ - <RegiVersion Version="0.7.6">
+  <DatabaseVersion>0.7.6</DatabaseVersion> 
+  <KonceptoV4Version>4.2.0</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  <IClientGenericVersion>1.7.1</IClientGenericVersion> 
+  <IConsumptionGenericVersion>1.7.1</IConsumptionGenericVersion> 
+  </RegiVersion>
+ - <RegiVersion Version="0.7.9">
+  <DatabaseVersion>0.7.9</DatabaseVersion> 
+  <KonceptoV4Version>4.2.23</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  <IClientGenericVersion>1.7.1</IClientGenericVersion> 
+  <IConsumptionGenericVersion>1.7.1</IConsumptionGenericVersion> 
+  <IKonceptoV4_22Version>1.7.1</IKonceptoV4_22Version> 
+  </RegiVersion>
+ - <RegiVersion Version="0.7.10">
+  <DatabaseVersion>0.7.10</DatabaseVersion> 
+  <KonceptoV4Version>4.2.24</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  <IClientGenericVersion>1.7.1</IClientGenericVersion> 
+  <IConsumptionGenericVersion>1.7.1</IConsumptionGenericVersion> 
+  <IKonceptoV4_22Version>1.7.1</IKonceptoV4_22Version> 
+  </RegiVersion>
+ - <RegiVersion Version="0.7.11">
+  <DatabaseVersion>0.7.11</DatabaseVersion> 
+  <KonceptoV4Version>4.2.24</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  <IClientGenericVersion>1.7.1</IClientGenericVersion> 
+  <IConsumptionGenericVersion>1.7.1</IConsumptionGenericVersion> 
+  <IKonceptoV4_22Version>1.7.1</IKonceptoV4_22Version> 
+  </RegiVersion>
+ - <RegiVersion Version="0.7.12">
+  <DatabaseVersion>0.7.12</DatabaseVersion> 
+  <KonceptoV4Version>4.2.24</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  <IClientGenericVersion>1.7.1</IClientGenericVersion> 
+  <IConsumptionGenericVersion>1.7.1</IConsumptionGenericVersion> 
+  <IKonceptoV4_22Version>1.7.1</IKonceptoV4_22Version> 
+  </RegiVersion>
+ - <RegiVersion Version="0.7.13">
+  <DatabaseVersion>0.7.13</DatabaseVersion> 
+  <KonceptoV4Version>4.2.24</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  <IClientGenericVersion>1.7.1</IClientGenericVersion> 
+  <IConsumptionGenericVersion>1.7.1</IConsumptionGenericVersion> 
+  <IKonceptoV4_22Version>1.7.1</IKonceptoV4_22Version> 
+  </RegiVersion>
+ - <RegiVersion Version="0.8.0">
+  <DatabaseVersion>0.8.0</DatabaseVersion> 
+  <KonceptoV4Version>4.2.25</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  <IClientGenericVersion>1.7.1</IClientGenericVersion> 
+  <IConsumptionGenericVersion>1.7.1</IConsumptionGenericVersion> 
+  <IKonceptoV4_22Version>1.7.1</IKonceptoV4_22Version> 
+  </RegiVersion>
+ - <RegiVersion Version="0.8.1">
+  <DatabaseVersion>0.8.1</DatabaseVersion> 
+  <KonceptoV4Version>4.2.25</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  <IClientGenericVersion>1.7.1</IClientGenericVersion> 
+  <IConsumptionGenericVersion>1.7.1</IConsumptionGenericVersion> 
+  <IKonceptoV4_22Version>1.7.1</IKonceptoV4_22Version> 
+  </RegiVersion>
+ - <RegiVersion Version="0.8.2">
+  <DatabaseVersion>0.8.2</DatabaseVersion> 
+  <KonceptoV4Version>4.2.25</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  <IClientGenericVersion>1.7.1</IClientGenericVersion> 
+  <IConsumptionSunviautoDiarioVersion>1.7.2</IConsumptionSunviautoDiarioVersion> 
+  <IConsumptionGenericVersion>1.7.1</IConsumptionGenericVersion> 
+  <IKonceptoV4_22Version>1.7.1</IKonceptoV4_22Version> 
+  </RegiVersion>
+ - <RegiVersion Version="0.8.3">
+  <DatabaseVersion>0.8.3</DatabaseVersion> 
+  <KonceptoV4Version>4.2.25</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  <IClientGenericVersion>1.7.1</IClientGenericVersion> 
+  <IConsumptionSunviautoDiarioVersion>1.7.2</IConsumptionSunviautoDiarioVersion> 
+  <IConsumptionGenericVersion>1.7.1</IConsumptionGenericVersion> 
+  <IKonceptoV4_22Version>1.7.1</IKonceptoV4_22Version> 
+  </RegiVersion>
+ - <RegiVersion Version="0.8.4">
+  <DatabaseVersion>0.8.4</DatabaseVersion> 
+  <KonceptoV4Version>4.2.25</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  <IClientGenericVersion>1.7.1</IClientGenericVersion> 
+  <IConsumptionSunviautoDiarioVersion>1.7.2</IConsumptionSunviautoDiarioVersion> 
+  <IConsumptionGenericVersion>1.7.1</IConsumptionGenericVersion> 
+  <IKonceptoV4_22Version>1.7.1</IKonceptoV4_22Version> 
+  </RegiVersion>
+ - <RegiVersion Version="0.8.5">
+  <DatabaseVersion>0.8.5</DatabaseVersion> 
+  <KonceptoV4Version>4.2.25</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  <IClientGenericVersion>1.7.1</IClientGenericVersion> 
+  <IConsumptionSunviautoDiarioVersion>1.7.2</IConsumptionSunviautoDiarioVersion> 
+  <IConsumptionGenericVersion>1.7.1</IConsumptionGenericVersion> 
+  <IKonceptoV4_22Version>1.7.1</IKonceptoV4_22Version> 
+  </RegiVersion>
+ - <RegiVersion Version="0.8.6">
+  <DatabaseVersion>0.8.6</DatabaseVersion> 
+  <KonceptoV4Version>4.2.25</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  <IClientGenericVersion>1.7.1</IClientGenericVersion> 
+  <IConsumptionSunviautoDiarioVersion>1.7.2</IConsumptionSunviautoDiarioVersion> 
+  <IConsumptionGenericVersion>1.7.1</IConsumptionGenericVersion> 
+  <IKonceptoV4_22Version>1.7.1</IKonceptoV4_22Version> 
+  </RegiVersion>
+ - <RegiVersion Version="0.8.7">
+  <DatabaseVersion>0.8.7</DatabaseVersion> 
+  <KonceptoV4Version>4.2.25</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  <IClientGenericVersion>1.7.1</IClientGenericVersion> 
+  <IConsumptionSunviautoDiarioVersion>1.7.2</IConsumptionSunviautoDiarioVersion> 
+  <IConsumptionGenericVersion>1.7.1</IConsumptionGenericVersion> 
+  <IKonceptoV4_22Version>1.7.1</IKonceptoV4_22Version> 
+  </RegiVersion>
+ - <RegiVersion Version="0.8.8">
+  <DatabaseVersion>0.8.8</DatabaseVersion> 
+  <KonceptoV4Version>4.2.25</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  <IClientGenericVersion>1.7.2</IClientGenericVersion> 
+  <IConsumptionSunviautoDiarioVersion>1.7.2</IConsumptionSunviautoDiarioVersion> 
+  <IConsumptionGenericVersion>1.7.2</IConsumptionGenericVersion> 
+  <IKonceptoV4_22Version>1.7.1</IKonceptoV4_22Version> 
+  </RegiVersion>
+ - <RegiVersion Version="0.8.9">
+  <DatabaseVersion>0.8.9</DatabaseVersion> 
+  <KonceptoV4Version>4.2.25</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  <IClientGenericVersion>1.7.2</IClientGenericVersion> 
+  <IConsumptionSunviautoDiarioVersion>1.7.2</IConsumptionSunviautoDiarioVersion> 
+  <IConsumptionGenericVersion>1.7.2</IConsumptionGenericVersion> 
+  <IKonceptoV4_22Version>1.7.1</IKonceptoV4_22Version> 
+  </RegiVersion>
+ - <RegiVersion Version="0.9.0">
+  <DatabaseVersion>0.9.0</DatabaseVersion> 
+  <KonceptoV4Version>4.2.25</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  <IClientGenericVersion>1.7.2</IClientGenericVersion> 
+  <IConsumptionSunviautoDiarioVersion>1.7.2</IConsumptionSunviautoDiarioVersion> 
+  <IConsumptionGenericVersion>1.7.2</IConsumptionGenericVersion> 
+  <IKonceptoV4_22Version>1.7.1</IKonceptoV4_22Version> 
+  </RegiVersion>
+ - <RegiVersion Version="0.9.1">
+  <DatabaseVersion>0.9.1</DatabaseVersion> 
+  <KonceptoV4Version>4.2.25</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  <IClientGenericVersion>1.7.2</IClientGenericVersion> 
+  <IConsumptionSunviautoDiarioVersion>1.7.2</IConsumptionSunviautoDiarioVersion> 
+  <IConsumptionGenericVersion>1.7.2</IConsumptionGenericVersion> 
+  <IKonceptoV4_22Version>1.7.1</IKonceptoV4_22Version> 
+  </RegiVersion>
+ - <RegiVersion Version="0.9.2">
+  <DatabaseVersion>0.9.2</DatabaseVersion> 
+  <KonceptoV4Version>4.2.25</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  <IClientGenericVersion>1.7.2</IClientGenericVersion> 
+  <IConsumptionSunviautoDiarioVersion>1.7.2</IConsumptionSunviautoDiarioVersion> 
+  <IConsumptionGenericVersion>1.7.2</IConsumptionGenericVersion> 
+  <IKonceptoV4_22Version>1.7.1</IKonceptoV4_22Version> 
+  </RegiVersion>
+ - <RegiVersion Version="1.0.0">
+  <DatabaseVersion>1.0.0</DatabaseVersion> 
+  <KonceptoV4Version>4.2.25</KonceptoV4Version> 
+  <CommClassVersion>1.7.1</CommClassVersion> 
+  <IKonceptoVersion>1.7.1</IKonceptoVersion> 
+  <IAS400CEVersion>1.0.0</IAS400CEVersion> 
+  <IKabaBenzingGVersion>1.0.0</IKabaBenzingGVersion> 
+  <IMeta4CnVersion>1.7.1</IMeta4CnVersion> 
+  <IPHCVersion>1.7.1</IPHCVersion> 
+  <IKOnceptoV3Version>1.7.1</IKOnceptoV3Version> 
+  <IClientGenericVersion>1.7.2</IClientGenericVersion> 
+  <IConsumptionSunviautoDiarioVersion>1.7.2</IConsumptionSunviautoDiarioVersion> 
+  <IConsumptionGenericVersion>1.7.2</IConsumptionGenericVersion> 
+  <IKonceptoV4_22Version>1.7.1</IKonceptoV4_22Version> 
+  </RegiVersion>
+  </Versions>

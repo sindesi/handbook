@@ -1,0 +1,470 @@
+=Informação ainda por tratar=
+
+
+Chaves RSA para ligaçoes SSH
+ armazém = 192.168.20.197
+ armazem:/home/backup-k/.ssh#
+ como usar: colocar a pasta .ssh na tua home
+ ex: /home/comercial/.ssh
+
+Editar factura nos clientes
+ nails:/opt/koncepto/user/documents# export LD_LIBRARY_PATH=/opt/koncepto/lib:$LD_LIBRARY_PATH
+ nails:/opt/koncepto/bin ./docdesigner 
+
+ ---> abrir manualmente o ficheiro venda-a-dinfeiro
+ ---> cuidado a editar os campos
+
+Comprimir em tar.gz 
+
+ tar -czvf documents_old.tar.gz *kdd 
+
+ c -- compress
+ z -- comprime com gz
+ v -- verify ???
+ f -- nome do ficheiro
+
+Descomprimir em tar.gz
+ tar -zxvf <file>
+
+Trabalhar com vnc
+ 
+ 1. aceder ao cliente por ssh
+ 2. executar servidor vnc: x11vnc -display :0
+ 3. executar cliente de vnc na nossa máquina: xtightvncviewer
+
+Gravar cd no gravador do PC armazém
+ 'cdrecord' '-v' '-eject' 'dev=/dev/hdb' 'speed=40' '-driveropts=burnfree' '-data'  debian-6.0.6-i386-netinst.iso
+
+Jobs da Impressora interna
+ 192.168.20.95:631/jobs?which_jobs=all
+
+
+Drivers placa gráfica
+ /usr/lib/xorg/modules/drivers
+
+Drivers inputs (ratos , teclado)
+ /usr/lib/xorg/modules/input
+
+Editar SideBar
+ MediaWiki:Sidebar
+
+configurar monitor
+ xrandr -s 800x600
+
+=Comandos a aprofundar com MAN=
+
+ Módulos/Drivers: 
+ 
+ insmod
+ rmmode
+ depmod -a
+ modprobe
+
+ formatação:
+ 
+ cert
+ uniq
+ sort
+
+ md5sum
+    
+ iwlist
+
+ fdisk
+ df -h
+ du
+
+ lsusb
+
+ netstat
+
+ info-core utils
+
+ update-rc.d -f gdm stop
+ update-rc.d -f gdm remove
+
+=Comandos EX=
+
+Listar pacotes instalados no Debian:
+ dpkg --get-selections
+
+
+Terminar X em debian squeeze
+ ctrl+alt+F1
+ ctrl c
+
+
+
+Comando para matar processos clicando nas janelas
+ xkill
+
+
+
+Link simbólico (destino--origem)
+ ln -s libpq.so.5 libpq.so.3
+
+
+
+Verificar quais os ficheiros abertos pela aplicação postgresql
+ lsof postgresql  
+
+
+
+Procurar por pacotes disponíveis para instalação
+ apt-cache search ?????
+
+
+
+Mostrar ligações às portas de série
+ cat /proc/tty/driver/serial 
+
+
+
+Verificar o device do touch
+ cat /dev/ttyS0
+
+
+
+Enviar dados para uma porta paralela
+ ls -lah >> /dev/lp0
+
+
+
+Enviar dados para uma porta série
+ ls -lah >> /dev/ttyS0
+
+
+
+
+Adicionar serviço ao arranque do sistema
+ update-rd elorc defaults 20
+
+
+
+Outras funções update-rc.d (exemplos)
+How-To: Managing services with update-rc.d script
+ http://www.debuntu.org/how-to-manage-services-with-update-rc.d
+
+ update-rc.d elorc defaults 20
+ update-rc.d -f gdm stop
+ update-rc.d -f gdm remove 
+ rm /etc/init.d/elorc
+
+
+
+verificar discos existentes
+ fdisk -l
+
+
+
+Corrigir erros de disco
+ fsck -sCy /dev/hda1
+
+
+
+Instalar Headers
+ apt-get install build-essential
+ apt-get install linux-headers-$(uname -r)
+
+
+
+Configurar o wpa_supplicant
+ wpa_passphrase SMCpluz praiadaluz3 >> /etc/wpa_supplicant.conf
+
+
+
+Obter IP por CLI
+ wget -qO - http://sindesi.com/ip
+
+
+
+use the dpkg command to list installed software:
+ dpkg --get-selections
+
+
+
+Criar um Softlink
+ ln -s /usr/lib/libssl.so.0.9.8 /usr/lib/libssl.so.4
+
+
+
+Remover as chaves de ssh já guardadas no sistema
+ rm .ssh/known_hosts
+
+
+
+Remover o postgres do arranque do sistema
+ update-rc.d -f postgresql remove
+
+=Postgres=
+
+
+pgadmin3
+
+psql -hlocalhost -Upostgres koncepto
+
+SELECT * FROM workers
+
+insert into suppliers values(1, 'Unicer'); 
+
+\q
+
+= Configurar IPs para koncepto funcionar =
+
+vi /opt/koncepto/config/client.ini
+
+vi /opt/koncepto/config/pserver.ini
+
+vi /opt/koncepto/config/server.ini
+
+
+vi /etc/postgresql/8.4/main/postgresql.conf 
+
+ listen_addresses = '*'          # what IP address(es) to listen on;
+ port = 5432                             # (change requires restart)
+
+
+
+vi /etc/postgresql/8.4/main/pg_hba.conf 
+
+ # Database administrative login by UNIX sockets
+ local   all         postgres                          trust
+ 
+ # TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD
+ 
+ # "local" is for Unix domain socket connections only
+ local   all         all                               trust
+ 
+ # IPv4 local connections:
+ host    all         all         127.0.0.1/32          trust
+ host    all         all         192.168.20.50/24     trust
+ #host  koncepto2   luis    192.168.20.59/24    trust   # acrescentar outra ligação
+    
+ # IPv6 local connections:
+ host    all         all         ::1/128               md5
+
+= Descrição dos Scripts em /opt/koncepto/bin  =
+
+ Binários:
+ 
+ client  ------------------------------     
+ server  ------------------------------         
+ pserver  -----------------------------
+ soapServer2 --------------------------  
+ designer  ----------------------------     desenhador perfis
+ mapdesigner  -------------------------- desenhador mapas de sala
+ docdesigner  -------------------------     desenhador documentos  
+        
+ 
+ 
+ 
+ exportCSV  ----------------------------exporta para CSV
+ import.log  --------------------------     ?
+ kinstall  ---------------------------- instalador de koncepto
+ ktools  ------------------------------ ferramentas técnicas
+ logoupload  -------------------------- upload de imagem para impresssora
+ 
+ plink  ------------------------------- ferramentas ssh
+ pscp  -------------------------------- ferramentas ssh
+ 
+ 
+ saft  -------------------------------- gera fichriro SAFT    
+ streser  ------------------------------    puxa o koncepto ao limite para testes
+  test.xpm  ----------------------------- uma imagem qqr aqui perdida
+ 
+ 
+ Scripts:
+ 
+ 
+ client.sh  ---------------------------  invoca o programa client
+ pserver.sh  --------------------------  invoca o programa pserver
+ server.sh  ---------------------------  invoca o programa server
+ soapServer2.sh -----------------------  invoca o programa soapServe2
+ 
+ startKoncepto ------------------------  inicia o koncepto
+ stopKoncepto  ------------------------  pára o koncepto
+ 
+ 
+ dump_database.sh  --------------------  faz um backup à base de dados
+ put_database.sh  ---------------------  repõe uma base de dados
+
+
+
+=Ficheiros de configuração do arranque do koncepto=
+
+bash_profile
+ 
+bashrc
+ 
+xinitrc
+
+
+
+=Sistemas Operativos Linux em uso=
+
+
+Red Hat 9                     #cat /etc/redhat_release
+ 
+Fedora Core 2                  - Idem 
+ 
+Debian Sarge   <=>  Debian 3  #cat /etc/debian_version
+ 
+Debian Etch    <=>  Debian 4   - Idem
+ 
+Debian Lenny   <=>  Debian 5   - Idem
+ 
+Debian Squeezy <=>  Debian 6   - Idem
+
+
+
+=Detectar versões dos sistemas & aplicações=
+
+kernel
+ uname -a 
+
+ 
+Versão do S.O. Linux
+ cat /etc/debian_version
+ cat /etc/redhat-release
+ lsb_release -a
+
+
+Versão do Koncepto
+ cd /opt/koncepto/bin
+ export LD_LIBRARY_PATH=/opt/koncepto/lib:$LD_LIBRARY_PATH 
+ ./server -v
+
+
+Versão da Base de Dados do Koncepto;
+ psql -hlocalhost -Upostgres koncepto -c"select * from db_version" -qtA
+
+ 
+Versão do Postgres0:00 /etc/opt/elo-ser/eloser ttyS0
+ psql --version
+
+
+
+=Iniciar cliente koncepto =
+
+ export LD_LIBRARY_PATH=/opt/koncepto/lib:$LD_LIBRARY_PATH
+ /opt/koncepto/bin/client
+
+=Terminar koncepto=
+
+ killall -g server
+ou
+ ./stopkoncepto; ./stopkoncepto
+
+
+
+=Update do koncepto=
+
+
+ wget http://dl.dropbox.com/u/5468359/koncepto_update_pack_4.3.00_rh9_build_snapshot1.tar.gz
+ tar zxvf koncepto_update_pack_4.3.00_rh9_build_snapshot1.tar.gz
+ cd koncepto_update_pack_4.3.00_rh9_build_snapshot1
+ /opt/koncepto/bin/dump_database.sh
+ ./update_koncepto-4.3.00_rh9_build.sh
+
+
+
+
+=XORG -- Generate an xorg.conf file -- debian squeeze=  
+
+
+In order to generate xorg.conf you need to switch to a virtual console using the key combination CTRL + ALT + F1
+
+Now execute the following commands:
+
+
+
+ sudo service gdm stop
+- This command will stop the X.
+
+
+ sudo Xorg -configure 
+- this will generate the xorg.conf file in your home folder (the the proper location)
+
+
+ sudo mv ~/xorg.conf.new /etc/X11/xorg.conf
+- move and rename the newly created xorg file to the correct location
+
+
+ sudo reboot
+- to reboot the machine, and allow the changes to take effect.
+
+=  Ferramentas de acesso remoto =
+
+PROTOCOLO SSH - por defeito usa a porta 22
+ #ssh -XC /.................
+ 
+ sshd 
+ 
+ putty
+
+
+PROTOCOLO VNC - por defeito usa a porta 5900
+ x11vnc  --->> servidor VNC
+ 
+ xtightvncviewer 88.0.242.211 -bgr 
+  
+ tightvncserver
+
+
+PROTOCOLO RDP - por defeito usa a porta 
+ 
+Remote Desktop Client
+
+
+
+= Portas usadas/a configurar =
+
+ 22 ssh
+ 21 ftp
+ 23 telnet
+ 80 http
+ 1120 soap_server
+ 1100 lighttpd (back_office)
+ 3389 RDP
+ 5900 vnc
+ 2080 CCTV Samsung
+
+
+
+=ndisgtk=
+
+Para utilizar drivers wireless do windows
+
+
+
+Linux, pero Linux tiene un software que reconoce los controladores de windows .inf llamado ndiswrapper este nos activa de una los controladores para inalámbricas de windows. Su instalación es muy fácil, basta con abrir la terminal y escribir  lo siguiente.
+
+root@server:~# apt-get install ndisgtk
+
+http://jh3n1redes.wordpress.com/2011/09/05/instalar-tplink-wn723n-en-ubuntu-10-04/
+
+
+
+=CloneZilla Server Edition=
+
+Cloning Linux Systems With CloneZilla Server Edition (CloneZilla SE )
+
+
+http://www.howtoforge.com/cloning-linux-systems-with-clonezilla-server-edition-clonezilla-se
+
+
+Creating An Image Of A Linux System
+ /opt/drbl/sbin/dcs
+
+
+
+= Cores Voltagens das Fontes  =
+
+
+ orange            having 3.3 volt
+ yellow            having +12 volt
+ red               having +5 volt
+ blue              having -12 volt
+ black             having ground
+ Violet and gray   having 5 volt
+ green             is for power switch

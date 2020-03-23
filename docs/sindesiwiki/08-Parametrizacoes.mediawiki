@@ -1,0 +1,318 @@
+= GRUB =
+
+==Definição==
+GNU GRUB é um ''boot loader'' de multi arranque.
+GRUB significa "'''the GRand Unified Bootloader'''".
+
+Resumidamente, o ''boot loader'' é o primeiro programa que executa quando o computador inicia e é responsável por carregar e passar o controlo
+para o kernel de um sistema operativo. Este kernel então initializa o restante sistema operativo.
+
+==Configuração==
+
+===GRUB 1===
+
+Esta versão está presente nas distribuiçoes Debian até à versão Lenny 
+
+O GRUB pode ser configurado em tempo real (por linha de comandos) ou a partir de um ficheiro de configuração.
+
+O ficheiro de configuração do GRUB está habitaulmente localizado em '''/boot/grub/menu.lst''' ou em '''/boot/grub/grub.conf''', e neste podem ser definidos vários parâmetros.
+
+O ficheiro grub pode conter comentários, mas para configurar é preciso ter em atenção de que há 2 tipos de comentários:
+* o "'''#'''" -  comenta as secções que não serão lidos aquando o arranque do computador. 
+* o "'''##'''" - comenta as secções que não serão lidos pelo programa de configuração do grub .
+
+As alterações do ficheiro de configuração poderão ser feitas em variáveis existentes no mesmo.
+
+Por exemplo, para acrescentar a o parâmetro '''vga=771''' em todas as entradas de kernel, bastará colocar 
+
+ ## DO NOT UNCOMMENT THEM, Just edit them to your needs
+ 
+ ## ## Start Default Options ##
+ ## default kernel options
+ ## default kernel options for automagic boot options
+ ## If you want special options for specific kernels use kopt_x_y_z
+ ## where x.y.z is kernel version. Minor versions can be omitted.
+ ## e.g. kopt=root=/dev/hda1 ro
+ ##      kopt_2_6_8=root=/dev/hdc1 ro
+ ##      kopt_2_6_8_2_686=root=/dev/hdc2 ro
+ # kopt=root=/dev/hda1 ro '''vga=771'''
+
+Seguidamente executa-se o '''update-grub'''
+ # update-grub 
+ Searching for GRUB installation directory ... found: /boot/grub
+ Searching for default file ... found: /boot/grub/default
+ Testing for an existing GRUB menu.lst file ... found: /boot/grub/menu.lst
+ Searching for splash image ... none found, skipping ...
+ Found kernel: /boot/vmlinuz-2.6.26-2-686
+ Updating /boot/grub/menu.lst ... done
+
+Outras secções poderão estão descritas no ficheiro de configuração do grub
+
+
+Lista de combinaçoes possiveis para configuracao de resoluçao de ecran em frambuffer:
+
+ VGA Resolution Codes for GRUB & Lilo
+ --- Depth --
+ Colors  bits  640x480  800×600  1024×768  1152×864 1280×1024  1600×1200
+    256    8   vga=769  '''vga=771'''   '''vga=773'''   vga=353   vga=775    vga=796
+  32000    ?   vga=784  vga=787   vga=790   vga= ?    vga=793    vga= ? 
+  65000   16   vga=785  '''vga=788'''   '''vga=791'''   vga=355   vga=794    vga=798
+  16.7M   24   vga=786  vga=789   vga=792   vga=795   vga=799
+
+===GRUB2===
+
+Esta versão está presente nas distribuiçoes Debian a partir de Squeeze.
+
+
+o ficheiro de configuração está em '''/etc/default/grub'''
+e executando o comando '''update-grub2''' este ficheiro gera todos os outros que serão guardados em '''/boot/grub/*'''
+
+
+ # If you change this file, run 'update-grub' afterwards to update
+ # /boot/grub/grub.cfg.
+ 
+ GRUB_DEFAULT=0
+ GRUB_TIMEOUT=5
+ GRUB_DISTRIBUTOR=`lsb_release -i -s 2> /dev/null || echo Debian`
+ GRUB_CMDLINE_LINUX_DEFAULT="quiet"
+ GRUB_CMDLINE_LINUX=""
+ 
+ # Uncomment to enable BadRAM filtering, modify to suit your needs
+ # This works with Linux (no patch required) and with any kernel that obtains
+ # the memory map information from GRUB (GNU Mach, kernel of FreeBSD ...)
+ #GRUB_BADRAM="0x01234567,0xfefefefe,0x89abcdef,0xefefefef"
+ 
+ # Uncomment to disable graphical terminal (grub-pc only)
+ #GRUB_TERMINAL=console
+ 
+ # The resolution used on graphical terminal
+ # note that you can use only modes which your graphic card supports via VBE
+ # you can see them in real GRUB with the command `vbeinfo'
+ #GRUB_GFXMODE=640x480
+ 
+ # Uncomment if you don't want GRUB to pass "root=UUID=xxx" parameter to Linux
+ #GRUB_DISABLE_LINUX_UUID=true
+ 
+ # Uncomment to disable generation of recovery mode menu entries
+ #GRUB_DISABLE_LINUX_RECOVERY="true"
+ 
+ # Uncomment to get a beep at grub start
+ #GRUB_INIT_TUNE="480 440 1"
+
+
+Principais diferenças:
+* a resolução de ecran pode ser passada em modo verboso, ao contrário da versão anterior;
+
+==Configuração Manual do GRUB==
+
+Para um sistema arrancar, é necessário o grub ter conhecimento de:
+* qual o dispositivo onde está o kernel a arrancar;
+* a localização do kernel dentro do dispositivo.
+(pode ser necessário fornecer outros parâmetros como a localização de um initrd, que pode ter informações que por vezes o kernel não tem, e que são críticas no arranque do computador, como por exemplo drivers de placas de rede, ou mais vulgarmente, informação sobre sistemas de ficheiros ou ''bootsplash''.
+
+'''NOTA:''' o GRUB tem uma forma própria de mapear os dispositivos: o primeiro disco será o '''hd0''', o segundo '''hd1''', e assim sucessivamente. As partições são também numeradas a partir de 0.
+
+Assim, se se quiser arrancar o kernel vmlinuz-2.6.26-2-686 que está em /boot da primeira partição do primeiro disco, deve-se fazer:
+
+0. Dar um titulo à coisa 
+
+'''title           Debian GNU/Linux, kernel 2.6.26-2-686'''
+
+1. Indicar o disco:
+
+'''root            (hd0,0)'''
+
+2. indicar o kernel: (neste caso com os parâmetros de localização do '''/''' e como deve ser lido o kernel, neste caso só como leitura '''ro''')
+
+'''kernel          /boot/vmlinuz-2.6.26-2-686 root=/dev/hda1 ro '''
+
+3. Indicar a localização do initrd: (isto é facultativo... pode haver situações em que não seja necessário)
+
+'''initrd          /boot/initrd.img-2.6.26-2-686'''
+
+
+
+
+
+= Postgresql =
+
+
+== Configurar o serviço de Postgresql? ==
+
+#Editar o ficheiro '''/var/lib/pgsql/data/pg_hba.conf'''
+#Retira-se o comentário da linha – “'''host all all 127.0.0.1 255.255.255.0 trust'''”
+#Gravar as alterações
+#Editar o ficheiro '''/var/lib/pgsql/data/postgresql.conf'''
+#Retirar o comentário da linha – “'''tcpip_socket = false'''” e substituir “'''false'''” por “'''true'''”
+#Gravar as alterações
+
+== Iniciar o Postgresql ==
+
+Para iniciar o Postgrest Service deverá:
+*'''service postgresql start'''
+ou
+* '''/etc/init.d/postgresql start'''
+
+
+Reiniciar o Postgrest Service
+*'''service postgresql restart'''
+ou
+* '''/etc/init.d/postgresql restart'''
+
+== Criar uma base de dados vazia ==
+Para criar uma base de dados vazia, corre-se o comando:
+ '''createdb –h ''<hostname>'' –U ''<username>'' koncepto'''
+em que:
+*'''''–h''''' – diz respeito ao endereço da máquina
+*'''''–U''''' – diz respeito ao utilizador
+
+Para abrir um terminal para a base de dados:
+ '''psql –h ''<hostname>'' –U ''<username>'' koncepto'''
+Sair da base de dados
+ '''\q'''
+
+== Como fazer um backup de uma base de dados? ==
+Para fazer um backup de uma base de dados deverá utilizar o script
+*'''/opt/koncepto/bin/dump_database.sh'''
+ou manualmente
+*'''pg_dump –h ''<hostname>'' -U ''<username>'' -f ''<filename.sql>'' ''<dbname>'' '''
+
+== Como fazer backups por e-mail e backups “ready to use” num segundo posto e/ou servidor? ==
+É necessário um script e o pacote "'''sendmail'''"
+
+== Como fazer um restore de uma base de dados? == 
+Para fazer um restore de uma base de dados deverá:
+Utilizar o ''script'':
+* '''./put_database.sh ''<base de dados>'' '''
+ou manualmente
+*Apagar a base de dados existente
+**'''dropdb –h ''<hostname>'' –U ''<username>'' -f ''<filename>'' koncepto'''
+*Criar uma base de dados vazia
+**'''createdb –h ''<hostname>'' –U ''<username>'' koncepto'''
+*Aceder à base de dados
+**'''psql –h ''<hostname>'' –U ''<username>'' koncepto'''
+*Executar o seguinte comando para restaurar a base de dados
+**'''\i ''<filename.sql>'' '''**
+
+== Como aumentar a memória RAM que o postgrest vai utilizar? ==
+Para que tal seja possível é necessário alterar dois ficheiros do sistema: um diz respeito à memória máxima disponibilizada para a base de dados, e o outro é relativo aos próprios parâmetros do PostgreSQL, de forma a adaptar-se o melhor possível à máquina.
+
+
+Qualquer um destes ficheiros, deverão ser manipulados com precaução, pois
+<big>'''uma má configuração pode comprometer na totalidade o serviço de PostgreSQL'''</big>.
+
+==== kernel.shmmax ====
+
+[[image:download.png|thumb|[[media:opt_psql.tgz]]]]
+
+
+Para que a base de dados se possa mexer, é necessário criar espaço para que a mesma se mexa.
+
+Para isso reserva-se espaço na memória, havendo sempre a preocupação de deixar memória suficiente para que o sistema operativo se possa  mexer. 
+
+Para calcular uma boa estimativa da quantidade de memória que se pode alocar, existe a ferramenta '''opt_pgsql.sh''' que devolve os valores actuais e os valores "''óptimos''". 
+
+Os valores actuais são lidos directamente de ''/proc/sys/kernel/shmmax'' e os valores óptimos são calculados a partir da aplicação de uma linearização feita de valores conhecidos.
+
+Regra geral, arredonda-se o valor sugerido por defeito para o último múltiplo de 1000 (i.e. se sugere 760325345, usamos 760325000 ).
+
+[[Imagem:optpsql.jpg]]
+
+O primeiro ficheiro é o '''/etc/sysctl.conf''', e neste dever-se-á acrescentar uma linha relativa à memória dispensada. 
+
+Linha a acrescentar:
+* '''kernel.shmmax = ''<valor>'' '''
+
+O ''<valor>'' difere quanto à quantidade de memória disponível na máquina, e existem uns quantos que já são conhecidos de antigas instalações:
+*'''128 MB''' - 85204992
+*'''256 MB''' - 168493056
+*'''512 MB''' - 329488000 
+*'''1 GB''' - 629145600
+
+==== postgresql.conf ====
+
+Aqui define-se onde e como se aplica a memória alocada.
+
+O ficheiro de configuração de Postgresql,encontra-se localizado em: '''/var/lib/pgsql/data/postgresql.conf'''
+
+Efectuar os seguintes passos:
+*Editar o ficheiro '''/var/lib/pgsql/data/postgresql.conf''', e na secção '''Shared Memory Size''', colocar os valores (assumindo um POS com 128Mb de RAM) apresentados em anexo.
+*Editar o ficheiro '''/etc/sysctl.conf''' e acrescentar a seguinte linha no final
+**'''Kernel.shmmax = 85204992''' || '''kernel.shmmax = 168493056'''
+
+'''Notas:''' toda a informação relativa ao postgrest, é encontrada na directoria /var/lib/pgsql/
+
+= Definições de porta série =
+
+==setserial - Mapeamento das portas ==
+A atribuição de uma porta a um endereço fisico de hardware faz-se com o comando '''setserial'''
+
+por exemplo, o comando: 
+ setserial /dev/ttyS3 uart 16550A irq 6 port 0x2e8
+
+Vai fazer o ''assign'' do endereço '''COM4''' à  '''porta 0x2e8 do IRQ 6''' 
+
+==stty - Configuração das portas ==
+
+para se configurar uma porta utilza-se o comando '''stty'''. O setup de qualquer porta é por defeito '''9600 8N1''' com ''handshaking'', mas tudo se pode modificar
+
+exemplos de configuração da porta COM1 :
+ stty -F  /de/ttyS0 9600  raw -echo              # '''9600 8N1'''
+
+ stty -F  /de/ttyS0 19200 raw -echo              # '''19200 8N1'''
+
+ stty -F  /de/ttyS0 9600  raw -echo ixon ixoff   # '''9600 8N1 sem ''handshaking'' - usa-se em cabos danificados'''
+
+== Red-Hat Based ==
+*'''/etc/rc.serial'''
+
+== Debian Based ==
+
+Versões antes de etch
+
+*'''/etc/init.d/local'''
+*'''/etc/serial.conf'''
+
+Versões posteriores ou iguais a etch
+*'''/etc/rc.local'''
+
+=Criação de segundo desktop virtual em máquina linux=
+
+
+ # cat /opt/koncepto/bin/startKoncepto 
+ #!/bin/sh
+ 
+ export KONCEPTO_HOME=/opt/koncepto/
+ 
+ usr/sbin/logrotate $KONCEPTO_HOME/config/logrotate.conf
+ $KONCEPTO_HOME/bin/server.sh
+ $KONCEPTO_HOME/bin/pserver.sh
+ $KONCEPTO_HOME/bin/client.sh
+ $KONCEPTO_HOME/bin/soapServer2.sh
+  
+ sleep  15 ; '''vncserver -geometry 800x600 -depth 16 :1 & '''
+
+
+
+
+
+ # cat .vnc/xstartup 
+ #!/bin/sh
+ 
+ xrdb $HOME/.Xresources
+ xsetroot -solid grey
+ #x-terminal-emulator -geometry 80x24+10+10 -ls -title "$VNCDESKTOP Desktop" &
+ /opt/koncepto_depil/bin/startKoncepto & 
+ #x-window-manager &
+ /etc/X11/Xsession
+
+
+Resultado de '''ps xf''':
+
+
+ Xtightvnc :1 -desktop X -auth /root/.Xauthority -geometry 800x600 -depth 16 -rfbwait 120000 -rfbauth /root/.vnc/passwd -rfbport 5901 (...)
+  2532 tty1     S      0:00 /bin/sh /root/.vnc/xstartup
+  2536 tty1     S      0:00  \_ x-session-manager
+
+
+Em outro computador abrir o VNC para a porta 5901

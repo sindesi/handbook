@@ -1,0 +1,17 @@
+=Backup do Outlook=
+==Backup da lista de contactos==
+
+Da Pasta C:\Documents and Settings\User\Desktop\Pizzarte\Outlook Backup\Address Book, copiar o ficheiro *.wab, contém a lista de contactos completa.
+
+==Backup dos e-mails==
+
+Copiar toda a pasta C:\Documents and Settings\User\Definições locais\Application Data\Identities. Cujos Ficheiros *.dbx são 
+mails respectivamente.
+
+==Outro Método==
+O Microsoft Outlook 2003, grava de forma automática quando configurado para tal, os e-mails e contactos assim como regras 
+criadas no outlook. 
+ 
+Se tal for o caso basta apenas ir á pasta:
+'''F:\Documents and Settings\user\Definições locais\Application  Data\Microsoft\Outlook''' e salvar o ficheiro '''*.pst''', que contém
+toda a informação.

@@ -1,0 +1,41 @@
+=ZON=
+
+[[image:router_zonhome.jpg | right | 300px]]
+
+{| border="1"
+|IP por omissão || 192.168.1.1
+|-
+|Login || home
+|-
+|Pass  || zonnet
+|}
+
+
+=TP-Link=
+
+==TL-WA730RE  (Extended Range)==
+
+
+{| border="1"
+|login || admin
+|-
+|pass ||  admin
+|}
+
+
+Binário para cionfiguração de Access point: [[media:tplink_WA730RE_cfgExtender.tgz]]
+
+=SMC=
+
+{| border="1"
+|login || admin
+|-
+|pass ||  smcadmin
+|}
+
+
+=VIGOR=
+
+=Conceptronic=
+
+=Thomson=

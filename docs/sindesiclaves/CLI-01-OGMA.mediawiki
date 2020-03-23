@@ -1,0 +1,555 @@
+V.3
+
+ <span style="color:green">Só colocar informação préviamente</span><span   style="color:red"> CONFIRMADA </span><span style="color:green">por SSH, no local do cliente ou outra.</span>
+
+ <span style="color:green">Se não encontrar a informação pretendida, consulte no indíce</span>  Informação Antiga
+
+
+=Observações Gerais=
+
+ <span style="color:green">*</span> 
+ <span style="color:green">*</span> 
+ <span style="color:green">*</span> 
+
+=Tipo de Contrato/Plano=
+
+ <span style="color:green">OBS</span>
+ <span style="color:grey">Obs::</span> 
+
+ <span style="color:green">Contrato</span>
+ <span style="color:grey">Tipo:</span> 
+ <span style="color:grey">Data de início:</span> 
+ <span style="color:grey">Data final:</span> 
+
+=Dados Comerciais=
+
+ <span style="color:green">OBS</span>
+ <span style="color:grey">Obs::</span> 
+
+ <span style="color:grey">Data de adesão do Cliente: </span> 
+ <span style="color:grey">Nome Comercial:</span> 
+ <span style="color:grey">Nome da Empresa:</span> 
+ <span style="color:grey">Nome da Loja:</span> 
+ <span style="color:grey">Nº Contribuinte:</span> 
+ <span style="color:grey">Capital Social:</span> 
+
+=Localização=
+
+ <span style="color:green">OBS</span>
+ <span style="color:grey">Obs::</span> 
+
+ <span style="color:green">Escritório/Loja/Bar/Restaurante/Cantina/Pastelaria/Padaria</span> 
+ <span style="color:grey">Morada:</span> 
+ <span style="color:grey">Localidade:</span> 
+ <span style="color:grey">Cidade:</span> 
+ <span style="color:grey">Código Postal:</span> 
+
+ <span style="color:grey">Coordenadas GPS:</span> 
+
+=Contactos=
+
+ <span style="color:green">OBS</span>
+ <span style="color:grey">Obs::</span> 
+
+ <span style="color:green">Serviços Administrativos</span>
+ *
+ <span style="color:grey">Nome entidade patronal:</span> 
+ <span style="color:grey">TEL:</span> 
+ <span style="color:grey">Email:</span> 
+ * 
+ <span style="color:grey">Nome gerente/administrativo:</span> 
+ <span style="color:grey">TEL:</span> 
+ <span style="color:grey">Email:</span> 
+ *
+ <span style="color:grey">Nome responsável de loja:</span> 
+ <span style="color:grey">TEL:</span> 
+ <span style="color:grey">Email:</span> 
+
+ <span style="color:green">Loja/Bar/Restaurante/Cantina/Pastelaria/Padaria</span>
+ <span style="color:grey">Nome do responsável:</span> 
+ <span style="color:grey">TEL:</span> 
+ <span style="color:grey">Email:</span> 
+
+=DNS=
+
+ ogma-eurest.no-ip.org
+
+ <span style="color:grey">IP fixo:</span> 
+
+ <span style="color:green">OBS</span>
+ <span style="color:grey">Obs:</span>
+
+=ISP Contratado=
+
+ <span style="color:green">OBS</span>
+ <span style="color:grey">Obs:</span> 
+
+ <span style="color:green">Data início contrato</span>
+ <span style="color:grey">Data:</span> 
+
+ <span style="color:green">Dados do ISP</span>
+ <span style="color:grey">ISP-Name:</span> 
+ <span style="color:grey">ISP-Login:</span> 
+ <span style="color:grey">ISP-PWD:</span> 
+ <span style="color:grey">ISP-Velocidade:</span> 
+ <span style="color:grey">ISP-Tipo de comunicação:</span> 
+
+=Router / Rede Wireless=
+
+ <span style="color:green">OBS</span>
+ <span style="color:grey">Obs:</span> 
+
+ <span style="color:grey">Marca/Modelo:</span> 
+
+ <span style="color:green">Configurações:</span> 
+ <span style="color:grey">IP:</span> 
+ <span style="color:grey">Login:</span> 
+ <span style="color:grey">PW:</span> 
+
+ <span style="color:green">Backup das Configurações:</span> 
+ <span style="color:grey">IP:</span> 
+ <span style="color:grey">Path/Link:</span> 
+
+ <span style="color:green">Redes configuradas no router</span>
+ *
+ <span style="color:grey">IP da rede:</span> 
+ <span style="color:grey">máscara:</span> 
+ <span style="color:grey">IP Gateway:</span> 
+ <span style="color:grey">IP DNS server:</span> 
+ *
+ <span style="color:grey">IP da rede:</span> 
+ <span style="color:grey">máscara:</span> 
+ <span style="color:grey">IP Gateway:</span> 
+ <span style="color:grey">IP DNS server:</span> 
+
+ <span style="color:green">Portas das aplicações configuradas no router</span> 
+  *
+ <span style="color:grey">Nome:</span> 
+ <span style="color:grey">IP:</span>  
+ <span style="color:grey">Portas externa:</span> 
+ <span style="color:grey">Portas interna:</span> 
+ *
+ <span style="color:grey">Nome:</span> 
+ <span style="color:grey">IP:</span> 
+ <span style="color:grey">Portas externa:</span> 
+ <span style="color:grey">Portas interna:</span> 
+ *
+ <span style="color:grey">Nome:</span> 
+ <span style="color:grey">IP:</span> 
+ <span style="color:grey">Portas externa:</span> 
+ <span style="color:grey">Portas interna:</span> 
+ *
+ <span style="color:grey">Nome:</span> 
+ <span style="color:grey">IP:</span> 
+ <span style="color:grey">Portas externa:</span> 
+ <span style="color:grey">Portas interna:</span> 
+ *
+ <span style="color:grey">Nome:</span> 
+ <span style="color:grey">IP:</span> 
+ <span style="color:grey">Portas externa:</span> 
+ <span style="color:grey">Portas interna:</span> 
+
+ <span style="color:green">Acesso wireless</span> 
+ *
+ <span style="color:grey">SSID:</span> 
+ <span style="color:grey">PSW:</span> 
+
+=BackOffice Online=
+
+ <span style="color:green">OBS</span>
+ <span style="color:grey">Obs:</span> 
+
+ <span style="color:grey">Versão:</span> 
+ <span style="color:grey">Login:</span>  
+ <span style="color:grey">PWS:</span> 
+ <span style="color:grey">SIFF?:</span> 
+
+=Servidores Regi=
+
+ <span style="color:green">OBS</span>
+ <span style="color:grey">Obs:</span> 
+ *
+ <span style="color:green">Hostname</span>
+ <span style="color:grey">Hostname:</span> 
+ *
+ <span style="color:green">Localização</span>
+ <span style="color:grey">Local:</span> 
+ *
+ <span style="color:green">Configurações Gerais</span>  
+ <span style="color:grey">IP Servidor Regi:</span> 
+ <span style="color:grey">Versão Regi:</span> 
+ <span style="color:grey">Login:</span>  
+ <span style="color:grey">PWS:</span> 
+ *
+ <span style="color:green">SqlServer</span>
+ <span style="color:grey">Versão do SQL:</span> 
+ <span style="color:grey">IP:</span> 
+ <span style="color:grey">Versão da DB:</span> 
+ *
+ <span style="color:green">Sistema Operativo</span> 
+ <span style="color:grey">Windows:</span> 
+ *
+ <span style="color:green">PC/POS</span>
+ <span style="color:grey">Data de aquisição:</span> 
+ <span style="color:grey">CPU:</span> 
+ <span style="color:grey">RAM:</span> 
+ <span style="color:grey">Disco:</span> 
+ <span style="color:grey">Marca/modelo/Type:</span> 
+ <span style="color:grey">P/N:</span> 
+ <span style="color:grey">S/N:</span> 
+
+=Clientes Regi=
+
+ <span style="color:green">OBS</span>
+ <span style="color:grey">Obs:</span> 
+ *
+ <span style="color:green">Hostname</span>
+ <span style="color:grey">Hostname:</span> 
+ *
+ <span style="color:green">Localização</span>
+ <span style="color:grey">Local:</span> 
+ *
+ <span style="color:green">Configurações Gerais</span> 
+ <span style="color:grey">IP Cliente Regi:</span> 
+ <span style="color:grey">Login:</span>  
+ <span style="color:grey">PWS:</span> 
+ *
+ <span style="color:green">Sistema Operativo</span> 
+ <span style="color:grey">Windows:</span> 
+ *
+ <span style="color:green">PC/POS</span>
+ <span style="color:grey">Data de aquisição:</span>  
+ <span style="color:grey">CPU:</span> 
+ <span style="color:grey">RAM:</span> 
+ <span style="color:grey">Disco:</span> 
+ <span style="color:grey">Marca/modelo/Type:</span> 
+ <span style="color:grey">P/N:</span> 
+ <span style="color:grey">S/N:</span> 
+
+=Servidores Koncepto=
+ 
+ <span style="color:green">OBS</span>
+ <span style="color:grey">Obs:</span> 
+ *
+ <span style="color:green">Hostname</span>
+ <span style="color:grey">Hostname:</span> 
+ *
+ <span style="color:green">Localização</span>
+ <span style="color:grey">Local:</span> 
+ *
+ <span style="color:green">Configurações</span>   
+ <span style="color:grey">IP Servidor Koncepto:</span>  
+ <span style="color:grey">Versão Koncepto:</span> 
+ <span style="color:grey">Login:</span> 
+ <span style="color:grey">PWS:</span> 
+ *
+ <span style="color:green">Postgres</span> 
+ <span style="color:grey">Versão:</span> 
+ *
+ <span style="color:green">Base de dados Postgres</span> 
+ <span style="color:grey">IP da DB:</span> 
+ <span style="color:grey">Versão:</span> 
+ *
+ <span style="color:green">Sistema Operativo</span> 
+ <span style="color:grey">Distribuição Linux:</span> 
+ <span style="color:grey">Versão Linux:</span> 
+ *
+ <span style="color:green">PC/POS</span>
+ <span style="color:grey">Data de aquisição:</span>  
+ <span style="color:grey">CPU:</span> 
+ <span style="color:grey">RAM:</span> 
+ <span style="color:grey">Capacidade do Disco:</span> 
+ <span style="color:grey">Marca/modelo/Type:</span> 
+ <span style="color:grey">P/N:</span> 
+ <span style="color:grey">S/N:</span> 
+ *
+ <span style="color:green">Periférico</span>
+ <span style="color:grey">Data de aquisição:</span>  
+ <span style="color:grey">IP:</span> 
+ <span style="color:grey">Porta Hardware</span> 
+ <span style="color:grey">Tipo:</span> 
+ <span style="color:grey">Marca/modelo/Type:</span> 
+ <span style="color:grey">P/N:</span> 
+ <span style="color:grey">S/N:</span> 
+ *
+ <span style="color:green">Periférico</span>
+ <span style="color:grey">Data de aquisição:</span>  
+ <span style="color:grey">IP:</span> 
+ <span style="color:grey">Porta Hardware</span> 
+ <span style="color:grey">Tipo:</span> 
+ <span style="color:grey">Marca/modelo/Type:</span> 
+ <span style="color:grey">P/N:</span> 
+ <span style="color:grey">S/N:</span> 
+ *
+ <span style="color:green">Driver Adicional</span> 
+ <span style="color:grey">Descrição:</span> 
+ <span style="color:grey">Ref:</span> 
+ <span style="color:grey">Site oficial:</span> 
+ <span style="color:grey">Obs:</span> 
+ *
+ <span style="color:green">Driver Adicional</span> 
+ <span style="color:grey">Descrição:</span> 
+ <span style="color:grey">Ref:</span> 
+ <span style="color:grey">Site oficial:</span> 
+ <span style="color:grey">Obs:</span> 
+
+=Clientes Koncepto=
+
+ <span style="color:green">OBS</span>
+ <span style="color:grey">Obs:</span> 
+ *
+ <span style="color:green">Hostname</span>
+ <span style="color:grey">Hostname:</span> 
+ *
+ <span style="color:green">Localização</span>
+ <span style="color:grey">Local:</span> 
+ *
+ <span style="color:green">Configurações</span>   
+ <span style="color:grey">IP Servidor Koncepto:</span> 
+ <span style="color:grey">Versão Koncepto:</span> 
+ <span style="color:grey">Login:</span> 
+ <span style="color:grey">PWS:</span> 
+ *
+ <span style="color:green">Postgres</span> 
+ <span style="color:grey">Versão:</span> 
+ *
+ <span style="color:green">Base de dados Postgres</span> 
+ <span style="color:grey">IP da DB:</span> 
+ <span style="color:grey">Versão:</span> 
+ *
+ <span style="color:green">Sistema Operativo</span> 
+ <span style="color:grey">Distribuição Linux:</span> 
+ <span style="color:grey">Versão Linux:</span> 
+ *
+ <span style="color:green">PC/POS</span>
+ <span style="color:grey">Data de aquisição:</span> 
+ <span style="color:grey">CPU:</span> 
+ <span style="color:grey">RAM:</span> 
+ <span style="color:grey">Capacidade do Disco:</span> 
+ <span style="color:grey">Marca/modelo/Type:</span> 
+ <span style="color:grey">P/N:</span> 
+ <span style="color:grey">S/N:</span> 
+ *
+ <span style="color:green">Periférico</span>
+ <span style="color:grey">Data de aquisição:</span>   
+ <span style="color:grey">IP:</span> 
+ <span style="color:grey">Porta Hardware</span> 
+ <span style="color:grey">Tipo:</span> 
+ <span style="color:grey">Marca/modelo/Type:</span> 
+ <span style="color:grey">P/N:</span> 
+ <span style="color:grey">S/N:</span> 
+ *
+ <span style="color:green">Periférico</span>
+ <span style="color:grey">Data de aquisição:</span> 
+ <span style="color:grey">IP:</span> 
+ <span style="color:grey">Porta Hardware</span> 
+ <span style="color:grey">Tipo:</span> 
+ <span style="color:grey">Marca/modelo/Type:</span> 
+ <span style="color:grey">P/N:</span> 
+ <span style="color:grey">S/N:</span> 
+ *
+ <span style="color:green">Driver Adicional</span> 
+ <span style="color:grey">Descrição:</span> 
+ <span style="color:grey">Ref:</span> 
+ <span style="color:grey">Site oficial:</span> 
+ <span style="color:grey">Obs:</span> 
+ *
+ <span style="color:green">Driver Adicional</span> 
+ <span style="color:grey">Descrição:</span> 
+ <span style="color:grey">Ref:</span> 
+ <span style="color:grey">Site oficial:</span> 
+ <span style="color:grey">Obs:</span> 
+
+=Servidores CCTV=
+
+ <span style="color:green">OBS</span>
+ <span style="color:grey">Obs:</span> 
+ *
+ <span style="color:green">Servidor CCTV</span>
+ <span style="color:grey">Localização:</span> 
+ <span style="color:grey">IP Servidor:</span> 
+ <span style="color:grey">Login:</span> 
+ <span style="color:grey">PWS:</span> 
+ <span style="color:grey">Porta:</span> 
+ <span style="color:grey">Marca/modelo/Type:</span> 
+ <span style="color:grey">P/N:</span> 
+ <span style="color:grey">S/N:</span> 
+
+=Clientes/Software CCTV=
+
+ <span style="color:green">OBS</span>
+ <span style="color:grey">Obs:</span> 
+ *
+ <span style="color:green">Configurações Software</span>
+ <span style="color:grey">Local:</span> 
+ <span style="color:grey">IP do Cliente:</span> 
+ <span style="color:grey">Sistema Operativo:</span> 
+ <span style="color:grey">Software de edição e visualização:</span> 
+ <span style="color:grey">Login no software:</span>  
+ <span style="color:grey">PWS no software:</span> 
+ <span style="color:grey">Porta:</span> 
+
+=Página Web=
+
+ <span style="color:green">OBS</span>
+ <span style="color:grey">Obs::</span> 
+
+ <span style="color:green">Link</span>
+ <span style="color:grey">Link:</span> 
+
+ <span style="color:green">Administrator:</span>
+ <span style="color:grey">Link:</span>  
+ <span style="color:grey">Login:</span> 
+ <span style="color:grey">Psw:</span> 
+
+ <span style="color:green">Outra Informação:</span>
+ 
+ <span style="color:green">*</span> 
+ <span style="color:green">*</span> 
+ <span style="color:green">*</span> 
+
+=Backups DBs deslocalizadas=
+
+ <span style="color:green">DB_KONCEPTO</span>
+ *
+ <span style="color:green">OBS</span>
+ <span style="color:grey">Obs:</span> 
+ *
+ <span style="color:green">Localização do backup</span>
+ <span style="color:grey">IP:</span> 
+ <span style="color:grey">Hostname:</span> 
+ <span style="color:grey">Path/Link Backup da DB:</span> 
+ *
+ <span style="color:green">Sistema/Método utilizado</span>
+ <span style="color:grey">IP:</span> 
+ <span style="color:grey">Hostname:</span> 
+ <span style="color:grey">Método:</span> 
+ <span style="color:grey">Script path:</span> 
+ <span style="color:grey">Cron:</span> 
+
+ <span style="color:green">DB_REGI</span>
+ *
+ <span style="color:green">OBS</span>
+ <span style="color:grey">Obs:</span> 
+ *
+ <span style="color:green">Localização do backup</span>
+ <span style="color:grey">IP:</span> 
+ <span style="color:grey">Hostname:</span> 
+ <span style="color:grey">Path/Link Backup da DB:</span> 
+ *
+ <span style="color:green">Sistema/Método utilizado</span>
+ <span style="color:grey">IP:</span> 
+ <span style="color:grey">Hostname:</span> 
+ <span style="color:grey">Método:</span> 
+ <span style="color:grey">Script path:</span> 
+ <span style="color:grey">Cron:</span> 
+
+
+
+
+=Fotos=
+
+=Dados Antigos=
+
+[[Imagem:OGMA_refeitorio.jpg|right]]
+
+==Escritório==
+; Contactos : António Peres - 912 899 979 email - antonioperes@ogma.pt
+: OGMA - 210 942 700
+
+;Antigo BacktOffice (77): IP - 192.168.1.77
+:Nome - pc3370
+:Acesso Remoto (VNC)
+::no-ip - ogma-eurest.no-ip.org
+::Porta VNC - 5901
+::Password - eurest
+
+;Novo BackOffice (78): IP - 192.168.1.78
+:S.O. - Windows 2003 standard SP2
+:Hardware - Maquina HP DC7800 - Core 2 Duo - 2Gb RAM
+:Software - SQL 2000 standard SP3A
+:Login Windows
+::User - administrator
+::Pass - Ogma.123
+:Nome Maquina - SRVREF01
+:Acesso Remoto (VNC)
+::no-ip - ogma-eurest.no-ip.org
+::Porta VNC - 5902
+::Password - eurest
+:Acesso RDP - Conta de Administrador
+
+{| border="1"
+|-
+! Localização !! Machine !! IP !! Application !! Login !! Password !! Group !! Obs.
+|-
+|Escritório
+|pc3370
+|192.168.1.77
+|VNC
+|porta 5901
+|eurest
+|Regi (antigo)
+|
+|-
+|Escritório
+|HP DC7800 - Core 2 Duo - 2Gb RAM
+|192.168.1.78
+|VNC
+|porta 5902
+|eurest
+|Regi
+|
+|-
+|Escritório
+|HP DC7800 - Core 2 Duo - 2Gb RAM
+|192.168.1.78
+|windows
+|administrator
+|Ogma.123
+|Regi
+|
+
+
+|}
+
+
+<center>
+ Quando for necessária o utilizador e password queira nos contactar 
+ (+351) 219 581 000 ext: 3439 e referir o numero de pedido : 47670
+ 
+ Luis Teixeira
+ Helpdesk Novabase
+ Outsourcing - OGMA SA.
+</center>
+
+==Refeitório==
+
+
+
+===Servidor===
+ 192.168.1.200
+
+===Linha 1===
+[[Imagem:OGMA_refeitorio_linha_1.jpg|right|300 px]]
+ 192.168.1.201
+
+===Linha 2===
+[[Imagem:OGMA_refeitorio_linha_2.jpg|right|300 px]]
+ 192.168.1.202
+
+===Linha 3===
+ 192.168.1.203
+
+===Linha 4===
+
+===Linha 5===
+[[Imagem:OGMA_refeitorio_linha_5.jpg|right|300 px]]
+
+ Flytech 375
+ Celeron 1.8
+ Leitor de Cartões MSR
+ Display de Cliente
+
+ Leitor RFID
+ Gaveta genérica preta
+ IBM TF6-4610

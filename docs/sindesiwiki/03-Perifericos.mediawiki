@@ -1,0 +1,315 @@
+=Porta Paralela=
+
+
+=Porta Série=
+
+Vulgarmente apresentada sob a forma de uma ficha DB-9 ou DB-25, mas também é apresentada noutros encapsulamentos.
+
+
+==Protocolo==
+
+Como Funciona
+
+Como qualquer dispositivo de transmissão serial, os bit são enviados um à um, sequencialmente, e normalmente com bit menos significante primeiro (LSB). Por ser um protocolo assíncrono isto é, sem uma linha de relógio (clock), é responsabilidade do transmissor e do receptor efetuarem controles de tempo para saber quando cada bit inicia e finaliza.
+
+Na sua forma padrão o RS-232 utiliza dois sinais de controle, o RTS (ready to send)  e o CTS (clear to send) para efetuar o controle de fluxo via hardware. Basicamente, quando o transmissor deseja começar um envio ele sinaliza através do pino RTS. O receptor, ao perceber que o transmissor deseja enviar algum dado, prepara-se para recebe-lo e seta o pino CTS. Apenas depois de receber o sinal CTS o transmissor pode começar a transmissão.
+
+Para cada byte existem bit de start e stop; o mais comum é utilizar-se 1 bit de início (start bit) e 1 bit de parada (stop bit), mas é possível encontrar aplicações que utilizam 1,5 ou 2 bit de início/parada. A figura abaixo mostra como a transmissão de um byte ocorre:
+
+Transmissão Byte Serial RS-232
+
+
+Como já citado anteriormente, esta transmissão é assíncrona. Tendo a velocidade de comunicação ajustada nos dois dispositivos inicialmente, cada um deles sabe quanto tempo um bit demora para ser transmitido, e é com base nisto que a identificação dos bit é possível.
+
+No transmissor o envio basicamente resume-se à enviar um bit de início, aguardar um tempo, e enviar os próximos 8 bit + bit de parada, com o mesmo intervalo de tempo entre eles.
+
+No receptor, após a primeira borda de descida (nível lógico de "1" para "0") (start bit) o receptor sabe que uma sequencia de mais 8 bit de dados + bit de parada chegará. Ele também conhece a velocidade de transmissão, então tudo que ele precisa fazer é aguardar o tempo de transmissão entre cada bit e efetuar a leitura. Após receber o bit de parada, a recepção encerra-se e ele volta à aguardar o próximo start bit.
+
+Nos microcontroladores modernos todo este trabalho normalmente é efetuado por uma UART (Universal Asynchronous Receiver Transmitter). Este periférico encarrega-se de efetuar todo o controle e apenas gerar interrupções quando um byte é recebido. No entanto, algumas vezes o microcontrolador utilizado não possui uma UART, ou mesmo ela está sendo utilizada. Nestes casos é possível implementar uma interface serial através de software, tratando a seqüência de transmissão e recepção descrita anteriormente.
+
+Na interface RS232 o nível lógico "1" corresponde à uma tensão entre -3V e -12V e o nível lógico "0" à uma tensão entre 3V e 12V. Valores de tensão entre -3V e +3V são indefinidos e precisam ser evitados. O estado idle da linha é 1 lógico (-V).
+
+Porém a grande maioria dos periféricos que trabalham com portas seriais não utilizam o padrão RS232 para níveis elétricos diretamente. Portanto é sempre necessário um circuito de conversão de nívels TTL/RS232. O circuito integrado mais comum para efetuar esta conversão, de baixo custo, é o MAX232 que possui alimentação TTL.
+
+
+Abaixo você pode ver os dois conectores mais utilizados no padrão RS-232, o DB9 e o DB25, com seus respectivos pinos:
+
+
+==habilitação de portas série em linux==
+
+'''Debian Squeeze'''
+
+Editar
+ vi /etc/default/grub
+
+Modificar esta linha com o numero de portas a habilitar, neste caso 8:
+ GRUB_CMDLINE_LINUX="8250.nr_uarts=8"
+
+Fazer update ao grub o grub
+ update-grub2
+
+Visualizar as ligações às portas de série configuradas no sistema
+  cat /proc/tty/driver/serial 
+ 
+
+
+
+
+CONFIG_SERIAL_8250_RUNTIME_UARTS, which is set to 4 on the FC5 kernel.
+
+The old parameter, CONFIG_SERIAL_8250_NR_UARTS, that defines the maximum 
+number of ports, is set to 32 on the kernel, so unless you need more than 32 ports,
+there is no need to do a recompile.
+ 
+To have more than 4, you must pass a kernel option on boot, 8250.nr_uarts=X.
+If you're using grub, just append that to the "kernel" line, something like this:
+
+ kernel /boot/vmlinuz-2.6.15-1.2054_FC5 ro root=LABEL=/ 8250.nr_uarts=8
+
+Now reboot, and do a 'cat /proc/tty/driver/serial'. It should list 8 ports, this is
+what looks like on my vmware-fc5 setup:
+ 
+ [root@vmfc5 etc]# cat /proc/tty/driver/serial
+ serinfo:1.0 driver revision:
+ 0: uart:16550A port:000003F8 irq:4 tx:0 rx:0 CTS|DSR|CD
+ 1: uart:16550A port:000002F8 irq:3 tx:0 rx:0 CTS|DSR|CD
+ 2: uart:unknown port:000003E8 irq:4
+ 3: uart:unknown port:000002E8 irq:3
+ 4: uart:unknown port:00000000 irq:0
+ 5: uart:unknown port:00000000 irq:0
+ 6: uart:unknown port:00000000 irq:0
+ 7: uart:unknown port:00000000 irq:0
+ [root@vmfc5 etc]#
+
+
+On your machine it should list your real serial port settings...
+There is also a setting if you're using serial support as a module (NOT the
+FC5 default), which is nr_uarts. Something like "insmod serial nr_uarts=8".
+
+
+===POS===
+
+RS232 DB9 DB25
+
+
+{| border="1" 
+|'''CTS''' || Clear To Send  || [DCE –> DTE]
+|-
+|'''DCD''' || Data Carrier Detected (Tone from a modem) ||[DCE –> DTE]
+|-
+|'''DCE''' || Data Communications Equipment || eg. modem
+|-
+|'''DSR''' || Data Set Ready || [DCE –> DTE]
+|-
+|'''DSRS''' ||Data Signal Rate Selector ||[DCE –> DTE] (Not commonly used)
+|-
+|'''DTE''' ||Data Terminal Equipment || eg. computer, printer
+|-
+|'''DTR''' ||Data Terminal Ready || [DTE –> DCE]
+|-
+|'''FG''' ||Frame Ground || (screen or chassis)
+|-
+|'''NC''' ||No Connection
+|-
+|'''RCk'''|| Receiver (external) || Clock input
+|-
+|'''RI''' ||Ring Indicator || (ringing tone detected)
+|-
+|'''RTS''' ||Ready To Send || [DTE –> DCE]
+|-
+|'''RxD''' ||Received Data || [DCE –> DTE]
+|-
+|'''SG''' ||Signal Ground || GND
+|-
+|'''SCTS''' ||Secondary Clear To Send  || [DCE –> DTE]
+|-
+|'''SDCD''' ||Secondary Data Carrier Detected (Tone from a modem) || [DCE –> DTE]
+|-
+|'''SRTS''' ||Secondary Ready To Send || [DTE –> DCE]
+|-
+|'''SRxD''' ||Secondary Received Data || [DCE –> DTE]
+|-
+|'''STxD''' ||Secondary Transmitted Data || [DTE –> DTE]
+|-
+|'''TxD''' || Transmitted Data || [DTE –> DTE]
+|}
+
+Grande parte da confiabilidade do padrão deve-se à sua boa imunidade à ruídos, por ter níveis elétricos diferenciais em suas linhas. Mesmo assim, o padrão RS-232 é destinado à aplicações de curto alcance. Outras interfaces, como RS-485 são mais recomendadas quando grandes distâncias são necessárias.
+
+=Cablagem=
+== Cabos de impressora Epson Série ==
+
+Ligação de cabos com módulo de comunicação série:
+
+*Ficha DB9 Femea;
+*Ficha DB9 Macho.
+
+[[Imagem:db9F-db9M.jpg]]
+
+
+Ligação de cabos de impressora para Epson com módulo de comunicação série:
+
+*Ficha DB9 Femea;
+*Ficha DB25 Macho.
+
+[[Imagem:db9F-db25M.jpg]]
+
+== Conversores USB-Série ==
+
+
+
+pode-se forçar um evento a ficar num ''device'' específifico acrescentando uma regra ao udev:
+
+ '''KERNEL=="input/event*", SYSFS{idVendor}=="0403", NAME=="input/%k", SYMLINK="input/touchscreen%e"'''
+
+no caso de monitores TFT da LG, pode-se utilizar, em vez de '''/dev/input/event[0-9]''' apenas 
+
+ '''ln -s  /dev/input/by-path/pci-0000\:00\:1d.0-usb-0\:2\:1.0-event-  /dev/input/touchscreen'''
+
+Adaptar obviamente o ''device'' ao dispositivo indicado.
+
+== Conflitos entre conversor USB-Série e placas 3G ==
+
+Há um problema quando se utiliza um conversor USB-Série e uma placa 3g na mesma máquina, pois ambos competem pelo mesmo ''device''. 
+* o driver do USB-Série é flexivel, e utiliza o próximo ''device'' disponível;
+* o driver da placa 3G (também dependente de usbserie) é menos tolerante e só funciona nos dois primeiros dispositivos: '''/dev/ttyUSB0''' e '''/dev/ttyUSB1''' (e utiliza os dois!)
+
+A solução passa por obrigar o conversor usb-série a carregar o módulo por último.
+
+Para isso é necessário saber qual o módulo correspondente ao dispositivo e colocá-lo no '''blacklist''' do modprobe.d
+
+'''/etc/modprobe.d/blacklist''':
+
+ # This file lists modules which will not be loaded as the result of
+ # alias expansion, with the purpose of preventing the hotplug subsystem
+ # to load them. It does not affect autoloading of modules by the kernel.
+ # This file is provided by the udev package.
+ 
+ # evbug is a debug tool and should be loaded explicitly
+ blacklist evbug
+ 
+ # these drivers are very simple, the HID drivers are usually preferred
+ blacklist usbmouse
+ blacklist usbkbd
+ 
+ (....)
+ 
+ # no fim colocamos o módulo que não queremos que carregue no arranque
+ '''blacklist pl2303'''
+
+Reiniciando a máquina pode-se verificar após o arranque de que o módulo nao foi carregado
+
+ # '''lsmod  | grep  pl2303'''
+ # 
+
+Agora pode-se carregar o módulo, agora com a certeza de que não vai gerar conflito com o outro
+
+ # '''modprobe pl2303'''
+
+Esta linha pode ser inserida em '''~/.bash_profile''', ficando com este aspecto:
+
+ export USERNAME BASH_ENV PATH
+ if [ $(tty) == /dev/tty1 ]; then
+         '''sleep 5'''              # 5 segundos para dar tempo do modem se ligar completamente
+         '''modprobe pl2303 &'''    # carrega o novo módulo
+         '''sleep 2'''              # aguarda 2 segundos antes de arrancar o software
+         startx               # arranca o interface gráfico e frontoffice
+ fi
+
+
+==Adaptador PCI Série==
+
+Neste caso o "Serial controller: Timedia Technology Co Ltd PCI2S550 (Dual 16550 UART)"
+
+Executando o comando '''lspci -v''' podemos ver os detalhes do módulo.
+Em especial o IRQ a que está associado, e a gama de endereços que tem atribuídos.
+Note-se que a cada porta série corresponde uma gama de endereços de '''8 bytes'''.
+
+Por exemplo:
+
+ # lspci  -v 
+ (...)
+ 04:00.0 '''Serial controller: Timedia Technology Co Ltd PCI2S550 (Dual 16550 UART)''' (rev 01) (prog-if 02 [16550]) 
+         Subsystem: Timedia Technology Co Ltd SER4037A (2x RS232 port)
+         Flags: stepping, medium devsel, '''IRQ 21'''
+         I/O ports at '''d000''' [size=32]
+         Kernel driver in use: serial
+ 
+Vemos que este dispositivo está atribuido ao IRQ 21 e tem o início de endereçamento em 0xD000, ou seja, se houver mais do que uma porta, estas estarão nos endereços: D008, D016, etc 
+
+Podemos comprovar executando o comando '''cat /proc/tty/driver/serial ''' :
+
+ # cat /proc/tty/driver/serial 
+ serinfo:1.0 driver revision:
+ 0: uart:16550A port:000003F8 irq:4 tx:0 rx:18110 RTS|DTR|DSR|CD
+ 1: uart:16550A port:'''0000D000''' irq:'''21''' tx:1809 rx:0 RTS|CTS|DTR|DSR
+ 2: uart:16550A port:0000D008 irq:21 tx:0 rx:0
+ 3: uart:unknown port:000002E8 irq:3
+
+=USB=
+
+
+==configuração de RAID==
+
+[[RAID]]
+==udev==
+
+=== Prolific Technology, Inc. PL2303 Serial Port ===
+
+
+# Introduzir o dispositivo 
+
+# Executar o comando (no respectivo dispositivo detectado)
+ $ udevinfo -a -p $(udevinfo -q path -n '''/dev/ttyUSB0''')
+ou 
+ $ udevadm info --name='''/dev/ttyUSB0''' --attribute-walk 
+
+ (...)
+  looking at device '/class/tty/ttyUSB0':
+    KERNEL=="ttyUSB0"
+    SUBSYSTEM=="tty"
+    DRIVER==""
+    ATTR{dev}=="188:0"
+ 
+  looking at parent device '/devices/pci0000:00/0000:00:1d.1/usb2/2-1/2-1:1.0/ttyUSB0':
+    KERNELS=="ttyUSB0"
+    SUBSYSTEMS=="usb-serial"
+    DRIVERS=="pl2303"
+ 
+  looking at parent device '/devices/pci0000:00/0000:00:1d.1/usb2/2-1/2-1:1.0':
+    KERNELS=="2-1:1.0"
+    SUBSYSTEMS=="usb"
+    DRIVERS=="pl2303"
+    ATTRS{modalias}=="usb:v067Bp2303d0300dc00dsc00dp00icFFisc00ip00"
+    ATTRS{bInterfaceProtocol}=="00"
+    ATTRS{bInterfaceSubClass}=="00"
+    ATTRS{bInterfaceClass}=="ff"
+    ATTRS{bNumEndpoints}=="03"
+    ATTRS{bAlternateSetting}==" 0"
+    ATTRS{bInterfaceNumber}=="00"
+ 
+  looking at parent device '/devices/pci0000:00/0000:00:1d.1/usb2/2-1':
+    KERNELS=="2-1"
+    SUBSYSTEMS=="usb"
+    DRIVERS=="usb"
+    ATTRS{configuration}==""
+    '''ATTRS{product}=="USB-Serial Controller"'''
+    '''ATTRS{manufacturer}=="Prolific Technology Inc."'''
+    ATTRS{maxchild}=="0"
+    ATTRS{version}==" 1.10"
+    ATTRS{devnum}=="4"
+    ATTRS{speed}=="12"
+    ATTRS{bMaxPacketSize0}=="64"
+ (...)
+
+
+
+ # Criar as regras respectivas:
+ # Impressora (/etc/udev/rules.d/44-prolific-printer.rules )
+ KERNEL=="ttyUSB[0-9]*", ATTRS{manufacturer}=="Prolific Technology Inc.", ATTRS{product}=="USB-Serial Controller D", NAME="%k", SYMLINK="USBprinter%n", GROUP="tty", MODE="0660"
+
+ # Touchscreen (/etc/udev/rules.d/44-prolific-touch.rules )
+ KERNEL=="ttyUSB[0-9]*", ATTRS{manufacturer}=="Prolific Technology Inc.", ATTRS{product}=="USB-Serial Controller", NAME="%k", SYMLINK="USBtouch%n", GROUP="tty", MODE="0660"
+
+
+Mais informação em [http://wiki.debian.org/udev|"http://wiki.debian.org/udev"]

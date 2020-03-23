@@ -1,0 +1,11 @@
+[[Imagem:Bem-vindo.jpg]]
+
+<big>'''MediaWiki instalado com sucesso.'''</big>
+
+Consulte o [http://meta.wikimedia.org/wiki/Help:Contents Guia de Utilizadores] para informações acerca de como utilizar o software wiki.
+
+== Começando ==
+
+* [http://www.mediawiki.org/wiki/Help:Configuration_settings Lista de configuração de opções]
+* [http://www.mediawiki.org/wiki/Help:FAQ MediaWiki Perguntas e respostas frequentes]
+* [http://lists.wikimedia.org/mailman/listinfo/mediawiki-announce Lista de e-mail de anúncios de novas versões do MediaWiki]

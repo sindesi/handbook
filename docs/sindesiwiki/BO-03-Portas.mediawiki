@@ -1,0 +1,7 @@
+=Configuração de tuneis de rede=
+
+Isto é utilizado no Regi para utilizar uma base de dados numa porta diferente da habitual 1433.
+
+Para isto faz-se passar todo o tráfego por um ''parser'' que irá direccionar todos os dados para a porta desejada
+
+[[Imagem:Regi_dbtunnel.jpg]]

@@ -1,0 +1,752 @@
+=Monitores e resoluções=
+ 
+==Resolução máxima de 800x600==
+
+O '''xrandr''' devolve que a resolução máxima suportada pelo hardware é de 800x600: 
+
+''(o xrandr não uma ferramenta suportada por todas as distribuições)''
+
+ # xrandr
+ xrandr: Failed to get size of gamma for output default
+ Screen 0: minimum 640 x 480, current 800 x 600, maximum 800 x 600
+ default connected 800x600+0+0 0mm x 0mm
+    800x600        60.0*    56.0  
+    640x480        60.0 
+
+
+Alterações a fazer em '''/etc/X11/xorg.conf''':
+ Section "Device"
+     Identifier "Configured Video Device"
+ EndSection 
+ 
+ Section "Monitor"
+     Identifier "Configured Monitor"
+     HorizSync 31-64
+     VertRefresh 50-120
+ EndSection
+ 
+ Section "Screen"
+     Identifier "Default Screen"
+     Monitor "Configured Monitor"
+     Device "Configured Video Device"
+     DefaultDepth 24
+     SubSection "Display"
+         Depth 24
+         Modes "1024x768" "800x600" "640x480"
+     EndSubSection
+ EndSection
+
+= Touchscreen =
+
+== Monitor Touchscreen LG FLATRON L1730SF==
+
+(gnagnibu — 2008-06-26 GTM 1 @ 16:15 Tags: Linux Debian Etch Touchscreen LG Flatron L1730SF)
+
+[[Imagem:LG_flatron.jpg| right]]
+
+
+Este monitor aparenta ficar a funcionar imediatamente mal se conecta o cabo USB.
+Contudo é impossível de utilizar com as configurações por defeito.
+
+A configuração deste monitor é feita por várias partes
+#Preparar o módulo de kernel '''itmtouch'''
+#Desligar o módulo genérico '''usbtouchscreen''', que tem conflito com o '''itmtouch''' 
+#Instalar o driver de dispositivo apontador '''evtouch''' para o X.
+
+=== Compilar itmtouch ===
+ tar zxvf itmtouch.tar.gz 
+ cd itmtouch
+ make
+ make install
+
+=== Retirar o módulo usbtouchscreen do sistema ===
+
+O módulo genérico '''usbtouchscreen''', tem conflito com o '''itmtouch'''. É necessário retirá-lo do sistema.
+
+ echo "blacklist usbtouchscreen" > /etc/modprobe.d/usbtouchscreen.conf
+ update-initramfs -u -k all
+ # reiniciar o computador 
+ reboot
+
+ # Verificar que o módulo já não é chamdado
+ lsmod  | grep usb
+ # usbhid                 37248  0  
+ # usbcore               112644  5 usbhid,itmtouch,ehci_hcd,uhci_hcd
+
+=== Instalar o evtouch ===
+
+copiar o evtouch_drv.so para /usr/lib/xorg/modules/input/.
+
+ md5sum /usr/lib/xorg/modules/input/evtouch_drv.so  
+ 77f2821743714fbbb7371cd245df43c0  /usr/lib/xorg/modules/input/evtouch_drv.so
+
+ ls -la  /usr/lib/xorg/modules/input/evtouch_drv.so 
+ -rwxr-xr-x 1 root root 103344 2012-01-24 18:29 /usr/lib/xorg/modules/input/evtouch_drv.so
+
+===ligar o dispositivo a novo endereço===
+
+Método "feio"
+echo "ln -s  /dev/input/by-path/pci-0000\:00\:1d.2-usb-0\:1\:1.0-event- /dev/input/touchscreen" >> /etc/rc.local
+echo "sleep 3 " >> /etc/rc.local
+
+=== Calibração ===
+
+
+1. sacar o pacote '''evtouch.tar.gz'''
+
+aqui dentro pode-se encontrar
+
+<pre>
+|-- evtouch-0.8.7
+|-- evtouch-0.8.7.tar.gz
+|-- itmtouch
+|-- itmtouch-1.3.2.tar.bz2
+|-- xf86-input-evtouch-0.8.7
+`-- xf86-input-evtouch-0.8.7.tar.bz2
+</pre>
+
+
+
+Mi sono trovato a dover installare questo benedetto monitor touchscreen al lavoro, e devo dire che mi ha dato filo da torcere!
+Diciamo che mi spiace smacchinare con guide e how-to però quando c'è da mettere mano ad un sorgente, non sono nè molto ferrato (essendo le mie conoscenze di programmazione tendenti allo 0) nè ho voglia di perdere troppo tempo...
+
+Bene, questa volta diciamo che un ritocchino ai sorgenti dei driver gliel'ho data, però di mio c'è veramente poco (diciamo il cambio di valore di 1/2 varibili...) il resto non è roba mia :D
+Come distribuzione ho usato una Debian Etch con kernel 2.6.18.
+
+Come prima cosa scaricarsi i sorgenti dei driver:
+*http://www.mivu.no/itmtouch/itmtouch-1.3.2.tar.bz2
+*http://stz-softwaretechnik.com/~ke/touchscreen/evtouch-0.8.0.tar.gz
+
+Scompattarsi gli archivi
+
+ tar jxf itmtouch-1.3.2.tar.bz2
+ tar zxvf evtouch-0.8.0.tar.gz
+
+e sostituire il sorgente '''itmtouch.c''' con questo modificato opportunamente
+
+Ora, rinominare i modulo del kernel '''usbtouchscreen.ko''' in modo che '''non venga più caricato'''
+
+ cd /lib/modules/2.6.18/kernel/drivers/usb/input/
+ mv usbtouchscreen.ko usbtouchscreen.ko.old
+
+Creare il link agli headers del kernel (da root):
+
+ ln -s /usr/src/linux-headers-2.6.18/ /lib/modules/2.6.18/build
+
+Entrare nella cartella itmtouch appena creata e compilare il modulo (da root):
+ 
+ make clean
+ make
+ make install
+
+Per essere sicuri di utilizzare il modulo appena creato, dare il comando (da root):
+
+ depmod
+
+Copiare il driver del touchscreen per X evtouch_drv.o che si trova nella cartella evtouch-0.8.0 appena create nella cartella (da root):
+
+ cp evtouch_drv.o /usr/lib/xorg/modules/input/
+
+Creare una nuova regola di udev per la creazione del link al device relativo al touchscreen (da root):
+
+ touch /etc/udev/rules.d/40-touchscreen.rules
+
+la regola dovrà essere:
+
+ DRIVER=="itmtouch", KERNEL=="event[0-9]*", SYSFS{idVendor}=="0403", SYSFS{idProduct}=="f9e9", SYMLINK=="input/touchscreen", MODE=="0666"
+
+Le informazioni da inserire nella regola per udev si possono trovare scorrendo il file:
+
+ '''$ cat /proc/bus/usb/devices'''
+ ...
+ T: Bus=02 Lev=01 Prnt=01 Port=01 Cnt=01 Dev#= 4 Spd=12 MxCh= 0
+ D: Ver= 1.10 Cls=00(>ifc ) Sub=00 Prot=00 MxPS= 8 #Cfgs= 1
+ P: Vendor=0403 ProdID=f9e9 Rev= 1.00
+ S: Manufacturer=ITM Inc
+ S: Product=USB Touch Panel
+ C:* #Ifs= 1 Cfg#= 1 Atr=80 MxPwr=100mA
+ I: If#= 0 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=ff Driver=usbtouchscreen
+ E: Ad=82(I) Atr=03(Int.) MxPS= 8 Ivl=5ms
+ ...
+
+Aggiungere al file /etc/X11/xorg.conf le seguenti sezioni:
+
+     ...
+     Section "InputDevice"
+     Identifier "Touchscreen"
+     Driver "evtouch"
+     Option "CorePointer"
+     Option "Device" "/dev/input/touchscreen"
+     Option "DeviceName" "touchscreen"
+     Option "MinX" "120"
+     Option "MinY" "289"
+     Option "MaxX" "3894"
+     Option "MaxY" "3799"
+     Option "ReportingMode" "Raw"
+     Option "Emulate3Buttons"
+     Option "Emulate3Timeout" "50"
+     Option "SendCoreEvents" "On"
+     Option "TapTimer" "0"
+     #Option "Swapxy" "1"
+     #Option "Rotate" "cw"
+     #Option "Calibrate" "1"
+     EndSection
+     ...
+     Section "ServerLayout"
+     ...
+     InputDevice "Touchscreen" "CorePointer"
+     ...
+     EndSection
+
+Ora riavviate ed il gioco è fatto ;D
+
+==Touchscreen ELOTouch== 
+Para idenrtificar se o monitor é ELO e está devidamente ligado e a funcionar correctamente
+ escreva o seguinte comando no terminal:
+ 
+ para porta série 1:
+ 
+ # od -h -w10 </dev/ttyS0  
+ 
+ Para a porta serie 2 (COM2):
+ 
+ # od -h -w10 </dev/ttyS1 
+ 
+ No ecran deverão começar a aparecer muitos numeros quando houver 
+ interacçao com o touchscreen. O protocolo de dados típico da ELO 
+ é identificado pela apresentação de "'''5455'''" como o primeiro par de 
+ bytes de cada pacote de 10 bytes.
+
+=== elographics ===
+
+
+Este driver é suportado por maior parte dos kernel, que pode ser verficado em /boot/config-versao_kernel.conf
+
+ # cat /boot/config-`uname -r ` | grep -i elo
+   (...)
+   CONFIG_TOUCHSCREEN_ELO=m
+   (...)
+ #
+
+
+ # apt-cache search elographics
+ xserver-xorg-input-elographics - X.Org X server -- ELOGraphics input driver
+ 
+
+Instalação do pacote
+
+ # apt-get install xserver-xorg-input-elographics
+
+isto instala o driver do X e permite ao servidor de X utilizador o ''input'' como dispositivo apontador
+
+====Configuração de X====
+
+No ficheiro ''/etc/xorg.conf'', acrescentar uma entrada de ''InputDevice'':
+
+ Section "InputDevice"
+         Identifier  "TouchScreen"
+         Driver      "elographics"
+         Option      "Device" "/dev/ttyS6" # device onde esta ligado o touchscreen
+         Option      "MinX" "50"
+         Option      "MaxX" "4000"
+         Option      "MinY" "170"
+         Option      "MaxY" "4000"
+         Option      "ScreenNumber" "0"
+         Option      "ReportingMode" "Scaled"
+         Option      "ButtonThreshold" "17"
+         Option      "ButtonNumber" "1"
+         Option      "SendCoreEvents"
+         Option      "UntouchDelay" "7"
+         Option      "ReportDelay"  "4"
+ EndSection
+ 
+E invocá-la na secção ''ServerLayout''
+
+ Section "ServerLayout"
+        # (...)
+        InputDevice    "TouchScreen" "SendCoreEvents"
+ EndSection
+
+====Calibração====
+
+A calibração é '''manual''' e é feita ajustando as coordenadas
+ 
+ +---------------------------------+
+ |            Ymax                 |
+ |                                 |
+ |                                 |
+ |                                 |
+ |                                 |
+ |  Xmin                      Xmax |
+ |                                 |
+ |                                 |
+ |                                 |
+ |                                 |
+ |                                 |
+ |            Ymin                 |
+ +---------------------------------+
+
+=== ELO Serial ===
+
+
+elo é um driver que surgiu mais tarde com proveniencia da comunidade open source.
+
+Posteriormente a ELO aceitou este driver como o oficial para os seus dispositivos, mantendo-o até hoje.
+
+====Instalaçao de driver de Kernel - '''elok'''====
+
+
+
+SW601327_Elo_Linux_Serial_Driver_v3.3.0_i686.tgz
+ 
+ wget https://docs.google.com/open?id=0B0iSh0O2oqwbSmJlWk5IV0F0amc -O SW601327_Elo_Linux_Serial_Driver_v3.3.0_i686.tgz
+
+ tar zxvf SW601327_Elo_Linux_Serial_Driver_v3.3.0_i686.tgz
+ cp -r bin-serial/ /etc/opt/. 
+ cd /etc/opt/ 
+ mv bin-serial elo-ser
+ 
+ cd elo-ser/elok_s-source/
+ apt-get update
+ apt-get install build-essential headers-`uname -r`
+
+ cp makefile_2.6  Makefile ; make
+
+ cp elok_s.ko  ../setup/.
+ cd ../setup/
+ ./install.sh
+
+====Instalaçao da driver para xorg====
+
+identificar a versão do X que está a correr:
+
+ # X -version
+ 
+ X.Org X Server '''1.7.7'''
+ Release Date: 2010-05-04
+ X Protocol Version 11, Revision 0
+ Build Operating System: Linux 2.6.32-5-amd64 i686 Debian
+ Current Operating System: Linux Nails-Moda 2.6.32-5-686 #1 SMP Sun May 6 04:01:19 UTC 2012 i686
+ Kernel command line: BOOT_IMAGE=/boot/vmlinuz-2.6.32-5-686 root=UUID=18b8594d-1857-4296-8691- 1380f984910c ro 8250.nr_uarts=8 quiet
+ Build Date: 30 October 2011  08:56:49PM
+ xorg-server 2:1.7.7-14 (Julien Cristau <jcristau@debian.org>) 
+ Current version of pixman: 0.16.4
+    Before reporting problems, check http://wiki.x.org
+    to make sure that you have the latest version.
+
+Neste caso:
+ cp elo_drv.so_1.7 /usr/lib/xorg/modules/input/elo_drv.so
+
+
+
+====Configuraçao elorc====
+
+Para este driver funcionar é necessário que haja um serviço em permanente execução, por isso é necessário criar o daemon.
+
+
+=====Editar o elorc para colocar a porta correcta=====
+
+Em Debian SQUEEZE, há uma exigência a nivel de cebeçalhos de daemons.
+
+Caso esteja instalado o aksusbd, execute o comando:
+ update-rc.d -f aksusbd remove
+ rm /etc/init.d/aksusbd
+
+Editar Daemon elorc:
+
+ vi elorc
+
+Acrescentar este cógigo no inicio do elorc
+
+ #!/bin/sh
+ # Start/stop the touch daemon.
+ #
+ ### BEGIN INIT INFO
+ # Provides:          eloser
+ # Required-Start:    $remote_fs $syslog $time
+ # Required-Stop:     $remote_fs $syslog $time
+ # Should-Start:      $named slapd autofs ypbind nscd nslcd
+ # Should-Stop:       $named slapd autofs ypbind nscd nslcd
+ # Default-Start:     2 3 4 5
+ # Default-Stop:      0 1 6
+ # Short-Description: Regular background program processing daemon
+ # Description:       elorc is a UNIX program that runs user-specified 
+ ### END INIT INFO
+
+No código substituir a porta tty pela correcta ex: ttyS0 ..ttyS1 ..ttyS2 .. ..
+
+ #
+ # Avoid being interrupted by child or keyboard
+ #
+ trap "echo" SIGINT SIGSEGV SIGQUIT SIGTERM
+ set +e
+ 
+ case "$1" in
+    start)
+    /etc/opt/elo-ser/setup/loadelo
+    /etc/opt/elo-ser/eloser '''ttyS0'''
+    ;;
+     stop)
+    ;;
+     *)
+    echo "Usage: $0 {start}"
+    exit 1
+ esac
+
+
+colocar o serviço no sítio certo, faze-lo executável e habilitá-lo:
+ cp elorc  /etc/init.d/elorc
+ chmod 755 /etc/init.d/elorc
+ update-rc.d elorc defaults 20
+
+=====Gerar e edição  xorg.conf=====
+
+DEBIAN SQUEEZE  Generate an xorg.conf file  
+
+
+In order to generate xorg.conf you need to switch to a virtual console using the key combination CTRL + ALT + F1
+
+Now execute the following commands:
+ Ctrl+c
+
+ sudo service icewm stop
+or
+ Ctrl+Alt+<-
+- This command will stop the X.
+
+ sudo Xorg -configure 
+- this will generate the xorg.conf file in your home folder (the the proper location)
+
+ sudo mv ~/xorg.conf.new /etc/X11/xorg.conf
+- move and rename the newly created xorg file to the correct location
+
+ sudo reboot
+- to reboot the machine, and allow the changes to take effect.
+
+
+Acrescentar ao xorg.conf
+ cd /etc/X11
+ vi xorg.conf
+
+ Section "InputDevice"
+       Identifier "elo"
+       Driver "elo"
+       Option "Device" "/dev/input/elo_ser"
+       Option "SendCoreEvents" "true"    #  [If the keyword "true" does not work for a Xorg version, try to use the keyword "on" instead of "true".]
+ EndSection 
+ 
+ 
+ Section "ServerLayout"       
+        InputDevice "elo"
+ EndSection
+
+ sudo reboot
+
+
+
+
+====Calibraçao:====
+
+requer libmotif3
+
+caso não haja libmoti3 disponivel
+
+requer libmotif4
+
+ cd /bin-serial
+
+ # ./cpl
+ ./cpl: error while loading shared libraries: libXm.so.3: cannot open shared object file: No such file or directory
+
+ com a ferramenta '''aptitude''' instalar o '''libmotif4'''
+
+
+criar softlink 
+ cd /usr/lib
+ ln -s libXm.so.4 libXm.so.3
+ cd -
+
+
+correr script de calibração
+  ./cpl
+or
+ ./elovaLite   --viewdevices
+ ./elovaLitle --touchscreen=0
+
+=== ELO USB ===
+[[Imagem:elo_1509L.jpg| thumb | right]]
+
+ # lsusb 
+ (...)
+ Bus 003 Device 002: ID 04e7:0020 Elo TouchSystems Touchscreen Interface (2700)
+ (...)
+ # 
+
+requer: '''xserver-xorg-input-evdev'''
+
+
+Editar o XORG:
+
+ Section "ServerLayout"
+     (...)
+     InputDevice "touchscreen" "CorePointer"
+ EndSection
+
+ Section "InputDevice"
+    Identifier    "touchscreen"
+    Driver    "evdev"
+    Option    "Mode"   "absolute"
+    Option    "Device"    "/dev/input/event0"
+    Option    "DeviceName"    "touchscreen"
+    Option    "ReportingMode"    "Raw"
+    Option    "Emulate3Buttons"
+    Option    "Emulate3Timeout"    "50"
+    Option    "SendCoreEvents"
+    Option    "MoveLimit" "10"
+    #  Option    "SwapX"    "1"
+    #  Option    "SwapY"    "1"
+    # Option "Calibration" "1020 18 28 1008"
+    Option "Calibration" "4000 1 4000 1"
+ EndSection
+
+==Microtouch==
+
+Os drivers '''microtouch''' ou '''mutouch''' são fornecidos pela 3M e caíram um pouco em desuso nos últimos anos por se tratarem de ecrãs quase exclusivamente resistivos, que se traduzem em avarias recorrentes.
+
+
+=== Linux 2.6 ===
+
+
+
+Driver utilizada
+ 3M
+ Touchscreen Drivers
+ twscreen.7.14.0.tar.gz
+
+
+Requer JAVA
+ apt-get install sun-java6-jre
+
+Se surgirem estes warnings:
+ update-rc.d: warning: TWDrvStartup start runlevel arguments (2 3 4 5) do not match LSB Default-Start values (2 5)
+ update-rc.d: warning: TWDrvStartup stop runlevel arguments (0 1 6) do not match
+
+Efectuar estes 2 passos:
+
+1.Editar com o vi este ficheiro:
+ vi TWDrvStartup.ORIG 
+
+2.Fazer com que estas 2 linhas comentadas fiquem da seguinte forma:
+ # Default-Start: 2 5 3 4
+ # Default-Stop: 0 1 6
+
+===Linux 2.4===
+
+instalado em:
+* farggi Carcavelos
+* Ogma - Linhas 1 a 4
+* V2M - Almada
+* V2M - Forum Coimbra
+
+
+
+requer o pacote '''xserver-xorg-input-microtouch'''
+
+ apt-get install xserver-xorg-input-microtouch
+
+
+
+xorg.conf:
+ 
+ Section "InputDevice"
+        Identifier  "TouchScreen"
+        Driver      "microtouch"
+        Option      "Device" "/dev/ttyS4"
+        Option      "Type" "finger"
+        Option      "MinX" "-50"
+        Option      "MaxX" "16333"
+        Option      "MaxY" "-50"
+        Option      "MinY" "16333"
+        Option      "Vmin" "250"
+ EndSection
+ 
+ Section "ServerLayout"
+        InputDevice    "TouchScreen" "CorePointer"
+ EndSection
+
+== Groovytouch ==
+(Equipa os touchscreens da AQsonicl, MyPOS e outros)
+===PS/2===
+
+
+ tar zxvf groovytouch_PS2_kernel2.6.18.tar.gz
+ # '''Instalar o kernel: 2.6.18-etch-tsps2'''
+ cd grovvytouch\ kernel2.6.x/
+ cd kernel/
+ dpkg -i linux-image-2.6.18-etch-tsps2_2.6.18-etch-tsps2-10.00.Custom_i386.deb
+ cd ..
+ # '''criar o dispositivo'''
+ cp tsps2dev.rules  /etc/udev/rules.d/.
+ # '''instalar o driver para o xorg'''
+ cd tsps2-bin-2.0.1-xinput-driver-xorg-7.0
+ ./install.sh
+ cd ..
+ # '''Instalar o programa de calibração'''
+ cd tsps2-bin-2.0.1-program-controlpanel
+ ./install.sh
+ 
+
+
+==== xorg.conf ====
+ Section "InputDevice" 
+       Identifier "TSPS2_Touchscreen"
+       Driver "tsps2"
+       Option "Device" "/dev/touch/tsps2"
+       Option "Emulate3Buttons" "yes"
+       Option "Emulate3Timeout" "50"
+       Option "SendCoreEvents" "yes"
+ EndSection
+
+Na secção de '''ServerLayout''':
+
+ InputDevice "TSPS2_Touchscreen" "SendCoreEvents"
+
+===Série===
+=== USB ===
+== 0eef:0001 D-WAV Scientific Co., Ltd eGalax TouchScreen ==
+(Equipa os touchscreens da AQsonicl, Birch e outros) 
+
+[[Imagem:Birch_touchscreen.jpg| right | 200px ]]
+
+Driver kernel: '''Touchkit ou compativel'''
+
+Driver xorg: '''egalax'''
+
+'''Nota:''' há dois tipos de dispositivos que embora diferentes são suportados pelo Touchkit
+Um é amplamente suportado, outro tem algumas restrições.
+
+===touchkit mais antigo===
+
+====kernel====
+
+Driver de Kernel '''tkusb'''
+ make
+ cp  tkusb.ko /lib/modules/2.6.18-4-686/kernel/drivers/input/touchscreen/.
+ depmod -a
+
+Driver de xorg '''egalax'''
+ cp egalax_drv.* /usr/lib/xorg/modules/input/.
+
+====xorg.conf====
+ Section "InputDevice"
+      Identifier "EETI"
+      Driver      "egalax"
+      Option    "Device"    "/dev/tkpanel0"
+      Option      "Parameters" "/etc/egalax.cal"
+      Option      "ScreenNo"   "0"
+ EndSection
+
+       InputDevice     "EETI" "SendCoreEvents"
+
+
+
+===touchkit mais actual===
+configuração básica: instalar a partir do '''./setup.sh'''
+
+Funciona impecavelmente com xorg 1.4 (debian lenny)
+
+coloca o '''egalax.so''' em '''/usr/lib/xorg/modules/input/.'''
+modifica o ficheiro '''/etc/x11/xorg.conf'''
+coloca o '''Touchkit''' na pasta de binários
+
+
+Há uma incompatibilidade com o rato, pois são os dois concorrentes ao mesmo ''device''.  Isto leva a que um toque no ecrân seja interpretado em toque quer pelo rato quer pelo ''touchscreen''
+
+na secção do rato, no xorg.conf, terá de se colocar o dispositivo do rato como ''null'':
+ Option "Device" "/dev/null"
+
+===Calibração===
+
+Simplesmente executar o comando '''Touchkit''' no ambiente gráfico para invocar o programa de configuração.
+
+==Sinocan Touchscreen==
+
+[[Imagem:sinocan_touchscreen.jpg| right | 200px ]]
+
+Este modelo tem duas formas de configuração
+* porta série - ''elo''
+* porta USB - ''201b:0001 07U0196 USB TouchController'' 
+
+=== 201b:0001 07U0196 USB TouchController ===
+
+
+(Equipa os touchscreens da Sinocan) 
+
+
+O driver usbtouchscreen do kernel de Lenny não detecta este dispositivo. É necessário recompilar adicionando suporte.
+
+<pre>
+apt-get install linux-source-2.6.26 
+cd /usr/src
+tar jxf  linux-source-2.6.26.tar.bz2
+apt-get install linux-headers-`uname -r`
+cd linux-source-2.6.26
+ln -s /boot/config-2.6.26-2-686 .config
+ln -s /usr/src/linux-headers-2.6.26-2-686/Module.symvers Module.symvers
+# caso surja alguma mensagem de erro correr a seguinte linha
+make oldconfig && make prepare && make scripts
+make M=drivers/input/touchscreen/
+cp drivers/input/touchscreen/usbtouchscreen.ko /lib/modules/2.6.26-2-686/kernel/drivers/input/touchscreen/.
+</pre>
+
+Criar regra udev:
+<pre>
+# eGalax Inc. USB TouchController)
+KERNEL=="event*", SUBSYSTEM=="input", ATTRS{idVendor}=="201B", ATTRS{idProduct}=="0001", SYMLINK+="input/evtouch_event"
+
+# em lenny mais eficiente
+KERNEL=="event[0-9]*", SYSFS{idVendor}=="22b9", SYSFS{idProduct}=="0006", SYMLINK+="input/evtouch_event"
+</pre>
+
+Adicionar opção de carregamento do módulo:
+/etc/modprobe.d/touch
+<pre>
+options usbtouchscreen swap_xy=1
+</pre>
+
+
+
+====xorg.conf====
+Configuração do Xorg:
+<pre>
+Section "ServerLayout"
+...
+        InputDevice     "touchscreen0" "SendCoreEvents"
+...
+EndSection
+
+...
+
+Section "InputDevice"
+        Identifier "touchscreen0"
+        Driver "evtouch"
+        Option "Device" "/dev/input/evtouch_event"
+        Option "DeviceName" "touchscreen"
+        Option "MinX" "180"
+        Option "MinY" "180"
+        Option "MaxX" "1850"
+        Option "MaxY" "1880"
+        #Option "ReportingMode" "Raw"
+        Option "taptimer" "30"
+        Option "longtouchtimer" "750"
+        Option "longtouched_action" "click"
+        Option "longtouched_button" "3"
+        Option "oneandhalftap_button" "2"
+        Option "movelimit" "10"
+        Option "touched_drag" "1"
+        Option "maybetapped_action" "click"
+        Option "maybetapped_button" "1"
+        Option "swapy" "true"
+        Option "SendCoreEvents"
+EndSection
+</pre>

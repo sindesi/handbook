@@ -1,0 +1,218 @@
+= Impressoras =
+
+==Impressoras EPSON==
+
+As impressoras epson são compostas por:
+* módulo de comunicações
+* alimentação
+* impressora 
+
+
+
+==Impressoras Orient==
+
+É necessário definir o codepage compatível na impressora
+
+1. O driver tem de ser '''EPSON TM-T88III'''
+
+'''Code Page:''' 858 — "Multilingual" with euro symbol
+
+Entrar no menu de configuração da impressora ligando a impressora com o botão de FEED pressionado.
+
+ Main Menu                            3 Toques + feed
+ \- configuration                     5 Toques + feed
+   \- Print Settings                  7 Toques + feed
+     \- Code Page Settings            3 Toques + feed
+       \- Code Page Selecting '''[PC858]''' 6 Toques + feed
+     \- Code Page Settings            1 Toques + feed
+   \- Print Settings                  1 Toques + feed
+ \- configuration  [Exit and Save]    2 Toques + feed
+
+
+===O simbolo de Euro não aparece bem representado===
+
+=Software=
+
+
+== Script para abrir cajón de un equipo POS con LPR==
+
+ 
+Antes que nada, este articulo es de interés para personas que trabajan con equipos POS (Point Of Sale), equipos como impresoras EPSON TERMICAS (TM-T88XX), o los cajones DYNAPOS (y habéis comprobado la pésima documentación que hay para GNU/linux).
+
+Trabajando nuevamente para otra empresa secreta, con nuestro software ERP, me encontré con el chicharroncito de abrir automáticamente el cajón monedero en los puntos de pago cuando se imprime la factura, y ademas por sobrado, que también cortara el papel automáticamente.
+
+Los equipos de punto de pago, generalmente consta de un PC, una impresora de tiquetes por puerto paralelo/serie, un lector de código de barras y un cajón monedero. Las impresoras para puntos de pago generalmente traen un conector (RJ11) para un cable que trae el cajón, dicho cajón debe tener un solenoide o algo similar que al activarse se abre. Entonces dicha impresora es la que abre el cajón, por que envía un pulso eléctrico.
+
+Después de Googlear un poco, encontré la documentación del lenguje ESC/POS, que es un lenguaje muy simple creado por EPSON para sus impresoras POS, con algunos comandos muy sencillos típicos, como abrir cajón, cortar papel, avanzar papel, imprimir código de barra, etc. En hora buena, solo es enviar esos comandos a la cola de impresión y funciona de maravilla, ademas probé con otras impresoras… (Samsung, etc. y también funciono).
+
+
+===Comandos ESC/POS===
+
+Lo único molesto fue tener que registrarme en la pagina de EPSON con un correo real, para poder bajar los manuales, deberían estar así no mas para bajar.
+
+A continuación copio los dos comandos ESC/POS que use tal cual como viene en el manual:
+
+==== Generar Pulso ====
+
+ '''ESC p m t1 t2'''
+ [ Name ] Generate pulse
+ [Format] ASCII ESC p m t1 t2
+     '''Hex'''     1B 70 m t1 t2
+     '''Decimal''' 27 112 m t1 t2
+ [ Range ] '''m''' = 0, 1, 48, 49
+      0 ≤ '''t1''' ≤ 255
+      0 ≤ '''t2''' ≤ 255
+ [ Description ] Outputs the pulse specified by t1 and t2 to connector pin m to open the chash drawer,
+ as follows:
+      m Function
+      0, 48 Drawer kick-out connector pin 2.
+      1, 49 Drawer kick-out connector pin 5.
+      • t1 specifies the pulse ON time as [t1 × 2 ms].
+      • t2 specifies the pulse OFF time as [t2 × 2 ms].
+
+==== Cortar Papel ====
+ '''GS V m'''   (Function A)
+ '''GS V m n''' (Function B)
+ [ Name] Select cut mode and cut paper
+ [Format] ASCII GS V m (Function A)
+      '''Hex'''     1D 56 m
+      '''Decimal''' 29 86 m
+      '''ASCII'''   GS V m n (Function B)
+      '''Hex'''     1D 56 m n
+      '''Decimal''' 29 86 m n
+      0 ≤ '''n''' ≤ 255
+ [ R ange ]
+      (Function A) m = 0, 1, 48, 49
+      (Function B m = 65, 66
+ [Description] Cuts paper in the specified mode.
+      m Function
+    Function A 0, 48 Executes a full cut (cuts the paper completely).
+      1, 49 Executes a partial cut (one point left uncut).
+      Feeds paper to (cutting position + n × vertical motion unit) and 
+    Function B 65
+      executes a full cut (cuts the paper completely).
+      Feeds paper to (cutting position + n × vertical motion unit) and 66 executes a partial cut (one point left uncut).
+
+=== Criar um filtro ===
+
+Entonces no es más que crear un filtro para LPR, que por que uso LPR?, por que en algunas cosas me quede atrapado en los noventa :D (me imagino que para CUPS será similar). el filtro debe enviar el comando de abrir el cajón antes de imprimir, y una vez finalizada la impresión, envíe el comando de cortar el papel, de esta forma será automático desde cualquier programa que mandemos a imprimir.
+
+Entonces con el siguiente script podemos hacerlo, el script esta comentado para facilitar su entendimiento, no olvidéis dar permisos de ejecución.
+
+filtro:
+
+ #!/bin/bash
+ # RTFM
+ # CON echo -e HABILITAMOS LA INTERPRETACION DE ALGUNOS CARACTERES, EN ESTE
+ # CASO ‘\xnnn’, DONDE x ESPECIFICA HEXADECIMAL Y n TENDRA LOS CODIGOS
+ # HEXADECIMALES
+ # ENVIAMOS EL COMANDO DE ABRIR EL CAJON
+ echo -e ‘\x1B\x70\x0\x64\x64′
+ # LEEMOS EL CONTENIDO DE LA IMPRESION EN UNA VARIABLE COMUN Y SE LOS
+ # PASAMOS A LA IMPRESORA
+ read first_line
+ echo -n $first_line
+ cat
+ # AHORA ENVIAMOS EL COMANDO DE CORTAR EL PAPEL
+ echo -e ‘\x1D\x56\x1′
+ 
+Copiamos el fitro , por ejemplo al mismo directorio donde tenemos la cola de impresión (Ej. '''/var/spool/lpd/caja1/''' ),
+Ahora en el archivo '''/etc/printcap''' donde se configura la impresora agregamos el filtro.
+
+Exemplo:
+ caja1:\
+   :sd=/var/spool/lpd/caja1:\
+    :if=/var/spool/lpd/caja1/filtro:\
+    :sh:\
+   :lp=/dev/lp0:\
+    :bk:
+
+ 
+Reiniciamos LPR y funciona con cualquier impresión, además esto no afecta la impresión en otras impresoras de diferente tipo.
+
+Con estas bases creo que podéis hacer el resto, como códigos de barra en los tickets
+ 
+Links:
+# Algo de bash   [http://www.ss64.com/bash/echo.html]
+# Manuales EPSON  [https://www.epson-pos.com/sdssm/td_index.html]
+# Algo de impresión  [http://es.tldp.org/COMO-INSFLUG/COMOs/Configuracion-Impresion-Como/Configuracion-Impresion-Como-4.html]
+ 
+
+Retirado de  http://josecely.tecsua.com/?p=30 [http://josecely.tecsua.com/?p=30]
+
+== Ubuntu CUPS printserver ==
+
+Instalação da impressora no CUPS:
+Entrar na administração: http://localhost:631/
+<pre>
+-> Add Printer
+
+Name: lp
+Location: ubuntu
+Description: EPSON TM-T88III
+-> Continue
+
+Device: EPSON TM-P2.01 LPT #1 (EPSON TM-P2.01)
+-> Continue
+
+* não selecionar nenhum model
+-> Add Printer
+
+Make: Generic
+-> Continue
+
+Model: Generic ESC/P Dot Matrix Printer Foomatic/epson (recommended) (en)
+-> Add Printer
+
+* Aguardar pela página de configurações
+
+Page Size: A4
+Resolution: 60x180 dpi
+-> Set Printer Options
+</pre>
+
+===Instalar cups-lpd===
+
+<pre>
+apt-get install inetutils-inetd
+</pre>
+
+Adicionar a '/etc/inetd.conf':
+<pre>
+printer stream tcp nowait lp /usr/lib/cups/daemon/cups-lpd cups-lpd -o job-sheets=none
+</pre>
+
+Reiniciar o inetd:
+<pre>
+/etc/init.d/inetutils-inetd restart
+</pre>
+
+===Configurar Koncepto===
+
+<pre>
+-> Técnico
+-> Dispositivos
+* Adicionar e/ou Selecionar a impressora a configurar
+Porta ->
+Tipo: Rede
+Endereço IP: *Ip da Máquina com o CUPS configurado
+Fila: lp
+</pre>
+
+O nome usado na fila "lp" terá de ser igual ao 'Name:' dado na configuração do cups
+
+==Configurar LPD ==
+
+Configuração lpd da Cacou:
+'/etc/printcap':
+<pre>
+lp:\
+        :lp=/dev/ttyS0:\
+        :sd=/var/spool/lpd/lp:\
+        :af=/var/log/lp-acct:\
+        :lf=/var/log/lp-errs:\
+        :sf:\
+        :sh:
+</pre>
+
+Para mais informações: 'man printcap'

@@ -1,0 +1,907 @@
+A aplicação pode ser instalada manualmente, mas a forma recomendada é através do uso de um kit de instalação fornecido, e para o qual seguem as respectivas instruções.
+
+
+== Arquitectura do sistema Koncepto ==
+
+
+O '''Koncepto''' é um programa modular, com arquitectura cliente-servidor.
+
+O programa é habitualmente instalado no directório '''/opt/koncepto/''' e aqui ficam alojados todos os recursos necessários para o bom funcionamento do programa:
+* binários: ''bin/''
+* bibliotecas necessárias para o bom funcionamento dos binários: '''lib/'''
+
+as configurações dos programas ficam guardadas em '''config/''' nos ficheiros:
+* client.ini
+* pserver.ini
+* server.ini
+
+
+Os dados de Licenciamento do software ficam armazenados em  '''/config/data.bin'''
+
+Para além disto existem outros directórios auxiliares:
+* documentos de impressão ''user/documents/''
+* imagens invocadas no programa ''user/images/''
+* os logs do programa são armazenados em ''/logs'', ''logs/archive'' e geridos por ''/config/logrotate.conf'' -- ver ''/opt/koncepto/bin/startKoncepto''
+* destino para ficheiros exportados em formato CSV ''csv/''
+
+
+
+
+== Instalar passo a passo o KONCEPTO (actualizado) ==
+
+
+=====Configurar PostgreSQL 8.x=====
+
+ cd /etc/postgresql/8.4/main
+
+
+No ficheiro '''pg_hba.conf''' editar de forma a que fique da seguinte forma:
+
+ # Database administrative login by UNIX sockets
+ local   all         postgres                          trust 
+ 
+ # TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD
+ 
+ # "local" is for Unix domain socket connections only
+ local   all         all                               trust
+ # IPv4 local connections:
+ host    all         all         127.0.0.1/32          trust
+ host    all         all         192.168.20.200/24     trust
+ # IPv6 local connections:
+ host    all         all         ::1/128               md5
+
+
+
+No ficheiro '''postgresql.conf''':
+
+Onde está:
+
+ #listen_addresses = 'localhost'         # what IP address(es) to listen on;
+
+colocar
+
+ listen_addresses = '*'         # what IP address(es) to listen on;
+
+
+
+
+=====Instalação do Pack Koncepto=====
+
+Preparar para instalar koncepto (auto-login, configurações gráficas, etc)
+
+descarregar ficheiro '''pack.tar.gz''' (versão 4.2.25)
+
+ wget https://docs.google.com/open?id=0B0iSh0O2oqwbZjdrOGlKdFRKemM -O pack.tar.gz
+
+ tar zxvf pack.tar.gz
+ cd pack/debian_generic
+
+ ./install_v2.sh
+
+=====Instalação dos updates do Koncepto=====
+
+O script anterior faz metade das operações necessárias para a instalação do koncepto, instala o auto-login, faz verificações de sistema, actualiza a rede, etc. Também instala por defeito a versão 4.2.25, pelo que depois temos de decarregar as actualizações ''update_pack_4.2.29_rh9_build_snapshot3.tar.gz'' para /opt/ de forma a actualizarmos o koncepto para a nova versão. '''Nota''' as actualizações não são cumulativas, para instalar a versão 4.3.00 temos obrigatóriamente de instalar a versão 4.2.29!
+
+====== Update 4.2.29 ======
+
+Actualização do koncepto para a versão 4.2.29: Descarregar a actualização 
+update_pack_4.2.29_rh9_build_snapshot3.tar.gz para /opt/
+
+ wget https://docs.google.com/open?id=0B0iSh0O2oqwbWl9LbnM5RncxNnM -O update_pack_4.2.29_rh9_build_snapshot3.tar.gz
+
+ cd /opt/
+ tar zxvf update_pack_4.2.29_rh9_build_snapshot3.tar.gz
+ cd update_pack_4.2.29_rh9_build_snapshot3
+ ./update_koncepto_4.2.29_rh9_build_snapshot3.sh
+
+======Update 4.3.00======
+
+Actualização do koncepto para a versão 4.3.00: Descarregar a actualização ''koncepto_update_pack_4.3.00_rh9_build_snapshot1.tar.gz'' para /opt/
+
+ wget https://docs.google.com/open?id=0B0iSh0O2oqwbU2RyLU5VR0pVdXM -O koncepto_update_pack_4.3.00_rh9_build_snapshot1.tar.gz
+
+ cd /opt/
+ tar zxvf koncepto_update_pack_4.3.00_rh9_build_snapshot1.tar.gz
+ cd koncepto_update_pack_4.3.00_rh9_build_snapshot1
+ ./update_koncepto-4.3.00_rh9_build.sh
+
+===Configurar IPs nos scripts de arranque do koncepto===
+  
+''' /opt/koncepto/config/server.ini''' - Os ip's do PostgreSQL têm de coincidir com o IP onde se encontra o servidor SQL
+ [THIS]
+ .
+ .
+ DB_IP=###.###.###.###
+
+'''/opt/koncepto/config/client.ini''' - Os ip's do servidor têm de coincidir com o IP onde se encontra o servidor Koncepto
+ [GLOBAL]
+ .
+ .
+ [PRIMARY]
+ IP=###.###.###.###
+
+'''/opt/koncepto/config/pserver.ini''' - Os ip's do servidor têm de coincidir com o IP onde se encontra o servidor Koncepto
+ [GLOBAL]
+ .
+ .
+ [PRIMARY]
+ IP=###.###.###.###
+
+'''Não esquecer''' de verificar a licença do cliente em ''/opt/koncepto/config/data.bin''
+
+A máquina TEM de estar com o IP 192.168.20.200 para correr tudo bem.
+ /etc/init.d/postgresql  restart
+
+===Resolução final do Monitor===
+
+ root@testes:~# xrandr
+ Screen 0: minimum 320 x 200, current 800 x 600, maximum 4096 x 4096
+ VGA1 disconnected (normal left inverted right x axis y axis)
+ LVDS1 connected 800x600+0+0 (normal left inverted right x axis y axis) 0mm x 0mm
+   1024x768       60.0 +   85.0     75.0     70.1     60.0     43.5  
+   832x624        74.6  
+   800x600        85.1*    72.2     75.0     60.3     56.2  
+   640x480        85.0     72.8     75.0     59.9  
+   720x400        85.0  
+   640x400        85.1  
+   640x350        85.1
+
+
+Adicionar estas 2 linhas de código em /opt/koncepto/bin/startKoncepto, para que as configurações do monitor arranquem no sistema
+ sleep 3 
+ xrandr -s 800x600
+
+
+
+===Base de Dados===
+
+Carregar a base de dado manualmente
+
+1. se já existir uma base de dados com o nome da base de dados que já se pretende criar, é necessário destruí-la (este passo é irreversível).
+
+ dropdb -h localhost -U postgres koncepto
+
+criar nova base de dados:
+
+ createdb -h localhost -U postgres koncepto unicode
+
+Carregar uma base de dados vazia para koncepto
+
+ ./put_database.sh db_koncepto_empty.sql
+
+
+
+===Erros conhecidos===
+
+====ERRO 1====
+
+Correcção de erros nos scripts bash em /opt/koncepto/bin.
+
+O '''sh''' está obsoleto, substituir por bash (EM TODAS AS CIRCUNSTANCIAS)
+ cd /opt/koncepto/bin
+ sed -i 's|#!/bin/sh|#!/bin/bash|g' *.sh
+
+====ERRO 2====
+
+Por vezes ao fazer um put da base de dados aparece o seguinte erro:
+
+'''koncepto is not a database!'''
+Isto significa ou que a base de dados realmente não existe ou então o script '''put_database.sh''' tem um erro no código que deverá ser emendado da seguinte forma:
+
+ Esta lina de códico tem espaços a mais antes do 1. ex: '''"  1"'''
+ Substituir a linha por esta:
+ 
+ if [ "`psql -h localhost -U postgres -l | grep \" $databasename \" | wc -l`" != "1" ] ; then
+
+
+====LIBS====
+
+ # libssl.so.4
+ ln -s `ls /usr/lib/libssl.so* | tail -n1` /usr/lib/libssl.so.4 
+ # libpq.so.3
+ ln -s `ls /usr/lib/libpq.so* |  tail -n1` /usr/lib/libpq.so.3
+
+== Instalação do KONCEPTO através do kit de instalação (desactualizado)==
+[[Assistente de instalação]]
+
+=== Postgresql ===
+
+====redhat 9====
+*'''/var/lib/pgsql/data/pg_hba.conf''' 
+
+:Contém permissões de acesso à base de dados. É alterado pelas ferramentas técnicas
+
+*'''/var/lib/pgsql/data/postgresql.conf'''
+
+:Configuração do servidor SQL. É alterado pelas ferramentas técnicas
+
+====Debian Lenny====
+
+/etc/postgresql/8.3/main/ph_hba.conf
+
+ # Database administrative login by UNIX sockets 
+ local   all         postgres                          ident sameuser   
+ 
+ # TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD  
+ 
+ # "local" is for Unix domain socket connections only
+ local   all         all                               ident sameuser
+ # IPv4 local connections:
+ host    all         all         127.0.0.1/32          trust
+ host    all         all         192.168.20.200/32          trust
+ # IPv6 local connections:
+ host    all         all         ::1/128               md5
+
+=== Ferramentas técnicas ===
+
+Para se poder aceder às ferramentas técnicas é necessário iniciar o Kit de instalação.
+
+Quando este inicia, carrega-se no botão “Technical Tools”. Depois de entrar, é necessário indicar o IP, o utilizador e a password do POS a que se pretende ligar e carregar no botão “Connect”.
+
+[[Imagem:kinstall_techtools.png]]
+
+Estas ferramentas permitem o seguinte:
+*'''Koncepto''' – Permite a identificação do IP externo
+*'''Save''' – Para salvar bases de dados
+*'''Load''' – Para carregar bases de dados
+*'''Database''' – Apagar logs (na sua totalidade ou a partir de determinada data) e reiniciar as séries dos documentos
+**'''Delete ALL''' : elimina todos os dados
+**'''Set Initial Values''' : modifica os conteúdos dos contadores de documentos de '''Venda a Dinheiro''', '''Consumos por cartão''', '''notas de crédito''' e '''notas de crédito de consumo de cartão'''
+**'''All Data Before''': Elimina todos os documentos anteriores a uma determinada data. Útil para eliminar o histórico de documentos para "aliviar" a base de dados (não fazer sem ter comunicações com sucesso para o Regi e/ou ter um backup válido)
+**'''Optimise Database''' : faz um ''vaccum'' a toda a base de dados
+[[Imagem:Kinstall tech dbtools.png]]
+
+
+*'''Restart''' – Permite parar, iniciar ou reiniciar o Koncepto ou o POS à distância
+*'''Designers''' – Utilizado para iniciar os designers
+*'''License''' – Permite carregar o ficheiro de licenciamento
+*'''Update''' – Utilizado para fazer updates das bases de dados.
+*'''Scripts''' – Utilizado para correr scripts
+
+Estrutura de directorias criadas pela instalação
+
+Esta estrutura encontra-se em /opt/koncepto.
+*'''/bin''' – programas e executáveis. Nesta directoria podem-se iniciar os designers, e, obviamente, o Koncepto, assim como, todos os componentes necessários para que este corra.
+**'''startKoncepto'''
+**'''stopKoncepto'''
+*'''/charmaps''' – configurações especiais para impressoras
+*'''/config''' – ficheiros de configuração
+**'''logrotate'''
+**'''client.ini'''
+**'''server.ini'''
+**'''pserver.ini'''
+*'''/csv''' – para armazenamento de ficheiros .CSV
+*'''/images''' – imagens utilizadas no software
+*'''/language''' – ficheiros de idiomas
+*'''/lib''' – bibliotecas
+*'''/logs''' – diários de sistema
+*'''/multikey''' – utilizado pelo teclado virtual
+*'''/user'''
+**'''/designs''' – para armazenamento de designs gráficos
+**'''/documents''' – para armazenamento dos documentos tipo
+**'''/images''' – as utilizadas pela interface gráfica
+**'''/maps''' – para armazenamento de mapas (estruturas de espaços)
+*'''/winrest''' – para armazenamento de ficheiros tipo winrest
+
+=== Como iniciar os designers através de um terminal? ===
+Para iniciar o Designer deverá:
+*Aceder à pasta /opt/koncepto/bin/ 
+*Exportar as bibliotecas: '''export LD_LIBRARY_PATH=/opt/koncepto/lib'''
+*Iniciar o designer pretendido
+ ./designer <host> <port>
+ou
+ ./docdesigner <host> <port>
+
+[[Imagem:docdesigner.jpg | right | 200 px ]]
+
+
+Os documentos do koncepto estão guardados em '''/opt/koncepto/user/documents/''' :
+ # ls /opt/koncepto/user/documents/
+ Accounting Report.kdd             Generosity Justification.kdd
+ Campaign Justification.kdd        Null justification.kdd
+ Cancel.kdd                Null without Waste.kdd
+ Canteen Credit Note Justification.kdd  Null with Waste.kdd
+ Canteen Credit Note.kdd               Order.kdd
+ Canteen Reservation.kdd               Product Report.kdd
+ Canteen Reservations Report.kdd        Products List.kdd
+ Canteen Sale.kdd              Sales By Machine Report.kdd
+ Canteen Sales Report.kdd          Sales per Hour Report.kdd
+ Change Price Justification.kdd        Session Start.kdd
+ Client Card Invoice Duplicate.kdd      Session Stop.kdd
+ Client Card Invoice.kdd               Table Verifications.kdd
+ Commissions and tips.kdd          Take away.kdd
+ Credit Note Justification.kdd         Test.kdd
+ Credit Note.kdd                   Venda-a-Dinheiro.kdd
+ documents.tar.gz              Venda-a-Dinheiro.kdd.old
+ Employee Report.kdd               Wrong.kdd
+ Expenses.kdd
+
+{| border="1"
+|+ Documentos do Koncepto
+! Ficheiro !! Descrição     
+|-
+| Accounting Report.kdd 
+| Relatório oficial (contabilistico)
+|-
+| Generosity Justification.kdd
+| Justificação de generosidade (ofertas)
+|-
+| Campaign Justification.kdd
+| (?)
+|-
+| Null justification.kdd
+| Justificação de Anulação
+|-
+| Cancel.kdd
+| Cancelamento
+|-
+| Null without Waste.kdd
+| Anulação sem desperdício
+|-
+| Canteen Credit Note Justification.kdd
+| Justificação de emissão de nota de crédito de consumo
+|- 
+| Null with Waste.kdd
+| Anulação com desperdício
+|- 
+| Canteen Credit Note.kdd
+| 
+|- 
+| Order.kdd
+| Documento usado nas impressões de pedidos. Por exemplo nas cozinhas.
+|- 
+| Canteen Reservation.kdd   
+| Estado das reservas
+|- 
+| Product Report.kdd
+| Relatório de Produtos
+|- 
+| Canteen Reservations Report.kdd  
+|
+|- 
+| Products List.kdd
+|
+|- 
+| Canteen Sale.kdd  
+| 
+|- 
+| Sales By Machine Report.kdd
+| Relatório de Vendas por ponto de venda
+|- 
+| Canteen Sales Report.kdd
+| Relatório de vendas de cantina
+|- 
+| Sales per Hour Report.kdd
+| Relatório de Vendas por hora
+|- 
+| Change Price Justification.kdd    
+|
+|- 
+| Session Start.kdd
+| Documento de inicio de sessão
+|- 
+| Client Card Invoice Duplicate.kdd  
+| (?)
+|- 
+| Session Stop.kdd
+| Fecho de Sessão
+|- 
+| Client Card Invoice.kdd   
+| Factura para cartão cliente
+|- 
+| Table Verifications.kdd
+| Verificação de Conta ou talão
+|- 
+| Commissions and tips.kdd  
+| Comissões e gorjetas
+|- 
+| Take away.kdd
+| Take away  (?)
+|- 
+| Credit Note Justification.kdd 
+| Justificação de emissão de nota de crédito
+|- 
+| Test.kdd
+| documento usado para testar impressoras
+|- 
+| Credit Note.kdd   
+| Documento de Nota de Crédito
+|- 
+| Venda-a-Dinheiro.kdd
+| Documento simplificado de venda a dinheiro
+|- 
+| Employee Report.kdd   
+| Relatório de empregados
+|- 
+| Wrong.kdd
+| ?
+|- 
+|Expenses.kdd
+| Despesas (?)
+|}
+
+
+ou
+ ./mapdesigner <host> <port>
+
+O ''localhost'' também pode ser representado por ”0” ou "127.0.0.1".
+
+Antes de começar a instalação propriamente dita, dão-se a conhecer alguns passos que deveriam ser executados, caso não se utilize o Kit de Instalação.
+
+'''Nota:''' para os POS SurePOS IBM Type 3 é necessário utilizar uma bios especial, que é facultada pela unue.
+
+===Koncepto a 1024x768 ===
+
+ESTAS INSTRUÇÕES SÃO APENAS PARA NOVAS INSTALAÇÕES!!!!
+
+Antes de mais, alterar logo o perfil gráfico "Default" para 1024x768 usando o designer.
+Gravar no servidor com o mesmo nome!
+
+Logo de seguida na linha de comandos do postgresql: (o designer grava mal as configurações das layers  assume sempre que a width tem 3 caracteres)
+
+ UPDATE configurations SET width=1024 WHERE width=102 ; 
+
+Então depois temos de inserir uma máquina por defeito (e com o perfil de máquina) para que quando o koncepto arranque detecta o IP e assuma o perfil global de máquina!
+ 
+ INSERT INTO machines(id, name, ip, profile_id, type, port)  VALUES(1, 'Default', '192.168.20.200', 1, 1, 9001);
+
+Finalmente no ficheiro '''client.ini''' é muito importante que as definições da resolução estejam na tag GLOBAL.
+Caso as definições estejam mal situadas o koncepto assume 800x600 e entra em conflito com as definições acima, crashando vezes sem conta!
+
+ [GLOBAL]
+ # connection timeout, in miliseconds
+ #CONNECTION_TIMEOUT=25000
+ CONNECTION_TIMEOUT=25000
+ 
+ '''WIDTH=1024'''
+ '''HEIGHT=768'''
+ 
+ 
+ #wireless networks can fail for a short period of time
+ #number of attempts when trying to establish a connection; set a bigger value for wireless networks
+ #ESTABLISH_CONNECTION_ATTEMPTS_NUMBER=1
+ ESTABLISH_CONNECTION_ATTEMPTS_NUMBER=1
+ 
+ #number of seconds to wait between retries
+ #ESTABLISH_CONNECTION_SECONDS_TO_WAIT=1
+ ESTABLISH_CONNECTION_SECONDS_TO_WAIT=1
+ 
+ # entry for the primary server
+ [PRIMARY]
+ IP=192.168.20.200
+ PORT=9001
+ 
+ # entry for the secondary server
+ [SECONDARY]
+ IP=192.168.20.200
+ PORT=9001
+
+=== Alterar um perfil gráfico ===
+Para alterar um perfil gráfico deverá:
+#Iniciar o FrontOffice Designer 
+ cd /opt/koncepto/bin
+ export LD_LIBRARY_PATH=/opt/koncepto/lib
+ ./designer 0 9001.
+#Abrir as configurações de restaurante (Global, Gerente, Supervisor, Técnico).
+#Salvar para servidor com os mesmos nomes referidos em cima
+
+====Perfil Gráfico====
+
+=====Niveis=====
+
+{|border="1"
+! Nome do Botão || Nome ficheiro || Descricao 
+|-
+|utilizador
+|n_utilizador.png
+| -
+|-
+| Zonas
+| n_zonas.png
+| -
+|-
+| Mesas
+| n_mesas.png
+| -
+|-
+| Gerente
+| n_gerente.png
+| -
+|-
+| Base de Dados
+| n_basededados.png
+| -
+|-
+| Aplicaçao
+| n_aplicacao.png
+| -
+|-
+| Tecnico
+| n_tecnico.png
+| -
+|-
+| Reservas
+| n_reservas.png
+| -
+|}
+
+
+=====Utilizador=====
+
+{|border="1"
+! Nome do Botão || Nome ficheiro || Descricao 
+|-
+|Ler Mensagem
+|u_LerMensagem.png
+|olhos
+|-
+| Limpar Mensagem
+| u_LimparMensagem.png
+| caixote lixo
+|-
+| Desligar Máquina
+| u_DesligarMaquina.png
+| botão power
+|-
+| Fechar Turno
+| u_FecharTurno.png
+| Relogio de ponto
+|-
+| bloquear níveis 
+| u_BloquearNiveis.png
+| aloquete
+|-
+| O que é isto
+| OQueEIsto.png
+| interrogaçao
+|-
+| Entrar
+| u_Entrar.png
+| boneco autenticado
+|}
+
+=====Zonas=====
+
+{|border="1"
+! Nome do Botão || Nome ficheiro || Descricao 
+|-
+|Transferir
+| z_Transferir.png
+| --> --> 
+|-
+| Juntar
+| z_Juntar.png
+| --> <--
+|}
+
+=====Mesa=====
+
+{|border="1"
+! Nome do Botão || Ficheiro|| Descricao 
+|-
+|pedir
+| m_Pedir.png
+| impressora com talao "pedido"
+|-
+| Conta
+| m_Conta.png
+| impressora com talao "conta"
+|-
+| Registo
+| m_Registo.png 
+| escrita em livro de €
+|-
+| factura
+| m_Factura.png
+| impressora com talao "€"
+|-
+| quantidade
+| m_Quantidade.png
+| um peso de balança
+|- 
+| Gaveta
+| m_Gaveta.png
+| dinheiro
+|-
+| dividir
+| m_Dividir.png
+| pie chart
+|- 
+| cancelar
+| m_Cancelar.png 
+| proibido
+|-
+| Codigo de barras
+| m_CodigoBarras.png
+| Codigo de barras
+|-
+| Procurar
+| m_Procurar.png
+| Lupa
+|-
+| Cartao cliente
+| m_CartaoCliente.png
+| Cartao cliente
+|- 
+| Reserva
+| m_Reserva.png
+| Chefe de mesa com livro
+|}
+
+=====Gerente=====
+
+{|border="1"
+! Nome do Botão || Ficheiro || Descricao 
+|-
+| Gestor Sessão
+| g_GestorSessao.png
+| boneco de gerente com relogio
+|-
+| Fundo Maneio
+| g_FundoManeio.png
+| Saco de dinheiro
+|- 
+| Historia
+| g_Historia.png
+| Livro de Registos
+|-
+|Relatorios Oficiais
+| g_RelatoriosOficiais.png
+| documento com euro
+|-
+|Relatorios de gestao
+| g_RelatoriosGestao.png
+| documento com grafico
+|-
+|Def Globais
+| g_DefinicoesGlobais.png
+| Rodas dentadas
+|-
+| exportar CSV
+| g_ExportarCSV.png
+| <-- excel
+|- 
+| Definiçoes de Máquina
+| g_DefinicoesMaquina.png
+| POS com rodas dentadas
+|-
+| Manutenção
+| g_Manutencao.png
+| HelpDesk
+|-
+| versão
+| g_Versao.png
+| (i)
+|-
+| Stock
+| g_Stock.png
+| caixa
+|- 
+| Falar
+| g_Falar.png
+| boneco a falar
+|-
+| funçao
+| g_Funcao.png
+| fn
+|-
+| Estado reserva
+| g_EstadoReserva.png
+| chefe de sala com livro
+|-
+| Bloquear reserca
+| g_BloquearReserva.png
+| chefe de sala com livro com aloquete
+|- 
+| Machine Worker
+| g_MachineWorker.png
+| boneco ligado a POS
+|}
+
+=====Base de Dados=====
+
+
+{|border="1"
+! Nome do Botão || Ficheiro || Descricao 
+|-
+| Familia
+| b_Familia.png
+| ?
+|-
+| Produto
+| b_Produto.png
+| ?
+|-
+| indices
+| b_Indices.png
+| tabela com canto sup. esquerdo marcado
+|-
+| paginas
+| b_Paginas.png
+| tabela com canto sup. esquerdo 2a linha marcada
+|-
+| Zonas
+| b_Zonas.png
+| ?
+|-
+| Mesas
+| b_Mesas.png
+| Bandeja
+|-
+| Sessoes
+| b_Sessoes.png
+| relogio com turno marcado
+|-
+| Perfis 
+| b_Perfis.png
+| Máscara
+|-
+| Equipa
+| b_Equipa.png
+| 3 bonecos
+|-
+| empregados
+| b_Empregados.png
+| garçon
+|-
+| Tipos de Cliente
+| b_TiposCliente.png
+| ?
+|-
+| Clientes
+| b_Clientes.png
+| ?
+|-
+| Tipos de Cartoes
+| b_TiposCartoes.png
+| ?
+|- 
+| Feriados
+| b_Feriados.png
+| calendario com um F
+|-
+| Tipos de Contagem
+| b_TiposContagens.png
+| várias moedas e notas
+|}
+
+=====Aplicação=====
+
+
+=====Técnico=====
+
+{|border="1"
+! Nome do Botão || Ficheiro || Descricao 
+|-
+|Definicoes Globais
+| t_DefinicoesGlobais.png
+|rodas dentadas
+|-
+|Máquinas 
+| t_Maquinas.png
+| Vários POS
+|-
+|Dispositivos 
+| t_Dispositivos.png
+| placa circuito impresso
+|-
+|Impressoras Virtuais
+| t_ImpressorasVirtuais.png
+|Impreessora em Nuvem
+|-
+|Ligaçao de Impressoras
+| t_LigacaoImpressoras.png
+| ?
+|-
+| Impressao de Documentos
+| t_ImpressaoDocumentos.png
+| ?
+|-
+| Importaçao CSV
+| t_ImportacaoCSV.png
+| <-- Excel
+|}
+
+=== Alterar um documento de impressão ===
+Para alterar um documento deverá:
+#Iniciar o FrontOffice DocDesigner 
+ cd /opt/koncepto/bin
+ export LD_LIBRARY_PATH=/opt/koncepto/lib
+ ./docdesigner 0 9001.
+#Abrir o ficheiro do servidor em ''/opt/koncepto/user/documents/''.
+#Salvar para servidor com os mesmos nomes referidos em cima.
+
+=Importação de CSVs=
+
+O koncepto permite a importação de artigos em formato CSV.
+Para tal é necessário apresentar os dados no seguinte formato:
+
+ CloseCouvert
+ CloseCouvert
+ 2
+ 100
+ #
+ 3333
+ 0
+ No
+ 0
+ No
+ 0
+ 0.0
+ No,Kg
+ No
+ 0
+ 0
+ 0
+ 0
+ 0
+
+
+ CCCCCCCCCCCCC  <--- nome de atigo
+ CCCCCCCCCCCCC  <--- nome de artigo
+ 230            <--- PLU
+ 5              <--- preco em centimos
+ #
+ 3333
+ 0
+ No
+ 0
+ No
+ 0
+ 23.0           <-- IVA
+ No,Kg
+ No
+ 0
+ 0
+ 0
+ 0
+ 0
+
+
+==Como criar um CSV a partir de Excel==
+Considerando o excel com o seguinte formato:
+{| border="1" cellpadding="2"
+! ÍNDICE
+! FAMÍLIA
+! NOME PRODUTO
+! IVA
+! PREÇO EUROS
+! PREÇO CÊNTIMOS
+|-
+| fotocopias/impressoes || p/b || a4 manueal 80gr || 23 || 0,035€ || 3,5
+|-
+| fotocopias/impressoes || p/b || a3 80gr || 23 || 0,100€ || 10
+|-
+| fotocopias/impressoes || cor || a4 80gr || 23 || 0,200€ || 20
+|-
+| fotocopias/impressoes || cor || a3 80gr || 23 || 0,500€ || 50
+|}
+
+
+
+Gravar o ficheiro para o formato CSV tendo em atenção: ('''CASO CONTRÁRIO NÃO FUNCIONA!!!!''')
+* formato '''ISO-8859-1'''
+* caracter para strings: '''"''' ou nenhum
+* caracter separador de campos: ''';'''
+
+'''É importante que não haja títulos ou linhas vazias no meio da tabela'''
+
+'''O ficheiro para importar tem de ter a extensão csv em minúsculas'''
+
+
+Posteriormente, e já na alinha de comandos da máquina do cliente temos de executar o comando '''AWK''' da seguinte forma:
+
+cat ['''NOME_DO_FICHEIRO_CSV'''] | awk -F";" '{ print $3" \n$3" \n2\n"$6"\n#\n3333\n0\nNo\n0\nNo\n0\n"$4"\nNo,Kg\nNo\n0\n0\n0\n0\n0\n" }'  >  ['''NOME_DO_FICHEIRO_CSV_PARA_INTRODUZIR_NO_KONCEPTO''']
+
+
+
+Tomando por exemplo que temos um ficheiro csv, criado por nós, com as regras acima descritas, com nome '''lista_precos_cliente.csv''', o comando para a transformação de um ficheiro csv que o Koncepto o pudesse interpretar seria:
+
+ cat lista_precos_cliente.csv | awk -F";" '{ print $3" \n"$3" \n2\n"$6"\n#\n3333\n0\nNo\n0\nNo\n0\n"$4"\nNo,Kg\nNo\n0\n0\n0\n0\n0\n" }'  >  lista_precos_cliente_KONCEPTO.csv
+
+E depois no utilitário de importação de ficheiros CSV do Koncepto teríamos de chamar o ficheiro '''lista_precos_cliente_KONCEPTO.csv'''
+
+== Ficheiros de Koncepto ==
+=== Documentos EPSON e IBM ===
+
+=== Ficheiros de linguagem do Koncepto ===

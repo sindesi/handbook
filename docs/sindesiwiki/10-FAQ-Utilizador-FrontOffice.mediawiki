@@ -1,0 +1,79 @@
+=Criação de Produtos=
+
+=Relatório de Contabilidade=
+
+Os relatórios de contabilidade são extraídos na secção de gerente.
+
+ [[Imagem:tip.png]]
+ O relatório de contabilidade é um documento onde figuram dados como os intervalos de documentos emitidos (inicial e final)
+ métodos de pagamento, etc. Não é permitido extrair um relatório de turno de trabalho que não tenha ainda finalizado.
+
+ [[Imagem:book.png]]
+ Sessões, Gestor de Sessão, Empregados, relatórios de Gestão
+
+=Layer Técnico=
+
+==Máquinas==
+
+===Perfil de Máquina===
+
+===X64===
+
+==Dispositivos==
+
+===Leitores Vários===
+
+===Balanças===
+
+===Impressoras===
+
+===Displays===
+
+==Impressoras==
+
+[[Imagem:VirtualPrintersProducts.jpg]]
+
+A impressora é o principal meio de saída de dados do ponto de venda.
+
+A partir daqui pode-se determinar o ''workflow'' documental quer dos procedimentos internos quer dos documentos oficiais gerados, quer para entrega a cliente final, quer para fins contabilisticos/fiscais.
+
+
+ [[Imagem:tip.png]]
+  A regra de impressão dos artigos pode ser feita a nível de família.
+
+ [[Imagem:book.png]]
+ família, impressoras virtuais
+
+
+===Impressoras Virtuais===
+
+[[Imagem:VirtualPrinters.jpg]]
+
+'''Definição:'''
+A cada impressora, pode-se associar um papel importante, ou seja, define-se que uma impressora tem como fim a impressão de contas, e essa impressora passará a ser vista por todo o sistema como o local onde os documentos oficiais serão impressos.
+
+As regras não são rígidas, pelo que em caso de avaria, é possível de uma  forma expedita delegar o papel de uma impressora para outra qualquer presente no sistema.
+
+ [[Imagem:book.png]]
+ produtos, dispositivos
+
+===Ligação de impressoras===
+
+Aqui define-se a ligação física que representa cada uma das impressoras virtuais, na perspectiva de cada um dos postos.
+
+ [[Imagem:tip.png]]
+    Se se quiser que o mesmo documento saia em impressoras distintas,
+    tem de se criar uma nova impressora virtual e então criar uma regra.
+
+ [[Imagem:book.png]]
+ dispositivos
+
+===Impressão de Documentos===
+
+Aqui pode-se definir em que impressora sairá cada documento, ou se por e simplesmente este não será impresso. 
+
+ [[Imagem:tip.png]]
+    Na impressão, os artigos do tipo '''Extra''' nunca são dissociados do artigo principal.
+
+ [[Imagem:book.png]]
+ produtos, dispositivos

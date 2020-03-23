@@ -1,0 +1,16 @@
+=Royalties=
+
+ SELECT     ID, Nr, Serie, DocProductTotalTaxValue, DocClientPartTotal, PaymentDate, RoyaltyValue
+ FROM         Invoice
+ WHERE     (Serie = 'cb') AND (RoyaltyValue > 0) AND (Nr > 7825) AND (Nr < 7966)
+
+
+
+
+
+     <WithholdingTax>
+         <WithholdingTaxType>IRC</WithholdingTaxType>
+         <WithholdingTaxDescription>Royalties</WithholdingTaxDescription>
+         <WithholdingTaxAmount>20.00</WithholdingTaxAmount>
+     </WithholdingTax>
+ </Invoice>

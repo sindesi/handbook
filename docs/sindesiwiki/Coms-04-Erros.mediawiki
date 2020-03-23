@@ -1,0 +1,103 @@
+=Importação de Dados pelo Regi=
+
+==Erros genéricos==
+
+===Falha de Ligação ao Servidor===
+
+ ''Didn't find the server.''
+ ''Failed in method StartComm in Source<host>:1120.''
+
+'''Diagnóstico:''' Servidor koncepto encontra-se inacessível
+
+'''Resolução:''' 
+
+#Verificar se o servidor está bem definido nas configurações
+#Verificar se há acesso à máquina
+#Verificar que o soapServer está a correr
+#Caso se comprovem todas as anteriores, reiniciar servidor FrontOffice para obrigar a novo arranque de soapServer
+
+
+=== Polegares para baixo ===
+'''Diagnóstico:''' Algum problema com o servidor regi
+
+'''Resolução:'''
+
+#Desligar Cliente Regi
+#Desligar Regi Visual Manager
+#Reiniciar SQL Server 2003
+#Iniciar Regi
+#Fazer Comunicações
+
+
+
+
+
+
+== Erro no Log ==
+ ''Download - LogFO - ERROR. Msg: Object reference not set to an instance of an object.''
+ ''Failed in method StartComm in Source<host>:1120.''
+
+==="20: Error: The Tax is not valid, Dep: Cacou Caff"===
+'''Diagnóstico:''' Acontece qdo se muda um valor directamente na base de dados.
+
+'''Resolução:'''
+#Muda-se as taxas dos produtos em "articlesFO" para a taxa que está no front
+#Modifica-se na tabela "Tax" a taxa de 21 para 20
+
+=== Log de Regi superiro ao do Koncepto ===
+ ''Atenção: Log do Regi superior ao Log Koncepto.A recepção de informação será abortada.''
+
+Verificar a '''linha mais antiga da tabela LOG do frontOffice''' e comparar com '''a linha mais recente da tabela LOGFO do BackOffice'''.
+
+
+=== Alteração de Páginas em Koncepto ===
+
+Muitas vezes basta passar a linha para "não processada"
+
+==Erro em Documentos==
+
+[[Imagem:Documents_Error.jpg]]
+
+ ''Download - Documents - ERROR.''
+ ''Failed in method StartComm in Source''<host>'':1120.''
+
+
+===Parametro em falta===
+Em relatorio de acçoes pode-se ler:
+
+  ''Download - Documents - ERROR. Msg: Procedure 'DocumentOut_Insert_AUTO_sp' expects parameter '@InternalDocumentNr', which was not supplied''
+
+===Documento sem detalhes===
+
+Um documento não tem detalhes associados.
+
+'''Solução:''' buscar uma linha a um documento com 2 ou mais linhas, e criar os detalhes do documento em falta.
+recalcular os IVAs nos dois documentos.
+
+===Empregado com ID 0===
+'''Diagnóstico:''' Vendas foram atribuidas ao funcionario generico
+
+'''Resolução:''' Atribuiçao das vendas a um outro funcionario existente
+ 
+ # psql -h localhost -U postgres koncepto
+ koncepto=# update documents set worker_id =19 where worker_id=0;
+
+===Documentos sem Cashflow===
+Para procurar documentos sem respectivo cashflow, deve-se executar o comando
+ koncepto=# SELECT *  from documents where doc_type=2 and id not in (select reference_document_id from cashflow );
+
+=Outra aplicação=
+
+
+=="Sessão Inválida: ''###''"==
+
+[[Imagem:sessao_invalida.jpg]]
+Esta mensagem surge quando as sessões não foram absorvidas na totalidade pelo Regi.
+
+[[Imagem:tabela_regi_session.jpg]]
+
+Para resolução do problema, tem de se concluir as comunicações com o centro de custo.
+
+=="Este SqlTransaction está concluido; já não pode ser utilizado."==
+
+[[Imagem:SqlTransaction_concluido.jpg]]

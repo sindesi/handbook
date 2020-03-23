@@ -1,0 +1,76 @@
+=Absorção de CSVs pelo Regi=
+
+==Requisitos==
+Para que as vendas do Koncepto V3 possam ser assimiladas pelo Regi é necessário ter:
+*CSVs de Vendas '''nYYMMDD.CSV'''
+*CSVs de Empregados '''WORKERS.CSV'''
+*CSV de Produtos '''PRODUCTS.CSV'''
+*CSV de Mesas '''TABLES.CSV'''
+
+O procedimento será então criar a estrutura mínina no Koncepto V4 e a partir desta criar as bases no centro de custo no Regi.
+A partir daqui o Regi poderá então processar as vendas.
+
+==Preparação de Dados em Koncepto V4==
+
+===Importação de artigos===
+Importa-se os ficheiros para o Linux com uma base de dados vazia, e cria-se uma lista de artigos baseada nos ficheiros de vendas
+
+ # cat *.csv  | awk -F, '{ print $8 "," $10}' \
+              | sort  | uniq  \
+              | awk -F, '{ print $1"\n"$1"\n"100"\n"$2"\n#\n3333\n16\nNo\n0\nNo\n0\n12.0\nNo,\nNo\n0\n0\n0\n0\n8\n" }' >> produtos2.csv
+
+
+No Koncepto no ''layer'' '''Técnico''' escolhe-se a opção "'''Importar CSV'''"  e carrega-se o ficheiro gerado.
+
+===Importação de Mesas===
+
+Cria-se as mesas conforma o ficheiro '''MESAS.CSV'''. O sincronismo é baseado no nome pelo que este deve ser escrito exactamente como está no ficheiro.
+
+ # cat MESAS.CSV  | grep  "[a-z][a-z][a-z]" | sort 
+
+===Importação de empregados===
+
+Cria-se os empregados conforma o ficheiro '''WORKERS.CSV''' e mais uns quantos a prevenir o sincronismo na situação de algum já ter sido eliminado.
+
+
+==Absorção pelo Regi==
+
+===Parametrizações no Regi===
+
+Com uma base de dados vazia, prepara-se todo o regi para a povoação da base de dados.
+Para tal, cria-se um centro de custo, e configuram-se as comunicações de forma a aceitar CSVs Kv3 e soapServer do k4.
+
+
+===Preparação de base de dados===
+
+Na base de dados, é necessário verificar a tabela '''InterfaceParameter''' e nesta inserir o caminho completo para a localização dos CSVs das vendas.
+
+ InterfaceParameterValue=c:\caminho\para\a\pasta'''
+ InterfaceParameterTypeRef=49
+ ExternaSoftwareRef=ID_do_software   (Confome está descrito no "external software")
+
+=Erros de Comunicações=
+
+==Erros de Ligação ao Servidor==
+===Falhou a ligação ao servidor:1120===
+* computador de FrontOffice está desligado ou inacessível;
+* o soapServer deixou de responder.
+
+===Aparecem dois polegares no principio e no fim da barra de progresso===
+* o RegiManager deixou de funcionar convenientemente. A forma mais simples de resolver passa por reiniciar o computador.
+
+==Erros de Log==
+* Surgem quando a tabela de correspondências do Regi não coincide com a informação recebida pelo FrontOffice
+
+===IVA de artigo errado===
+Quando se altera o valor do IVA na base de dados do FrontOffice, é necessário modificar o Regi para que este não rejeite os artigos comunicados
+
+==Erros de Documentos==
+* Surgem quando um documento não pode ser processado correctamente.
+
+===Worker_ID=0===
+O empregado que vendeu o artigo não consta na base de dados do Regi.
+
+===Venda de Matérias Primas===
+Quando no FrontOffice se faz uma venda de um matéria prima, no Regi é gerada uma excepção.
+É necessário corrigir a(s) venda(s) para produtos normais para que o Regi possa processar correctamente.

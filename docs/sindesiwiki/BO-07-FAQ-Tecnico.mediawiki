@@ -1,0 +1,85 @@
+===Resolução de problemas===
+
+====A aplicação demora muito tempo a iniciar e a abrir relatórios====
+Esta situação pode verificar-se devido a duas situações distintas, e ambas sugerem um redimensionamento de hardware. 
+
+Caso a instalação seja local, deverão ser analisados os recursos de processador e memória existentes, e realizar o upgrade necessário. 
+
+Caso estejamos perante uma instalação de rede, o problema poderá ser originado por um baixo débito na mesma. 
+
+Em qualquer das situações em que se verifique esta conjuntura de forma constante, impõe-se a necessidade de realizar o respectivo de hardware
+
+====O Regi funciona na máquina onde está instalado o servidor mas não funciona no cliente.====
+1. 2. 3. 4. 5. Verifique a existência de rede. 
+
+Verifique que a máquina cliente consegue visualizar o servidor através da rede. 
+
+Verifique o ficheiro de configuração. 
+
+Verifique as permissões da firewall para o servidor SQL. 
+
+Verifique as abertura da firewall para a porta 4568, necessária para comunicações com o Regi Server.
+
+====Falha de acesso ao servidor devido a configurações de rede====
+O Regi como aplicação cliente – servidor necessita obrigatoriamente de ter uma rede TCP/IP configurada. 
+
+No caso de uma instalação local, onde todo o software é instalado numa única máquina, a aplicação cliente deverá ser configurada para aceder ao servidor local – localhost – definido por defeito pelo SO. 
+Deste modo, deverá ser usado o IP 127.0.0.1. No caso de instalações em rede, dever-se-á ter em atenção a existência de firewalls que impeçam a troca ou o acesso a dados. 
+Segue a forma de resolução para o SO Windows XP SP2: 
+#Aceder ao “Control Panel” 
+#Aceder ao “Windows Firewall” 
+#Aceder ao tab “Exceptions” Caso não exista um item com “sqlservr.exe”, deverá pressionar “Add program” e adicionar o executável do SQL Server. 
+Por defeito poderá ser encontrado em “C:\Program Files\Microsoft SQL Server\MSSQL\Binn\ sqlservr.exe” 
+Caso não exista um item com “4568”, deverá pressionar “Add port” e adicionar a porta 4568.
+
+====Falha de validação da HASP====
+Verificar a correcta instalação da HASP e a localização do ficheiro de licenciamento. 
+
+Verificar o emparelhamento de ambos, i.e., que a HASP e a activação têm o mesmo número de série.
+
+====Mensagem: “The Regi Manager is not installed on this machine”.====
+Verifique se o Regi Manager se encontra devidamente instalado na máquina servidor. 
+
+Caso afirmativo, desinstale e volte a instalar.
+
+====Mensagem “The HASP is not present”.====
+Verifique a existência da HASP e da respectiva licença de activação na mesma pasta do executável.
+
+====Mensagem “The licence file is not compatible with the HASP”.====
+O ficheiro de activação não é compatível com a HASP colocada. 
+
+Verifique que a existência da HASP e do ficheiro licfilec.lic correctos.
+
+Verifique o número de série de ambos, através das ferramentas técnicas.
+
+====Mensagem: “Erro na verificação da HASP! A aplicação vai ser encerrada!”.====
+A validação da HASP não foi realizada correctamente. 
+
+Verifique os seguintes pontos:
+#A HASP encontra-se devidamente conectada à máquina
+#O driver está correctamente instalado
+#O ficheiro de activação da HASP encontra-se instalado no directório correcto
+#O ficheiro de setup encontra-se no directório correcto 
+#O ficheiro de setup está bem configurado 
+#O ficheiro de activação corresponde à HASP com o mesmo número de série
+
+====Mensagem: “A ligação ao servidor Regi falhou.” ou “Connection with Regi Server failed.”.====
+Significa que deixou de ter uma ligação estabelecida com o servidor. 
+
+Esta situação pode verificar-se devido a motivos: 
+#Timeout da ligação 
+#Paragem do servidor
+#Quebra de rede
+
+====Mensagem: “Number of access full. This Machine cannot be validated.”.====
+Sempre que esta mensagem é apresentada, significa que o número de ligações ao servidor existentes no momento é superior aquela que se encontra licenciada.
+
+De modo a conseguir estabelecer a ligação, deverá desligar um cliente existente.
+
+====Mensagem: “This Hasp don't contain licensing for this module.”.====
+Esta mensagem é apresentada sempre que tenta estabelecer uma ligação ao servidor através de uma aplicação parametrizada para utilizar um ou mais módulos para os quais não existe licenciamento.
+
+Para a resolver deverá verificar os módulos definidos no ficheiro de configuração da aplicação “SetupRegi.xml”.
+
+====Outros problemas no estabelecimento de comunicações...====
+Para a resolução de outros problemas relativos ao servidor, ou ao estabelecimento de ligações, por favor consulte o ficheiro de log do Regi Manager, localizado no directório “System32\Debugger.log” no interior da pasta de instalação do Windows.

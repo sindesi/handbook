@@ -1,0 +1,757 @@
+= Linux Server =
+
+
+== Administração lvm ==
+
+=== Backup ===
+
+ dd if=/dev/hda | gzip > /mnt/hdb1/system_drive_backup.img.gz
+
+
+=== Restore ===
+
+ gzip -dc /mnt/hdb1/system_drive_backup.img.gz | dd of=/dev/hda
+
+extraido de: http://wiki.linuxquestions.org/wiki/Dd#Creating_a_hard_drive_backup_image
+
+== Como criar/manter os repositórios Debian ==
+
+
+This short HOW-TO describes how to setup a repository using '''reprepro'''.
+
+First choose a directory where you want to store your repository,
+
+=== Configuration ===
+
+Generate a directory named conf/
+Create a file named "distributions" there.
+Add entries such as:
+
+ Origin: Debian
+ Label: Debian-All
+ Suite: stable
+ Codename: woody
+ Version: 3.0
+ Architectures: i386 sparc mips source
+ Components: main non-free contrib
+ Description: Debian woody + woody/non-US + woody/updates
+ #Update: debian non-US security
+ #SignWith: yes
+
+or: 
+
+ Origin: PCPool
+ Label: PCPool
+ Suite: stable
+ Codename: pcpool
+ Version: 3.0
+ Architectures: i386 source
+ Components: main non-free contrib bad protected server
+ UDebComponents: main
+ Description: PCPool specific (or backported) packages
+ SignWith: yes
+ DebOverride: override
+ UDebOverride: override
+ DscOverride: srcoverride
+
+* Multiple entries are separated with an empty line.
+* The codename is used to determine the directory to create.
+
+The Update line is described later. If SignWith is there, it will try to sign it. (Either use "yes" or give something gpg can use to identify the key you want to use).
+
+The other fields are copied into the appropriate Release files generated.
+
+===Adding files to the repository===
+
+To add a .deb manually:
+
+ reprepro -Vb . includedeb pcpool /var/cache/apt/archives/libc6_2.2.5-11.8_i386.deb
+
+to add a .changes file:
+
+ reprepro -Vb . include pcpool test.changes
+
+'''Hint:''' you can add '''-C''' component, '''-A''' architecture, '''-S''' section, '''-P''' priority to give additional hints where it should go. 
+
+Note -A will not overwrite something to go into another architecture, but simply ignore those not fitting, only "Architecture: all" packages are placed exactly in these architecture.
+
+Helps when it is not available for all architectures and each binary version needs a fitting version of the '''Arch:all package'''
+
+=== Removing files from the repository===
+
+ reprepro -Vb . remove pcpool libc6
+
+to only remove from a specific component or architecture:
+
+ reprepro -Vb . -C main -A i386 remove pcpool libc6
+
+===Getting information about a package===
+
+To see in which architectures/components a packages exists and which version it uses.
+
+ reprepro -b . list pcpool libc6
+
+===Override-Files===
+
+When including packages via ''includedeb'', ''includedsc'' or ''include'' the applicable override file from the distribution it is placed into is used.
+
+The file given by ''DebOverride'' for ".deb"s, the file given by ''UDebOverride'' for ".udeb"s and the file given by ''DscOverride'' for ".dsc"s. 
+
+If the filename starts with a slash ('''/''') it is not relative to the override directory given with '''--override''' (Default is ''basedir + "override"'').
+
+Note that the ''Format'' is those of apt-ftparchive's ExtraOverride, not the old format.
+
+An (stupid) example line for that file would be:
+libc6 Priority extra
+
+===Importing from upstream repositories===
+
+The file conf/updates can contain entries like this:
+
+ Name: debian
+ Method: http://ftp.debian.de/debian 
+ VerifyRelease: F1D53D8C4F368D5D
+
+ Name: non-US
+ Method: http://ftp.debian.de/debian-non-US 
+ Suite: */non-US
+ Architectures: i386 sparc mips source
+ Components: main>main non-free>non-free contrib>contrib
+ UDebComponents: none
+ VerifyRelease: B629A24C38C6029A
+
+ Name: security
+ Method: http://security.debian.org/debian-security 
+ Suite: */updates 
+ UDebComponents: none
+ VerifyRelease: F1D53D8C4F368D5D
+
+Which of those are used is determined by the "'''Update:'''" line in the description in conf/distributions. 
+
+When "'''Suite:'''", "'''Architecture:'''", "'''Components'''" or "'''UDebComponents'''" are not given or empty, those of the distribution to be added are used. 
+
+(Place a not existing component like "'''none'''" there if you want  only the other of '''Components''' or '''UDebComponents'''). The suite of the target can be used as "'''*'''" in the Suite here. "'''VerifyRelease:'''" tells which gpgkey to use checking the ''Release.gpg''. 
+
+(Add a "'''IgnoreRelease: yes'''" to ignore any Release files)
+
+To import components in other components, use the source>target syntax.
+
+"'''Method:'''" describes an apt-method, for which the programs from /usr/lib/apt/methods are used...
+
+To update everything possible do:
+
+ reprepro -b . update
+
+To only update some distributions do:
+
+ reprepro -b . update woody
+
+(There is no support for updating a distribution from only specific upstreams yet. You will have to edit ''conf/distributions'' for that)
+
+The value for VerifyRelease can be retrieved using:
+
+ gpg --with-colons --list-keys <whatever>
+
+===Integrating with apache http server===
+
+[The following is from V. Stanley Jaddoe (debian@terabytemusic.cjb.net).
+
+Make sure to include all sources when allowing everyone access to software only available under GPL to you. (Well, you should always supply sources, but in some cases not doing so might cause you trouble.)]
+
+Using reprepro with apache2 (sarge, etch, sid)
+
+This example assumes the reprepro repository is under /srv/reprepro/ and that apache2 has been correctly installed and configured
+
+The first step is to create a virtual directory called debian/. 
+
+Assuming your server runs the host http://www.example.com/, the web repository will be placed at http://www.example.com/debian/
+
+Create an apache2 config file in the conf dir of your reprepro repository, using the following command:
+
+ cat > /srv/reprepro/conf/apache.conf << EOF
+ Alias /debian /srv/reprepro/
+ <Directory /srv/reprepro>
+         Options +Indexes
+         AllowOverride None
+         order allow,deny
+         allow from all
+ </Directory>
+ EOF
+
+
+To enable this virtual directory, a symlink has to be created. This can be done using the following command:
+
+ ln -s /srv/reprepro/conf/apache.conf /etc/apache2/conf.d/reprepro.conf
+
+The second step is setting the permissions in such a way that web users can browse the repository, but cannot view the reprepro specific configuration.
+
+This can be done using the following commands:
+
+ chown -R root:root /srv/reprepro/
+ chmod 755 /srv/reprepro/
+ chown -R root:www-data /srv/reprepro/dists/ /srv/reprepro/pool/
+ chmod 750 /srv/reprepro/*
+
+Reload apache2:
+
+ /etc/init.d/apache2 reload
+
+Check if the repository is viewable by web-users, by pointing your browser to
+
+ http://www.example.com/debian/
+
+If there are no problems with your reprepro repository and the apache2 configuration, you should see two directories, ''dists/'' and ''pool/''.
+
+The last step is to add this new repository to your ''sources.list''
+
+This is as easy as:
+
+ echo "deb http://www.example.com/debian pcpool main non-free contrib" >> /etc/apt/sources.list
+
+==Xen==
+
+
+=== Compilação ===
+
+No momento de escrita deste documento, existe instalado no mlabs o Xen na versão 3.3.1. Foi compilado em Debian Lenny, e foi necessário instalar algumas dependências.
+<pre>
+# apt-get install mercurial
+# apt-get install gcc make binutils bcc bin86 libc6-dev libc6-dev-i386 zlib1g-dev libssl-dev python-dev x-dev kernel-package build-essential
+# apt-get install gawk libncurses5-dev texinfo
+</pre>
+
+A compilação e instalação encontra-se documentada com o código fonte. Mas aqui ficam explicitos os passos:
+<pre>
+wget http://bits.xensource.com/oss-xen/release/3.3.1/xen-3.3.1.tar.gz
+tar zxvf xen-3.3.1.tar.gz
+cd xen-3.3.1
+make world
+</pre>
+
+Durante o processo de compilação, é necessário acesso à rede, pois vão ser descarregados alguns códigos fontes, incluindo o próprio kernel dos repositórios do Xen. Para este efeito o processo de instalação faz uso do mercurial.
+Durante a compilação do kernel, é comum aparecer uma ou outra pergunta de configuração, para a qual não existe resposta predefinida, e para a qual será necessário intervenção do utilizador.
+Depois de compilado o xen, existirá uma pasta "dist", que contém tudo o que é necessário para o instalar. 
+
+<pre>
+cd dist
+# ./install.sh
+</pre>
+
+O script de instalação colocará todos os ficheiros em posição, mas ainda é necessário alguns passo para que o sistema arranque com o Xen.
+
+<pre>
+# cd /boot/
+# depmod 2.6.18.8-xen
+# mkinitramfs -o initrd.img-2.6.18.8-xen 2.6.18.8-xen
+# update-grub
+# reboot
+</pre>
+
+O passo "depmod 2.6.18.8-xen", foi executado mas não sei se era necessário.
+Durante o passo de instalação foram colocados os scripts de inicialização do xen na pasta "/etc/init.d/", que são necessários registar nos runlevels.
+
+<pre>
+update-rc.d xend defaults
+update-rc.d xendomains defaults
+</pre>
+
+O script xend inicializa o Xen no arranque, e o script xendomains, arranca automáticamente os dominios que se encontram na pasta "/etc/xen/auto".
+
+
+=== Replicação de Máquinas ===
+
+ apt-get install ssh
+ apt-get install dhcp3-server
+ apt-get install bind9
+ apt-cache search tftpd
+ apt-get install tftpd-hpa
+ apt-get install mercurial
+ apt-get install gcc make binutils bcc bin86 libc6-dev libc6-dev-i386 zlib1g-dev libssl-dev python-dev x-dev kernel-package build-essential
+ apt-get install gawk libncurses5-dev texinfo
+ mount
+ mkdir xenBuild
+ cd xenBuild/
+ apt-get install gawk libncurses5-dev texinfo
+ wget http://bits.xensource.com/oss-xen/release/3.3.1/xen-3.3.1.tar.gz
+ tar zxvf xen-3.3.1.tar.gz
+ cd xen-3.3.1
+ make world
+ cd dist/
+ ./install.sh
+ cd /boot/
+ depmod 2.6.18.8-xen
+ mkinitramfs -o initrd.img-2.6.18.8-xen 2.6.18.8-xen
+ update-grub
+ reboot
+ update-rc.d xend defaults
+ update-rc.d xendomains defaults
+ ifconfig 
+ ifconfig  -a
+ vim /etc/network/interfaces 
+ /etc/init.d/networking restart
+ /etc/init.d/networking restart
+ ifconfig eth1 192.168.20.5 netmask 255.255.255.0
+ ifconfig 
+ vim /etc/network/interfaces 
+ lspci
+ ifconfig  -a
+ ifconfig 
+ netstat -an | grep LIST
+ ls /
+ mount
+ ls /home/
+ mkdir /backups
+ lvscan 
+ mount /dev/bastidor/backups /backups/
+ clear
+ vi /backups/etc/network/interfaces 
+ vi /etc/network/interfaces 
+ clear 
+ apt-get install vim
+ clear
+ route
+ route add default gw 192.168.20.253
+ apt-get install vim
+ clear
+ vi /etc/network/interfaces 
+ apt-cache search brctl
+ apt-cache search iproute
+ apt-get install iproute
+ apt-get install bridge-utils
+ clear 
+ cp /backups/etc/xen/*.hvm /etc/xen/
+ ls /etc/xen/
+ cp /backups/etc/xen/auto/*.hvm /etc/xen/auto/
+ ls /etc/xen/auto/
+ vi /etc/default/dhcp3-server 
+ vi /etc/default/dhcp3-server 
+ cp /backups/etc/xen/xend-config.sxp /etc/xen/
+ cp /backups/etc/xen/scripts/vif-private-subnet /etc/xen/scripts/
+ cp /backups/etc/firewall.conf /etc/
+ cp /backups/etc/network/if-up.d/iptables /etc/network/if-up.d/
+ vi /backups/etc/xen/scripts/network-route 
+ reboot
+ mount
+ lvscan 
+ mount /dev/bastidor/backups /backups/
+ cp /backups/etc/dhcp3/dhcpd.conf  /etc/dhcp3/dhcpd.conf
+ /etc/init.d/dhcp3-server start
+ cp /backups/etc/bind/db.* /etc/bind/
+ cp /backups/etc/bind/named.conf* /etc/bind/
+ /etc/init.d/bind9 start
+ vi /etc/network/interfaces 
+ cd /var/lib/tftpboot/
+ ls
+ tar zxvf /backups/tftpboot.tar.gz 
+ ls
+ rm -Rf var/
+ cd /
+ tar zxvf /backups/tftpboot.tar.gz 
+ /etc/init.d/tftpd-hpa stop
+ vi /etc/resolv.conf 
+ vi /etc/default/tftpd-hpa 
+ /etc/init.d/tftpd-hpa start
+ nmap 127.0.0.1
+ nmap 192.168.20.5
+ netstat -an | grep LIST
+ netstat -anp | grep LIST
+ ps aux
+ vi /backups/etc/default/tftpd-hpa 
+ /etc/init.d/tftpd-hpa start
+ ps aux
+ vi /etc/inetd.conf 
+ vi /backups/etc/inetd.conf 
+ vi /etc/init.d/tftpd-hpa 
+ man inetutils-inetd 
+ grep tftp /var/log/syslog 
+ date
+ exit
+ xm list
+ iptables-save 
+ ping 10.1.1.101
+ clear
+ ssh 10.1.1.101
+ xm list
+ vi /etc/xen/auto/windows01.hvm 
+ xm create /etc/xen/auto/windows01.hvm
+ clear
+ apt-get install nmap
+ clear
+ nmap 127.0.0.1
+ nmap 10.1.1.101
+ vi /etc/xen/scripts/network-route 
+ cat /proc/sys/net/ipv4/ip_forward
+ clear
+ iptables -save
+ iptables-save
+ vi /etc/firewall.conf 
+ clear
+ iptables-restore /etc/firewall.conf 
+ ssh 10.0.0.100
+ ssh 10.1.1.100
+ arp
+ssh 10.1.1.1
+ssh 10.1.1.100
+arp
+ssh 10.1.1.101
+ssh 10.1.1.101
+ssh 10.1.1.101 -l root
+ssh -XC 192.168.20.11 -l nuno
+ssh 10.1.1.101 -l root
+ssh 10.1.1.101 -l root
+
+
+ssh 10.1.1.10
+ssh 10.1.1.101
+ifconfig br0
+netstat -an
+ssh 10.1.1.101
+vi /etc/bind/named.conf.options
+/etc/init.d/dhcp3-server status
+/etc/init.d/bind9 status
+/etc/init.d/bind9 start
+tail /var/log/syslog
+man named
+vi /etc/init.d/bind9 
+/etc/init.d/bind9 start
+tail /var/log/syslog
+named-checkconf 
+man named-checkconf 
+man named-checkconf 
+named-checkconf 
+vi /etc/bind/named.conf +20
+vi /etc/bind/named.conf.local 
+vi /etc/bind/named.conf +20
+named-checkconf 
+/etc/init.d/bind9 start
+netstat -an
+ssh 10.1.1.101
+nmap 127.0.0.1
+date
+ls
+xm --help
+xm -list
+xm --list
+xm list
+iptables-save
+cat /etc/networks 
+cat /etc/network/if-up.d/iptables 
+cat /etc/firewall.conf 
+cd /etc/xen/
+ls -la
+cd auto/
+ls
+xm list
+vi linux-testes.hvm 
+ssh 10.1.1.100
+ssh 10.1.1.200
+
+
+
+====Partimage-ng====
+
+Instalação do partimage-ng com '''suporte lvm'''
+ # primeiro deixa passar uma nova vsao do partimage-ng
+ # pa.. vou ter de sair agora... mas depois eu ligo.te -- tens previsoes para hora de fim da coisa? 
+ # 1h
+ # OBRIGADÃO!
+ tar zxvf partimage-ng.tar.gz partimage
+ mv partimage-ng.tar.gz partimage
+ cd partimage/
+ ls
+ tar zxvf partimage-ng.tar.gz 
+ cd devel-gc2/
+ mkdir build-tocatta
+ cd build-tocatta/
+ apt-get install cmake
+ cmake ..
+ apt-cache search ext2 | grep devel
+ apt-get install libparted1.8-dev
+ rm -Rf *
+ cmake ..
+ # apt-cache search ext2 | grep devel
+ # apt-cache search ext2
+ apt-get install e2fslibs-dev
+ rm -Rf *
+ cmake ..
+ apt-cache search ntfs | grep dev
+ apt-get install libntfs-3g-dev
+ rm -Rf *
+ cmake ..
+ apt-get install boost | grep lib
+ apt-cache search boost | grep lib
+ apt-get install libboost1.35-dev
+ rm -Rf *
+ cmake ..
+ apt-get install pkg-config
+ rm -Rf *
+ cmake ..
+ apt-cache search ntfs
+ apt-get install libntfs-3g31
+ apt-get install libntfs-dev
+ rm -Rf *
+ cmake ..
+ make
+ apt-get install libhal-dev
+ rm -Rf *
+ cmake ..
+ make
+ make install
+ 
+ # e ate aqui foi so a instalacao do partimage-ng com suporte lvm
+ cd ~
+ ls -alh
+ # detectar a maquina com o ip 200
+ vi /etc/dhcp3/dhcpd.conf 
+ ssh 10.1.1.200 ifconfig eth0
+ # mac 00:16:3E:E7:3A:14
+ grep 00\:16\:3E\:E7\:3A\:14 /etc/xen/auto/
+ grep 00:16:3E:E7:3A:14 /etc/xen/auto/
+ grep 00:16:3E:E7:3A:14 /etc/xen/auto/*
+ vi /etc/xen/auto/linux01.hvm 
+ vi /etc/xen/auto/linux02.hvm 
+ vi /etc/xen/auto/linux-testes.hvm 
+ grep mac /etc/xen/auto/*
+ # mac 00:16:3E:E7:3A:14
+ grep -i 00:16:3E:E7:3A:14 /etc/xen/auto/*
+ grep disk /etc/xen/auto/linux-testes.hvm 
+ # e aqui esta o disco a ser duplicado x3
+ lvscan 
+====Criação de novos discos====
+Tenho de fazer 3 discos iguais de 2GB
+ lvcreate -L 10G -n win01 fileserver
+ lvcreate -L 2G -n koncepto01 bastidor
+ lvcreate -L 2G -n koncepto02 bastidor
+ lvcreate -L 2G -n koncepto03 bastidor
+
+Criar 3 ficheiros para as 3 novas maquinas virtuais
+ cd /etc/xen/auto/
+ cp linux-testes.hvm linux-koncepto01.hvm
+ cp linux-testes.hvm linux-koncepto02.hvm
+ cp linux-testes.hvm linux-koncepto03.hvm
+
+Para os 3 ficheiros criados e necessario alterar o disco para cada um dos anteriores criados
+ vi linux-koncepto0*
+
+é necessario dar a cada um um mac address diferente
+ cd ..
+ cd /root/
+ mkdir bin
+ cd bin/
+ wget http://www.easyvmx.com/software/easymac_1.1.sh
+ mv easymac_1.1.sh easymac.sh 
+ chmod 755 easymac.sh 
+ cd /etc/xen/auto/
+ mv /root/bin/easymac.sh /usr/local/bin/
+ easymac.sh -X
+ easymac.sh -x
+ wget http://www.easyvmx.com/software/easymac.sh /usr/local/bin/easymac.sh 
+ wget http://www.easyvmx.com/software/easymac.sh -O /usr/local/bin/easymac.sh 
+ mv easymac.sh /usr/local/bin/easymac.sh
+ chmod 755 /usr/local/bin/easymac.sh
+ easymac.sh -x
+ # este script gera mac's para xen
+ easymac.sh -x
+ easymac.sh -x
+ # vamos dar um mac address a cada uma das maquinas virtuais, e dar-lhes novos nomes
+ vi linux-koncepto0*
+ # vamos forcar os ips no servidor de dhcp, para evitar problemas
+ vi /etc/dhcp3/dhcpd.conf 
+ #reiniciar servidor dhcp
+ /etc/init.d/dhcp3-server restart
+ # como o ip da primera maquina que queremos replicar tem o ip forcado, temos de mudar a configuracao para ser por dhcp
+ # o ip desta maquina foi definido tb no dhcp
+ ssh 10.1.1.200 vi /etc/network/interfaces 
+ clear
+ ssh 10.1.1.200 
+ cd ~
+
+====Ideias a considerar====
+ # vamos replicar entao o disco da maquina original para as restantes
+ # podia ser feito num so passo, mas como queremos replicar mais do que uma vez
+ # vamos fazer um primeiro passo de backup, e depois 3 restauros
+ # ao inves de 3 pipes,.. provavelmente com o comando tee
+ # podemos experimentar ;)
+ # mas acho que a maquina vai atrofiar, mas tb sao so 2 GB
+ # Ah ah ah ah!! (gargalhada maquivelica)
+ man tee
+ # fica para outra altura 
+
+====Criação de Snapshot's====
+Criar snapshot do lvm que pretendemos replicar
+ lvscan 
+ lvcreate -L592M -s -n snap /dev/bastidor/linux-testes 
+ lvscan 
+Fazer backup
+ partimage-ng save /dev/mapper/bastidor-snap stdout | gzip -C /backups/koncepto00.img.gz
+ partimage-ng save /dev/mapper/bastidor-snap stdout | gzip -c /backups/koncepto00.img.gz
+ partimage-ng save /dev/mapper/bastidor-snap stdout | gzip -c > /backups/koncepto00.img.gz
+Ja posso remover o snapshot
+ lvremove /dev/bastidor/snap 
+
+E agora recuperar para os outros discos
+ zcat /backups/koncepto00.img.gz | partimage-ng restore stdin /dev/bastidor/koncepto01 
+ zcat /backups/koncepto00.img.gz | partimage-ng restore stdin /dev/bastidor/koncepto02
+
+Demora 2m30s a recuperar 2GB
+ zcat /backups/koncepto00.img.gz | partimage-ng restore stdin /dev/bastidor/koncepto03
+
+====Iniciar as maquinas====
+ xm create /etc/xen/auto/linux-koncepto01.hvm 
+ xm create /etc/xen/auto/linux-koncepto02.hvm 
+ xm create /etc/xen/auto/linux-koncepto03.hvm 
+ xm list
+ xm list
+ # leap of faith
+ ssh 10.1.1.201 ifconfig eth0
+ # merda
+ ssh 10.1.1.202
+ nmap 10.1.1.0/24
+ #nothing there
+ # vou ter de entrar por vnc
+ xm list
+ # o problema parece que foi que eu configurei o eth0, no network/interfaces, quando o que existe e o eth1
+ ssh 10.1.1.201 ifconfig eth1
+ # ja ca canta,.. mas tive de entrar via vnc
+ # com o comando: vncviewer -via sindesi.servehttp.com localhost:4
+ iptables-save 
+ # adicionar entradas na firewall
+ iptables -t nat -A PREROUTING -d 192.168.20.5/32 -i eth1 -p tcp -m tcp --dport 1121 -j DNAT --to-destination 10.1.1.201:1120
+ iptables -t nat -A PREROUTING -d 192.168.20.5/32 -i eth1 -p tcp -m tcp --dport 1122 -j DNAT --to-destination 10.1.1.202:1120
+ iptables -t nat -A PREROUTING -d 192.168.20.5/32 -i eth1 -p tcp -m tcp --dport 1123 -j DNAT --to-destination 10.1.1.203:1120
+ # gravar config da firewall
+ iptables-save > /etc/firewall.conf 
+ nmap 192.168.20.5
+ man nmap
+ nmap 192.168.20.5 -p 1120-1130
+ nmap 10.1.1.0/24
+ nmap 10.1.1.0/24 | grep "MAC|postgresql"
+ nmap 10.1.1.0/24 | grep "(MAC|postgresql)"
+ ssh 192.168.20.10 nmap 192.168.20.5 -p 1120-1130
+ ssh 192.168.20.11 nmap 192.168.20.5 -p 1120-1130
+ nmap 192.168.20.5 -p 1120-1130
+ ssh 192.168.20.10 nmap 192.168.20.5 -p 1120-1130 | grep open
+ ssh 192.168.20.11 nmap 192.168.20.5 -p 1120-1130 | grep open
+ # wink ;)
+ # done with proof of concept
+ # ps: isto tudo colocado num script demoraria no maximo 6mins, e seria aproximadamente proporcional ao tamnho do disco que se pretendia replicar
+ # bye bye
+
+==Subversion==
+
+All software developers have to deal with it. Version control software. Today I decided to play a bit with installing my own dedicated SVN (subversion) server. This, hopefully brief, step plan will help you do the same :).
+
+===Downloading all needed software===
+Before you can continue with the tutorial you will have to get the following things:
+
+*A ‘virtual’ computer to install you dedicated SVN server on, I used VMWare to emulate a server, but you could also use an old computer that you have as a spare.
+* Download Debian from http://www.debian.org/devel/debian-installer/, The reason for picking debian is easy. It’s supposed to be a stable and powerful Linux OS. (You can pick the netinst CD image)
+
+That’s all you will need. But be aware that we will be downloading various other packages (software applications) later on. So make sure you have your network prepared.
+
+===Installing Debian===
+Since I’m a complete newbie with Linux I just accepted all of the default settings. Which is fine for most people, but don’t do this for a company SVN server. It’s not really secure ;).
+
+===Setting up subversion on your server===
+You will need to login as root on the just installed Debian server. If you are set then it’s time to download some additional software. Just run the following commands:
+
+ apt-get update
+ apt-get install subversion
+ apt-get install libapache2-svn
+
+If Debian starts asking you questions just answer them with ‘Y’, mostly it will confirm if you want to install the packages. After this step you’ve just installed SVN on your server. Easy isn’t it :D.
+
+===Setting up the svn root===
+The next step is creating the svn root, which basically is the location were all your files will be stored. What I usually do is create a directory in the /home directory. But it’s your server so create it wherever you want to.
+
+<tt>
+     mkdir /home/svnroot
+     svnadmin create --fs-type fsfs /home/svnroot/project_worms
+     svnadmin create --fs-type fsfs /home/svnroot/project_cats
+</tt>
+
+As you see I created two different svn root’s. Most people love to create one for each project or each department. But do whatever you like.
+
+===Creating users for subversion===
+To be able to use subversion you need to give people access to it. So the next thing we will be doing is setting up some user accounts and a user group for subversion. You can do this by executing the following commands.
+
+     groupadd subversion
+     adduser bob -g subversion -p bobpass
+     adduser dylan -g subversion -p dylanpass
+
+The first commando creates the group we will be using. The next two commando’s create a user. By using '''-g''' you can set the group the user belongs to. With '''-p''' you can set the password.
+
+Now you can continue with setting up secure access to you SVN, but as I said before I’m just installing a private server so I don’t need it.
+
+===Confirming subversion is working===
+To make sure everything is working you can execute the following commando’s. The first will verify SVN is working the other two that the integration with Apache is working properly.
+
+     svnlook tree /home/svnroot/project_cats
+     a2enmod dav
+     a2enmod dav_svn
+
+
+===Preparing password protected access===
+In this step we will set up the protected access through Apache. This is done so we can access the svn root on other computers, which is the point :). Run the following commands to create a password file that we use to limit access.
+
+     htpasswd2 -c /etc/apache2/dav_svn.passwd bob
+     htpasswd2 /etc/apache2/dav_svn.passwd dylan
+
+You can add as many users as you want, but keep it maintainable. The next step is creating a file to set up the access through Apache. But before I give you that let’s explain some basics of vi, which is the text editor you’ll be using.
+
+To browse through a file you can use the arrow keys on you keyboard. To start editing you can either press i or a both enable the edit mode. The first is insert and will push the text after the cursor back. The latter is append and will make the typed text appear after the selected text. To leave edit mode press esc. To remove an entire line press dd. For a complete list view http://www.chem.brown.edu/instructions/vi.html
+
+Now open the file '''/etc/apache2/mods-available/dav_svn.conf''' and put the following text in it.
+
+     <Location /svn/cats>
+         DAV svn
+         SVNPath /home/svnroot/project_cats
+         AuthType Basic
+         AuthName “Subversion Authentication - Project Cats”
+         AuthUserFile /etc/apache2/dav_svn.passwd
+         Require valid-user
+     </Location>
+
+What these few lines do is simple. It creates an alias on http://localhost/svn/cats and maps it to the previously created svn root. The AuthType, AuthUserFile combination enables simple password protection for the folder.
+
+Warning: You should create just as many entries in this file as you have svn roots, which you created a few steps earlier.
+
+Now you need to complete the installation by restarting Apache. This will apply all changes we’ve just made. Just run the following command:
+
+ /etc/init.d/apache2 restart
+
+===Optional: Setting a fixed IP===
+The last step of this tutorial is optional. Since this is a server you may want to set it up with a static IP address instead of a DHCP one. To do that edit the file '''/etc/network/interfaces'''.
+
+It should have at least one entry named iface eth0 inet dhcp. You need to change that to the following:
+ 
+     iface eth0 inet static
+         address 192.168.12.2
+         netmask 255.255.255.0
+         gateway 192.168.12.1
+
+Now if you’re not familier with the network your SVN server will be in ask the network administrator what the settings should be. But generally speaking you can use the ones I just gave, except for the gateway. Set this to your routers IP address.
+
+The next article I will post will be on how to install Trac, which will help you manage your SVN projects. But that’s for a later time.
+
+== FTP ==
+
+== dotproject ==
+
+== mediawiki ==
+
+===How do I change a user's password?===
+
+Assuming that <var>$wgPasswordSalt</var> is set to true (the default), you can use the following SQL query:
+
+ UPDATE user SET user_password = MD5(CONCAT(user_id, '-', MD5('somepass'))) WHERE user_name = 'whatever';
+
+Where obviously "somepass" is changed the password you want to set and "whatever" is changed to the user name as it is listed in the table "user".
+
+from [http://meta.wikimedia.org/wiki/MediaWiki_FAQ#How_do_I_change_a_user.27s_password.3F]
+
+== incoming backups ==
+
+= Windows Server =
+
+== administração de utilizadores ==

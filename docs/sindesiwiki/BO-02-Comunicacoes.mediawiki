@@ -1,0 +1,160 @@
+=Parametrização=
+[[Imagem:comunic_intro.jpg]]
+
+As comunicações entre o Koncepto e o Regi são executadas e controladas por esta segunda aplicação, com recurso a um webservice instalado na máquina servidor de Koncepto. Deste modo, a configuração deste sincronismo deverá ser realizado na aplicação cliente Regi. Segue uma breve descrição do processo.
+
+==Aceder à aplicação==
+
+Deverá abrir a aplicação Regi através de uma login com permissões técnicas, de modo a obter permissões para realizar as configurações desejadas.
+==Criar um novo servidor==
+
+
+Para tal deverá Técnica/'''Configuração de Servidores''', de modo a configurar o servidor de FrontOffice. Nesta janela, deverá indicar um nome para este servidor, identificar o centro de custo do servidor e o software com o qual pretende realizar as comunicações, neste caso o Koncepto.
+
+[[Imagem:comunic_configservers.jpg]]
+
+Para definir as comunicações com o koncepto não necessita aceder ao menu Ferramentas/Configuração identificar a login e password, deverá sim indicar o IP da máquina servidor de Koncepto, a porta 1120 e o protocolo TCP/IP para a transferência do tráfego na rede. A "'''Con timeout'''" define o tempo em segundos para abortar a procura do servidor de Koncepto na rede.
+
+==Configurar as comunicações com o servidor / software criado==
+[[Imagem:comunic_softexternos.jpg]]
+
+Deverá aceder à janela de configurações de software externo através do menu Ferramentas / Configuração Técnica / Softwares Externos, e verificar a existência das definições de objectos a sincronizar que se apresentam na tabela a baixo. Caso estas não estajam definidas, ou apresentem valores diferentes, deverão ser corrigidas para os valores apresentados.
+
+{| border="1"
+|'''Objectos de Comunicação:'''
+|'''Tipo de Conflito'''
+|'''Direccção'''
+|-
+|Artigos
+|Regi
+|Enviar
+|-
+|Famílias de artigos 
+|Regi
+|Enviar
+|-
+|Front Office 
+|Regi
+|Enviar
+|-
+|Empregados 
+|Regi
+|Enviar
+|-
+|Clientes 
+|Regi
+|Enviar
+|-
+|Cartões de clientes 
+|Regi
+|Enviar
+|-
+|Tipos de sessões 
+|Regi
+|Enviar
+|-
+|Tipos de cartões 
+|Regi
+|Enviar
+|-
+|Tipos de clientes 
+|Regi
+|Enviar
+|-
+|Unidades 
+|Regi
+|Enviar
+|-
+|Preços de artigos de cantinas 
+|Regi
+|Enviar
+|-
+|Quantidade de artigos de cantinas 
+|Regi
+|Enviar
+|-
+|Matérias-primas 
+|Regi
+|Enviar
+|-
+|Famílias de matérias-primas 
+|Regi
+|Enviar
+|-
+|Fornecedores 
+|Regi
+|Enviar
+|-
+|Índices 
+|Regi
+|Enviar
+|-
+|Páginas 
+|Regi
+|Enviar
+|-
+|Departamentos 
+|Regi
+|Enviar
+|-
+|Modelos de inventários 
+|Regi
+|Enviar
+|-
+|Impressoras virtuais 
+|Regi
+|Enviar
+|-
+|Mesas 
+|Regi
+|Enviar
+|-
+|Zonas
+|Regi
+|Enviar
+|-
+|}
+
+Adicionalmente, e caso não tenham sido definidos previamente, deverão ser adicionados manualmente os objectos a sincronizar que se apresentam na tabela a baixo.
+
+{| border="1"
+|-
+|'''Objectos de Comunicação '''
+|'''Tipo de Conflito'''
+|'''Direcçao'''
+|-
+|Sessões
+|Regi
+|Receber
+|-
+|Reservas de cantinas
+|Regi
+|Enviar
+|-
+|Ordens de bloqueio de reservas
+|Regi
+|Enviar
+|-
+|Documentos Externos
+|Regi
+|Receber
+|-
+|Documentos Internos
+|Regi
+|Enviar
+|-
+|Inventários
+|Regi
+|Enviar
+|-
+|Transferências
+|Regi
+|Enviar
+|-
+|}
+
+==Comunicações==
+
+As comunicações encontram-se devidamente configuradas.
+
+Para realizar o sincronismo basta seleccionar o departamento em causa na toolbar, e seguir as indicações do '''Assistente de Comunicações'''.

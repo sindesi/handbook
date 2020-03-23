@@ -1,0 +1,294 @@
+Regi 2005
+
+Guia de Instalação
+
+Assembly vs. 2.0.7.6
+
+Guia de Instalação vs 0.3
+
+=Conteúdo do pack de Software=
+
+==Módulo Cliente==
+[[Imagem:Regi_client.jpg]]
+*Setup Regi Client 
+*Microsoft .NET 
+*Framework 1.1
+
+==Módulo Servidor==
+[[Imagem:Regi_server.jpg]]
+*Setup Regi 
+*Server Setup 
+*Regi Manager 
+*MSDE (opcional ao Microsoft SQL Server 2000) 
+*Microsoft .NET 
+*Framework 1.1 
+*Hasp device driver 
+
+==Ferramentas Técnicas==
+[[Imagem:Regi_dbadmin.jpg]]
+*dbAdmin
+
+=Requisitos mínimos de Hardware aconselhados=
+
+==Módulo Cliente==
+*CPU P3 1.0Ghz, 
+*128MB RAM, 
+*HDD com 200Mb disponíveis 
+*Resolução aconselhada: 1280x1024 pixels 
+
+==Módulo Servidor==
+*CPU P3 1.0Ghz, 
+*256MB RAM, 
+*HDD com 2Gb disponíveis 
+*Rede com débito igual ou superior a 22Mbps
+
+'''Nota:''' Os requisitos aqui indicados não são vinculativos. Embora as aplicações corram com condições inferiores, indicamos estas como a configuração mínima para quaisquer instalações. Recordamos que o desempenho da aplicação está fortemente relacionado com o hardware disponibilizado, com principal relevância para o servidor. 
+
+=Requisitos de Software=
+
+Módulo Cliente
+* Windows 2000 
+* Windows XP
+* Windows Vista
+* Windows 7
+
+
+Módulo Servidor 
+* Windows 2000
+* Windows 2003 Server, 
+* Windows XP
+* Windows 7
+
+'''Nota''': A versão apresentada pode ser executada noutros sistemas operativos, desde que compatíveis com a '''Microsoft .NET Framework 1.1'''. Todavia, o seu funcionamento está sujeito a comportamentos não desejados. Para mais informações, aceder a documentação sobre compatibilidade da Framework.
+
+=Outros Equipamentos necessários para instalação=
+
+*HASP
+*Ficheiro de activação da Hasp 
+*Microsoft SQL Server Client Tools
+
+=Glossário=
+
+'''Cumulativo''': É um upgrade que inclui os patchs ou upgrades anteriores, deixando de ser necessária a execução sequencial das várias versões disponibilizadas. 
+
+'''dbAdmin''': Também conhecida como Unue dbAdmin, é uma ferramenta técnica desenvolvida pela Unue, com o objectivo de facilitar a excussão de tarefas técnicas nas aplicações da Unue implementadas para Windows. 
+
+'''Firewall''': Conjunto de programas que protege uma rede privada de utilizadores que estejam noutra rede. 
+
+'''HASP''': Chave de hardware que protege o acesso a aplicações. 
+
+'''Licença de software''': Chave de software de define permissões e protege o acesso a aplicações. 
+
+'''Koncepto''': Software específico para pontos de venda desenvolvido pela Unue para a área da restauração, hotelaria e retalho. 
+
+'''Microsoft .NET Framework''': Componente do sistema operativo Windows, usado para construir e executar aplicações Windows. 
+
+'''Microsoft Enterprise Manager''': Aplicação desenvolvida pela Microsoft, utilizada para gerir bases de dados SQL Server. Possui ferramentas gráficas que facilitam a execução de algumas tarefas. 
+
+'''Microsoft Query Analiser''': Aplicação desenvolvida pela Microsoft, utilizada para gerir bases de dados SQL Server. 
+
+'''MSDE''': Microsoft Database Engine, é um motor de base de dados desenvolvido pela Microsoft. Muito similar ao SQL Server, distingue-se essencialmente pelo limite físico máximo de 2Gb no tamanho das bases de dados e no tipo de licenciamento. 
+
+'''OS''' ou '''SO''': Abreviatura para “''Operative System''”, ou Sistema Operativo.
+
+'''Patch''': É uma tarefa de reparação de um bug de uma versão de software. 
+
+'''Port''': Local de ligação lógico usado por uma aplicação cliente para se ligar a um PC através da rede TCP/IP. 
+
+'''Regi''': Unue Regi, é uma aplicação de gestão desenvolvida pela Unue, para a área da restauração, hotelaria e retalho. Inclui como uma das suas principais características o controle dos pontos de vendas. 
+
+'''Regi Client''': Módulo da solução Regi, desenhada para interagir com o utilizador. Para o seu funcionamento é necessária a ligação a um módulo servidor. 
+
+'''Regi Manager''': Módulo de servidor da solução Regi. Sob a forma de um Windows service, recebe, gere e responde perante o módulo de cliente Regi. 
+
+'''Regi Server''': O mesmo que Regi Manager. 
+
+'''Regi Visual Manager''': Aplicação desenvolvida pela Unue que controla o funcionamento do servidor de Regi. Encontra-se instalada na máquina do servidor. 
+
+'''Setup File''': Ficheiro de configurações utilizado para parametrizar a configuração de rede do sistema Regi. 
+
+'''Upgrade''': Um upgrade é uma actualização de software. 
+
+'''Windows Firewall''': Firewall instalada no sistema Operativo Windows. Encontra-se activa por defeito a partir do sistema operativo Windows XP SP2.
+
+=Guia de Instalação=
+
+==Módulo Servidor==
+===Preparação de Base de Dados===
+====Instalar o Servidor de Base de dados====
+Caso não exista um previamente instalada uma instancia do servidor de base de dados Microsoft SQL Server 2000, ou Microsoft SQL Server 2000 Desktop Engine no servidor, esta deverá ser instalada. 
+
+Procedimentos de instalação: 
+[[Imagem:sql_manager.jpg|250px|right]]
+#Aceder à pasta '''MSDE SP4'''
+#Executar o ficheiro de instalação '''“setup.exe”'''
+#Reiniciar a máquina 
+#Na “''Task bar''”, junto ao relógio, deverá aparecer o ícone do servidor SQL, com a indicação do seu estado. Deverá abrir este aplicativo – '''''“SQL Server Service Manager”'''''. Alternativamente poderá aceder-lhe através da listagem de programas do Windows em '''''“Start/All Programs/Microsoft SQL Server/Service Manager”'''''.
+#Para alterar password de sql server pode-se utilizar esta linha de comando na consola: <pre>osql -U sa -P "" -Q "sp_password NULL,<newpassword>,sa"</pre>
+#No SQL Server Service Manager deverá iniciar e configurar o arranque automático dos três serviços disponibilizados : '''“SQL Server”''', '''“SQL Server Agent”''' e '''“DTC”'''.
+#Configurar o acesso TCP/IP Deverá aceder à pasta onde o SQL Server é instalado, por defeito '''“C:\Program Files\Microsoft SQL Server\80\Tools\Binn”''' e executar o aplicativo '''“SVRNETCN.exe”'''. Na tab “'''General'''” deverá activar o protocolo “'''TCP/IP'''”. Deverá deixar sempre a porta de comunicações definida por defeito – '''“1433”'''.  
+[[Imagem:sql_network.jpg]]
+
+Caso seja uma instalação de rede e exista uma firewall activa, deveram ser dadas permissões de acesso externo a este servidor. Indicações para dar permissões para o caso da firewall do Windows XP SP1 e 2:
+
+** Windows XP SP1 
+*** Aceder às “Network Connections” 
+*** Aceder às propriedades da placa de rede 
+*** No tab “Advanced” aceder às “Settings” 
+*** Adicionar o executavel do SQL Server, por defeito encontra-se em: '''“C:\Program Files\Microsoft SQL Server\MSSQL\Binn\ sqlservr.exe”'''
+*** Adicionar a porta “4568”. 
+*** Nomear a porta com o nome “Regi Manager”. 
+
+** Windows XP SP2 
+*** Aceder ao “Control Panel” 
+*** Aceder à “Windows Firewall” 
+*** No Tab “Exceptions” pressionar “Add Program” e colocar o executável do SQL Server, por defeito encontra-se em: '''“C:\Program Files\Microsoft SQL Server\MSSQL\Binn\ sqlservr.exe”''' 
+*** Na página “Exceptions” pressionar “Add Port” e adicionar a “4568”. 
+*** Nomear a porta com o nome “Regi Manager”.
+[[Imagem:windows_firewall.jpg|200px]]
+
+====Instalar a base de dados====
+[[Imagem:SQL_connect.jpg|right]]
+A base de dados de suporte à aplicação deverá ser colocada no servidor de base de dados configurado no passo anterior e deverá ter o nome “Regi2_0_7”.
+
+A base de dados da aplicação é fornecida num script SQL, que deverá ser executado de forma a gerar a base de dados no servidor.
+
+São fornecidas duas versões deste script, uma para instalação num SO em português, e outra em inglês.
+
+Caso a instância do servidor tenha sido instalada numa pasta diferente da indicada por defeito, os caminhos indicados no script deverão ser alterados.
+
+O Script chama-se “''Regi2_0.7.6.sql''”. A versão para o OS em inglês encontra-se no CD na pasta “RegiDatabase\New\Script\EN”, e a versão em português na pasta “RegiDatabase\New\Script\PT”.
+
+A execução do script poderá ser realizada através de várias aplicações, das quais realçamos as seguintes:
+*Microsoft Query Analizer 
+*Microsoft Enterprise Manager
+Aconselha-se o uso do “SQL Query Analizer”: 
+
+#Abrir a aplicação “SQL Query Analizer” 
+#Identificar o Servidor onde se pretende instalar – por defeito diga à base de dados “'''master'''”. A login e password são, por defeito, “sa” + “sa”. 
+#Abrir o script de criação da base de dados do Regi, por defeito no CD em “'''RegiDatabase\New\Script\ EN'''” ou “'''RegiDatabase\New\Script\ PT'''”. 
+#Executar o script na base de dados “'''master'''” para criar a base de dados, e respectivos utilizadores. Para tal deve carregar em '''F5''', no botão “''Execute Query''” na toolbar ou no menu “''Query/Execute''”. Para finalizar, aconselhamos a alteração da password do utilizador “'''sa'''”, na base de dados.
+
+====Configurar o acesso ao servidor Regi e à base de dados, na máquina onde será instalado o servidor de Regi====
+
+Criar um ficheiro de acesso ao Regi Server e ao SQL Server. Este ficheiro deverá ser criado através das ferramentas técnicas fornecidas - '''dbAdmin'''. 
+
+[[Imagem:regi_dbadminlogin.jpg]]
+
+Forma de proceder:
+#Abrir o dbAdmin 
+#Aceder à janela de criação de ficheiros de configuração: “''File/SetupFile''” 
+#Definir os parâmetros de ligação aos servidores. 
+#Salvar o ficheiro de configurações na pasta “'''C:\WINDOWS\system32\UnueSetup'''” com o nome “'''SetupRegi.xml'''”.
+
+===Licenciamento===
+====Colocar a HASP====
+[[Imagem:Hasp.jpg|thumb|right]]
+Deverá colocar a HASP fornecida na respectiva porta Paralela / USB.
+
+====Colocar a licença====
+Forma de proceder:
+#Copiar integralmente a pasta “'''UnueSetup'''” do CD para a máquina local, para a pasta “'''System32'''” que se encontra no directório de instalação do SO. No caso do Windows XP ficamos com “'''C:\WINDOWS\system32\UnueSetup'''”.
+#Copiar o ficheiro de activação da HASP fornecida - “'''licfilec.lic'''”, para esta pasta.
+
+====Instalar o driver da HASP====
+
+No CD com o software, na pasta “HASP” é fornecido o driver da HASP, cuja instalação é obrigatória para o funcionamento do software.
+Deste modo, deverá executar o “'''HASPUserSetup.exe'''”, e instalar os novos drivers fornecidos.
+
+
+[[Imagem:driver_hasp.jpg]]
+===Servidor de Regi===
+====Instalar o Servidor de Regi – Regi Manager====
+O Servidor de Regi é um serviço do Windows, que funcionará em paralelo com o sistema operativo e controlará o funcionamento das aplicações cliente Regi. Este aplicativo é fornecido no CD e encontra-se na pasta “RegiManager”. 
+
+Para o instalar deverá executar o ficheiro “Setup.exe” e seguir as instruções. Recomendamos que instale a aplicação no directório sugerido “C:\Program Files\Unue\RegiManager” e com permissão para todos os utilizadores. O Windows Service é instalado, iniciado e configurado de forma a arrancar automaticamente com o sistema operativo. Caso pretenda, pode verificar estas definições na janela de serviços do Windows.
+
+====Instalar o Regi Visual Manager (inclui Microsoft .NET Framework 1.1)====
+
+Este é um aplicativo que controla o serviço instalado no ponto anterior. 
+
+Para o instalar deverá executar o ficheiro '''“Setup.exe”''' que se encontra na pasta '''“RegiVisualManager”''' no CD fornecido. 
+
+Por defeito ele é instalado na pasta '''“C:\Program Files\Unue\RegiManager”'''. 
+
+Deverá dar permissões de excussão a todos os utilizadores do servidor. 
+
+[[Imagem:install_Rvisualmanager.jpg]]
+
+
+Deverá verificar a adição de um novo atalho no ''“startup”''. 
+
+Caso não exista um atalho para o '''“Regi Visual Manager”''' deverá cria-lo manualmente.
+
+====Reiniciar o servidor====
+Deverá reiniciar a máquina servidor, e verificar o arranque do '''Regi Manager''' – servidor de Regi e do seu gestor – '''Regi Visual Manager'''. 
+
+[[Imagem:tray_Ricon.jpg]]
+
+Isto poderá ser realizado através de uma simples inspecção do ícone do Regi Visual Manager, na Task bar, junto ao relógio.
+
+===Parametrizações base da aplicação===
+
+====Base de Dados====
+[[Imagem:dbadmin_connect.jpg| 250px |right]]
+A aplicação é fornecida com uma base de dados limpa. 
+
+Após a sua instalação, existem um conjunto de dados cuja configuração é obrigatória para o funcionamento do Regi, entre eles encontram-se a definição de parâmetros base da aplicação, a definição de utilizadores, etc... 
+
+Para carregar a base de dados com estas definições deverá ser usada a aplicação dbAdmin, fornecida no CD de software, na pasta com o mesmo nome. 
+
+Forma de proceder: 
+#Abrir o '''dbAdmin'''
+#Ligar à base de dados do Regi: ''“File/Connect”''
+#Carregar as parametrizações ''“Administration/Required Values”''
+##Seleccionar a versão correcta da base de dados “0.7.6” 
+##Verificar a existência do ficheiro: ''“Check File”''
+##Configurar a base de dados: ''“Run”''
+
+Após estas tarefas conclui a instalação do servidor e está pronto para instalar a(s) aplicação(s) cliente(s).
+
+==Módulo Cliente==
+===Instalar a aplicação cliente Regi 2005 (inclui Microsoft .NET Framework 1.1)===
+
+O módulo de cliente deverá ser instalado em todas as máquinas onde pretenda usar a aplicação Regi. 
+
+Para instalar deverá executar o ficheiro '''“Setup.exe”''' que se encontra na pasta '''“RegiClient”''' do CD fornecido. 
+
+Recomendamos que instale a aplicação no directório sugerido '''“C:\Program Files\Unue\Regi 2005”''' e com permissão para todos os utilizadores.
+
+===Configurar o acesso ao servidor Regi e à base de dados===
+A configuração ao de acesso à base de dados e ao servidor Regi é feita através do mesmo tipo de ficheiro usado para definir o acesso realizado para o servidor.
+
+Deste modo, poderá criar um novo ficheiro, com recurso ao '''dbAdmin''', ou simplesmente fazer ''copy''/''paste'' do ficheiro criado anteriormente. 
+
+Este ficheiro “SetupRegi.xml” deverá ser colocado na pasta UnueSetup, que se encontra no directório onde instalou a aplicação cliente Regi, ou seja, '''"C:\Program Files\Unue\Regi 2005\UnueSetup"''' caso tenha seguido a recomendação dada.
+
+
+==Instalar upgrades==
+
+Caso sejam fornecidos, deverão ser instalados todos os upgrades para esta versão do software – cliente e servidor. 
+
+Os upgrades deverão vir acompanhados com a respectiva documentação.
+
+==Parametrizar a Aplicação==
+
+A aplicação que acabou de instalar liga-se a uma base de dados quase vazia. 
+
+Neste momento deverá realizar toda a parametrização da base de dados, de forma a tornar a aplicação usável para o utilizador final. 
+
+Para tal, encontrará todas as funcionalidades que necessita no Regi, nos menus “Manutenção” e “Ferramentas/Configuração Técnica”.
+
+==Testar o número máximo de licenças de cliente==
+
+Esta versão controla e limita o número de acessos de cliente simultâneos à base de dados. Deste modo, após a instalação de todos os postos, deverá verificar o funcionamento do número de postos simultâneos requisitados.
+
+
+
+===Suporte Técnico===
+Em caso de dúvidas ou necessidade de suporte, poderá contactar os nossos serviços técnicos através da seguinte forma: 
+
+
+Referências “Configuring SQL Server 2000 Desktop Engine” http://download.microsoft.com/download/access2002/whitepap/2002/win98me/enus/accsql02.exe By Chris Skorlinski, Microsoft Corporation
+
+“HOW TO: Verify and Change the System Administrator Password by Using MSDE” http://myitforum.techtarget.com/articles/18/view.asp?id=6688 By Svetlana Kuvshinkova
